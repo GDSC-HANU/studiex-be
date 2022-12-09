@@ -2,7 +2,7 @@ package com.gdsc.studyex.domain.supply.models;
 
 import com.gdsc.studyex.domain.share.models.VersioningDomainObject;
 
-public class SupplyItem extends VersioningDomainObject {
+public class SupplyItem {
     private int allowedSupplyItemIndex;
     private OperatorSupply operator;
     private SupplyItemValue value;
@@ -11,9 +11,8 @@ public class SupplyItem extends VersioningDomainObject {
     private SupplyItem(int allowedSupplyItemIndex,
                        OperatorSupply operator,
                        SupplyItemValue value,
-                       String description,
-                       long version) {
-        super(version);
+                       String description
+                       ) {
         this.allowedSupplyItemIndex = allowedSupplyItemIndex;
         this.operator = operator;
         this.value = value;
@@ -27,7 +26,7 @@ public class SupplyItem extends VersioningDomainObject {
         return new SupplyItem(allowedSupplyItemIndex,
                 operator,
                 value,
-                description,
-                0);
+                description
+        );
     }
 }
