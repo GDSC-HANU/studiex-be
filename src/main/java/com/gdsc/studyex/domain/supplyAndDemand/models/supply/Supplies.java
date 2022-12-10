@@ -12,10 +12,7 @@ import java.util.List;
 
 @Document(collection = "supplies")
 public class Supplies extends VersioningDomainObject {
-    @BsonProperty(value = "studierId")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Id studierId;
-    @BsonProperty(value = "supplies")
     private List<Supply> supplies;
 
     @Builder(builderMethodName = "newSuppliesBuilder", builderClassName = "NewSuppliesBuilder")

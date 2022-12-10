@@ -10,9 +10,7 @@ import java.util.List;
 
 @Document(collection = "allowedSupplies")
 public class AllowedSupply extends IdentifiedVersioningDomainObject {
-    @BsonProperty(value = "subjectName")
     private String subjectName;
-    @BsonProperty(value = "allowedSupplyItems")
     private List<AllowedSupplyItem> allowedSupplyItems;
 
     @Builder(builderMethodName = "newAllowedSupplyBuilder", builderClassName = "NewAllowedSupplyBuilder")

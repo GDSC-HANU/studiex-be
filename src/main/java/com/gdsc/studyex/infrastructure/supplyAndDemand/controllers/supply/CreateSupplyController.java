@@ -1,4 +1,4 @@
-package com.gdsc.studyex.infrastructure.supply.controllers;
+package com.gdsc.studyex.infrastructure.supplyAndDemand.controllers.supply;
 
 import com.gdsc.studyex.domain.supplyAndDemand.services.supply.CreateSupplyService;
 import lombok.AllArgsConstructor;

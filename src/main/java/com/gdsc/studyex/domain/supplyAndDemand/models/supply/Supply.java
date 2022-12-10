@@ -9,10 +9,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 import java.util.List;
 
 public class Supply {
-    @BsonProperty(value = "allowedSupplyId")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Id allowedSupplyId;
-    @BsonProperty(value = "supplyItems")
     private List<SupplyItem> supplyItems;
     private boolean active;
 
