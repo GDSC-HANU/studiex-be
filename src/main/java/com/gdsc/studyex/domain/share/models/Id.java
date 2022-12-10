@@ -8,11 +8,15 @@ import java.util.Objects;
 public class Id {
     private String value;
 
-    public Id(String value) throws InvalidInputException {
+    private Id(String value) {
+        this.value = value;
+    }
+
+    public static Id parse(String value) throws InvalidInputException {
         if (!ObjectId.isValid(value)) {
             throw new InvalidInputException("Invalid Id: '" + value + "'.");
         }
-        this.value = value;
+        return new Id(value);
     }
 
     public static Id generateRandom() {

@@ -22,6 +22,12 @@ public class AllowedSupply extends IdentifiedVersioningDomainObject {
         this.allowedSupplyItems = allowedSupplyItems;
     }
 
+    private AllowedSupply(Id id, long version, String subjectName, List<AllowedSupplyItem> allowedSupplyItems) {
+        super(id, version);
+        this.subjectName = subjectName;
+        this.allowedSupplyItems = allowedSupplyItems;
+    }
+
     public List<AllowedSupplyItem> getAllowedSupplyItems() {
         return Collections.unmodifiableList(allowedSupplyItems);
     }
