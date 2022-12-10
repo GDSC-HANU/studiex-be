@@ -10,7 +10,7 @@ public class IdentifiedDomainObject {
     private Id id;
 
 
-    public IdentifiedDomainObject(Id id) {
+    protected IdentifiedDomainObject(Id id) {
         this.id = id;
     }
 

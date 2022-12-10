@@ -1,14 +1,18 @@
 package com.gdsc.studyex.domain.share.models;
 
-import org.bson.codecs.pojo.annotations.BsonProperty;
-
-public class VersioningDomainObject {
-    @BsonProperty(value = "version")
+public class IdentifiedVersioningDomainObject {
+    private Id id;
     private long version;
 
-    protected VersioningDomainObject(long version) {
+    protected IdentifiedVersioningDomainObject(Id id, long version) {
+        this.id = id;
         this.version = version;
     }
+
+    public Id getId() {
+        return id;
+    }
+
 
     public long getVersion() {
         return version;
