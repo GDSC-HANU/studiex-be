@@ -3,12 +3,14 @@ package com.gdsc.studyex.domain.supplyAndDemand.models.allowedSupply;
 import com.gdsc.studyex.domain.share.models.Id;
 import com.gdsc.studyex.domain.share.models.IdentifiedVersioningDomainObject;
 import lombok.Builder;
-import org.bson.codecs.pojo.annotations.BsonProperty;
+import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Collections;
 import java.util.List;
 
 @Document(collection = "allowedSupplies")
+@Getter
 public class AllowedSupply extends IdentifiedVersioningDomainObject {
     private String subjectName;
     private List<AllowedSupplyItem> allowedSupplyItems;
@@ -18,5 +20,9 @@ public class AllowedSupply extends IdentifiedVersioningDomainObject {
         super(Id.generateRandom(), 0);
         this.subjectName = subjectName;
         this.allowedSupplyItems = allowedSupplyItems;
+    }
+
+    public List<AllowedSupplyItem> getAllowedSupplyItems() {
+        return Collections.unmodifiableList(allowedSupplyItems);
     }
 }

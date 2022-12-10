@@ -18,11 +18,12 @@ public class CreateAllowedSupplyService {
         public List<AllowedSupplyItem> allowedSupplyItems;
     }
 
-    public void createAllowedSupply(Input input) {
+    public AllowedSupply createAllowedSupply(Input input) {
         final AllowedSupply allowedSupply = AllowedSupply.newAllowedSupplyBuilder()
                 .subjectName(input.subjectName)
                 .allowedSupplyItems(input.allowedSupplyItems)
                 .build();
         allowedSupplyRepository.save(allowedSupply);
+        return allowedSupply;
     }
 }

@@ -1,6 +1,7 @@
 package com.gdsc.studyex.domain.share.models;
 
 public class IdentifiedVersioningDomainObject {
+    @org.springframework.data.annotation.Id
     private Id id;
     private long version;
 
