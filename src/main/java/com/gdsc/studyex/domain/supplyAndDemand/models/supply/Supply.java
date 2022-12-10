@@ -14,10 +14,12 @@ public class Supply {
     private Id allowedSupplyId;
     @BsonProperty(value = "supplyItems")
     private List<SupplyItem> supplyItems;
+    private boolean active;
 
     @Builder(builderMethodName = "newSupplyBuilder", builderClassName = "NewSupplyBuilder")
-    public Supply(Id allowedSupplyId, List<SupplyItem> supplyItems) {
+    public Supply(Id allowedSupplyId, List<SupplyItem> supplyItems, boolean active) {
         this.allowedSupplyId = allowedSupplyId;
         this.supplyItems = supplyItems;
+        this.active = active;
     }
 }
