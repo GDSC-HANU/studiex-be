@@ -1,6 +1,6 @@
 package com.gdsc.studyex.infrastructure.supply.controllers;
 
-import com.gdsc.studyex.domain.supply.services.supply.CreateSupplyService;
+import com.gdsc.studyex.domain.supplyAndDemand.services.supply.CreateSupplyService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 

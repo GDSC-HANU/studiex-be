@@ -9,7 +9,6 @@ public class IdentifiedDomainObject {
     @JsonSerialize(using = ToStringSerializer.class)
     private Id id;
 
-    public IdentifiedDomainObject() {}
 
     public IdentifiedDomainObject(Id id) {
         this.id = id;

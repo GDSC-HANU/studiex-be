@@ -1,4 +1,4 @@
-package com.gdsc.studyex.domain.supply.models;
+package com.gdsc.studyex.domain.supplyAndDemand.models.supply;
 
 public class SupplyItemExactValue extends SupplyItemValue{
     private int allowedSupplyItemArrayValueIndex;

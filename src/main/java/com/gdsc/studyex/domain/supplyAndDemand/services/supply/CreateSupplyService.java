@@ -1,13 +1,8 @@
-package com.gdsc.studyex.domain.supply.services.supply;
+package com.gdsc.studyex.domain.supplyAndDemand.services.supply;
 
-import com.gdsc.studyex.domain.share.models.Id;
-import com.gdsc.studyex.domain.supply.models.Supply;
-import com.gdsc.studyex.domain.supply.models.SupplyItem;
-import com.gdsc.studyex.infrastructure.supply.repositories.SupplyRepository;
+import com.gdsc.studyex.domain.supplyAndDemand.repositories.SupplyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
