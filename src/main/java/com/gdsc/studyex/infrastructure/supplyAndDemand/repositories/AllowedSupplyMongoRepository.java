@@ -14,31 +14,25 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    private Update buildUpdate(AllowedSupply allowedSupply) {
-        allowedSupply.increaseVersion();
-        final Update update = new Update();
-        update.set("_id", allowedSupply.getId().toObjectId());
-        update.set("subjectName", allowedSupply.getSubjectName());
-        update.set("allowedSupplyItems", allowedSupply.getAllowedSupplyItems());
-        update.set("version", allowedSupply.getVersion());
-        return update;
-    }
 
-    private Query buildQuery(AllowedSupply allowedSupply) {
-        return Query.query(
+    @Override
+    public void save(AllowedSupply allowedSupply) {
+        final Query query = Query.query(
                 Criteria
                         .where("_id")
                         .is(allowedSupply.getId().toString())
                         .and("version")
                         .is(allowedSupply.getVersion())
         );
-    }
-
-    @Override
-    public void save(AllowedSupply allowedSupply) {
+        allowedSupply.increaseVersion();
+        final Update update = new Update();
+        update.set("_id", allowedSupply.getId().toObjectId());
+        update.set("subjectName", allowedSupply.getSubjectName());
+        update.set("allowedSupplyItems", allowedSupply.getAllowedSupplyItems());
+        update.set("version", allowedSupply.getVersion());
         mongoTemplate.upsert(
-                buildQuery(allowedSupply),
-                buildUpdate(allowedSupply),
+                query,
+                update,
                 AllowedSupply.class
         );
     }
