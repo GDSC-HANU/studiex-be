@@ -1,5 +1,8 @@
 package com.gdsc.studyex.domain.share.models;
 
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+
 public class IdentifiedVersioningDomainObject {
     @org.springframework.data.annotation.Id
     private Id id;

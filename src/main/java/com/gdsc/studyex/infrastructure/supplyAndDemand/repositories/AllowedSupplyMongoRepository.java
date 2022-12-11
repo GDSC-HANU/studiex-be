@@ -15,16 +15,19 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
     private MongoTemplate mongoTemplate;
 
     private Update buildUpdate(AllowedSupply allowedSupply) {
+        allowedSupply.increaseVersion();
         final Update update = new Update();
-        update.addToSet("subjectName", allowedSupply.getSubjectName());
-        update.addToSet("allowedSupplyItems", allowedSupply.getAllowedSupplyItems());
+        update.set("_id", allowedSupply.getId().toObjectId());
+        update.set("subjectName", allowedSupply.getSubjectName());
+        update.set("allowedSupplyItems", allowedSupply.getAllowedSupplyItems());
+        update.set("version", allowedSupply.getVersion());
         return update;
     }
 
     private Query buildQuery(AllowedSupply allowedSupply) {
         return Query.query(
                 Criteria
-                        .where("id")
+                        .where("_id")
                         .is(allowedSupply.getId().toString())
                         .and("version")
                         .is(allowedSupply.getVersion())

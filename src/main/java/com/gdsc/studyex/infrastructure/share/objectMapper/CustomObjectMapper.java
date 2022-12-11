@@ -1,15 +1,15 @@
-package com.gdsc.studyex.infrastructure.share.json;
+package com.gdsc.studyex.infrastructure.share.objectMapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.gdsc.studyex.domain.share.models.Id;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -73,5 +73,9 @@ public class CustomObjectMapper {
             e.printStackTrace();
             throw new Error(e);
         }
+    }
+
+    public static <T> T convertObjectClass(Object baseObject, Class<T> destinationClass) {
+        return (T) deserialize(serialize(baseObject), destinationClass);
     }
 }

@@ -32,6 +32,10 @@ public class Id {
         return value;
     }
 
+    public ObjectId toObjectId() {
+        return new ObjectId(value);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -60,4 +60,12 @@ public class ControllerHandler {
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler(BusinessLogicException.class)
+    public ResponseEntity<?> handleBusinessLogicError(BusinessLogicException e) {
+        return new ResponseEntity<>(
+                new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null),
+                HttpStatus.BAD_REQUEST
+        );
+    }
 }

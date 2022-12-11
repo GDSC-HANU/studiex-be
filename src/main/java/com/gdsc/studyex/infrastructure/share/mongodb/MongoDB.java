@@ -1,4 +1,4 @@
-package com.gdsc.studyex.infrastructure.share.mongo;
+package com.gdsc.studyex.infrastructure.share.mongodb;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
