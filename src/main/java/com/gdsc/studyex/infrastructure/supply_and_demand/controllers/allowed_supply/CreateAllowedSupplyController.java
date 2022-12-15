@@ -15,7 +15,7 @@ public class CreateAllowedSupplyController {
     private final CreateAllowedSupplyService createAllowedSupplyService;
 
     @PostMapping(path = "/allowedSupply")
-    public ResponseEntity<?> createAllowedSupply(@RequestBody CreateAllowedSupplyService.Input input) {
+    public ResponseEntity<?> createAllowedSupply(@RequestBody CreateAllowedSupplyService.InputAllowedSupply input) {
         return ControllerHandler.handle(() -> {
             final AllowedSupply allowedSupply = createAllowedSupplyService.createAllowedSupply(input);
             return new ControllerHandler.Result(

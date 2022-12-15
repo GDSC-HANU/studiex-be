@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
     @Autowired
@@ -35,5 +37,11 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
                 update,
                 AllowedSupply.class
         );
+    }
+
+    @Override
+    public List<AllowedSupply> findBySubjectNames(List<String> subjectNames) {
+        // TODO
+        return null;
     }
 }

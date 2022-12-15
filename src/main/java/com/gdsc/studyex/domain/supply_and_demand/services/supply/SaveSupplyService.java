@@ -6,6 +6,7 @@ import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSu
 import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.Supplies;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.Supply;
+import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItem;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItemOperator;
 import com.gdsc.studyex.domain.supply_and_demand.repositories.AllowedSupplyRepository;
 import com.gdsc.studyex.domain.supply_and_demand.repositories.SupplyRepository;
@@ -70,13 +71,16 @@ public class SaveSupplyService {
                 throw new InvalidInputException("There are no Allowed Supply Item with key: " + inputSupplyItem.key);
             if (!allowedSupplyItem.canUse(inputSupplyItem.operator))
                 throw new InvalidInputException(String.format("Cannot use operator %s for the key %s", inputSupplyItem.operator, inputSupplyItem.key));
-            switch (allowedSupplyItem.getOperator()) {
-                case MANY_OF:
-
-                case ONE_OF:
-                case BETWEEN:
-            }
+            supply.getItems().add(SupplyItem.newSupplyItemBuilder()
+                    .allowedSupplyItemIndex(allowedSupply.findItemIndexByKey(inputSupplyItem.key))
+                    .operator(inputSupplyItem.operator)
+                    .value(allowedSupplyItem.getValue().convertToSupplyItemValue(
+                            inputSupplyItem.operator,
+                            inputSupplyItem.value
+                    ))
+                    .description(inputSupplyItem.description)
+                    .build());
         }
-        return null;
+        return supply;
     }
 }

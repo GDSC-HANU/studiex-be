@@ -1,6 +1,8 @@
 package com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply;
 
 import com.gdsc.studyex.domain.share.exceptions.InvalidInputException;
+import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItemOperator;
+import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItemValue;
 import lombok.Builder;
 
 public class AllowedSupplyItemRangeValue implements AllowedSupplyItemValue {
@@ -16,5 +18,10 @@ public class AllowedSupplyItemRangeValue implements AllowedSupplyItemValue {
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.different = different;
+    }
+
+    @Override
+    public SupplyItemValue convertToSupplyItemValue(SupplyItemOperator supplyItemOperator, Object supplyItemValue) throws InvalidInputException {
+        return null;
     }
 }
