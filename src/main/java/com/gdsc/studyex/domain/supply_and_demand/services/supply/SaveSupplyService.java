@@ -3,6 +3,7 @@ package com.gdsc.studyex.domain.supply_and_demand.services.supply;
 import com.gdsc.studyex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studyex.domain.share.models.Id;
 import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
+import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.Supplies;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.Supply;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItemOperator;
@@ -27,13 +28,13 @@ public class SaveSupplyService {
 
     public static class InputSupply {
         public String subjectName;
-        public List<InputSupplyItem> supplyItems;
+        public List<InputSupplyItem> items;
         public boolean active;
     }
 
     public static class InputSupplyItem {
         public String key;
-        public SupplyItemOperator supplyItemOperator;
+        public SupplyItemOperator operator;
         public Object value;
         public String description;
     }
@@ -63,6 +64,19 @@ public class SaveSupplyService {
                 .active(inputSupply.active)
                 .allowedSupplyId(allowedSupply.getId())
                 .build();
+        for (InputSupplyItem inputSupplyItem : inputSupply.items) {
+            final AllowedSupplyItem allowedSupplyItem = allowedSupply.findItemByKey(inputSupplyItem.key);
+            if (allowedSupplyItem == null)
+                throw new InvalidInputException("There are no Allowed Supply Item with key: " + inputSupplyItem.key);
+            if (!allowedSupplyItem.canUse(inputSupplyItem.operator))
+                throw new InvalidInputException(String.format("Cannot use operator %s for the key %s", inputSupplyItem.operator, inputSupplyItem.key));
+            switch (allowedSupplyItem.getOperator()) {
+                case MANY_OF:
+
+                case ONE_OF:
+                case BETWEEN:
+            }
+        }
         return null;
     }
 }

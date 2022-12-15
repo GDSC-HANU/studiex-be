@@ -28,7 +28,7 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
         final Update update = new Update();
         update.set("_id", allowedSupply.getId().toObjectId());
         update.set("subjectName", allowedSupply.getSubjectName());
-        update.set("allowedSupplyItems", allowedSupply.getAllowedSupplyItems());
+        update.set("allowedSupplyItems", allowedSupply.getItems());
         update.set("version", allowedSupply.getVersion());
         mongoTemplate.upsert(
                 query,
