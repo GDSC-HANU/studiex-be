@@ -4,7 +4,7 @@ import com.gdsc.studyex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItemExactValue;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItemOperator;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItemValue;
-import com.gdsc.studyex.infrastructure.share.objectMapper.CustomObjectMapper;
+import com.gdsc.studyex.infrastructure.share.object_mapper.CustomObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;

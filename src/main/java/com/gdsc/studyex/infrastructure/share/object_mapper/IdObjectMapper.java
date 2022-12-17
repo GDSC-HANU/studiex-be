@@ -1,4 +1,4 @@
-package com.gdsc.studyex.infrastructure.share.objectMapper;
+package com.gdsc.studyex.infrastructure.share.object_mapper;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerator;

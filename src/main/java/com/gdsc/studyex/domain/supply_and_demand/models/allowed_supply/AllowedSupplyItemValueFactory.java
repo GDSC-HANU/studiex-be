@@ -1,7 +1,7 @@
 package com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply;
 
 import com.gdsc.studyex.domain.share.exceptions.InvalidInputException;
-import com.gdsc.studyex.infrastructure.share.objectMapper.CustomObjectMapper;
+import com.gdsc.studyex.infrastructure.share.object_mapper.CustomObjectMapper;
 
 public class AllowedSupplyItemValueFactory {
     public static AllowedSupplyItemValue get(AllowedSupplyOperator operator, Object allowedSupplyItemValue) throws InvalidInputException {

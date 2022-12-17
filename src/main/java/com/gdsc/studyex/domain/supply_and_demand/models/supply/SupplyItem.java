@@ -1,22 +1,32 @@
 package com.gdsc.studyex.domain.supply_and_demand.models.supply;
 
 import com.gdsc.studyex.domain.share.exceptions.InvalidInputException;
+import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
+import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class SupplyItem {
     private int allowedSupplyItemIndex;
     private SupplyItemOperator operator;
     private SupplyItemValue value;
     private String description;
 
-    @Builder(builderMethodName = "newSupplyItemBuilder", builderClassName = "NewSupplyItemBuilder")
-    public SupplyItem(int allowedSupplyItemIndex,
+    @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
+    public SupplyItem(String key,
                       SupplyItemOperator operator,
-                      SupplyItemValue value,
-                      String description) throws InvalidInputException {
-        this.allowedSupplyItemIndex = allowedSupplyItemIndex;
+                      Object value,
+                      String description,
+                      AllowedSupply allowedSupply) throws InvalidInputException {
+        final AllowedSupplyItem allowedSupplyItem = allowedSupply.findItemByKey(key);
+        if (allowedSupplyItem == null)
+            throw new InvalidInputException("There are no Allowed Supply Item with key: " + key);
+        if (!allowedSupplyItem.canUse(operator))
+            throw new InvalidInputException(String.format("Cannot use operator %s for the key %s", operator, key));
+        this.allowedSupplyItemIndex = allowedSupply.findItemIndexByKey(key);
         this.operator = operator;
-        this.value = value;
+        this.value = allowedSupplyItem.getValue().convertToSupplyItemValue(operator, value);
         this.description = description;
         validate();
     }

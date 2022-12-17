@@ -2,7 +2,6 @@ package com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply;
 
 import com.gdsc.studyex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItemOperator;
-import com.gdsc.studyex.infrastructure.share.objectMapper.CustomObjectMapper;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,13 +11,15 @@ public class AllowedSupplyItem {
     private AllowedSupplyOperator operator;
     private AllowedSupplyItemValue value;
     private String description;
+    private boolean required;
 
     @Builder(builderMethodName = "newAllowedSupplyItemBuilder", builderClassName = "NewAllowedSupplyItemBuilder")
-    public AllowedSupplyItem(String key, AllowedSupplyOperator operator, AllowedSupplyItemValue value, String description) throws InvalidInputException {
+    public AllowedSupplyItem(String key, AllowedSupplyOperator operator, AllowedSupplyItemValue value, String description, boolean required) throws InvalidInputException {
         this.key = key;
         this.operator = operator;
         this.value = value;
         this.description = description;
+        this.required = required;
         validate();
     }
 

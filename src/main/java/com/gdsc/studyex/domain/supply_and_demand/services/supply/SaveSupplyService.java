@@ -3,13 +3,9 @@ package com.gdsc.studyex.domain.supply_and_demand.services.supply;
 import com.gdsc.studyex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studyex.domain.share.models.Id;
 import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
-import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
-import com.gdsc.studyex.domain.supply_and_demand.models.supply.Supplies;
-import com.gdsc.studyex.domain.supply_and_demand.models.supply.Supply;
-import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItem;
-import com.gdsc.studyex.domain.supply_and_demand.models.supply.SupplyItemOperator;
+import com.gdsc.studyex.domain.supply_and_demand.models.supply.*;
 import com.gdsc.studyex.domain.supply_and_demand.repositories.AllowedSupplyRepository;
-import com.gdsc.studyex.domain.supply_and_demand.repositories.SupplyRepository;
+import com.gdsc.studyex.domain.supply_and_demand.repositories.SuppliesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class SaveSupplyService {
-    private final SupplyRepository supplyRepository;
+    private final SuppliesRepository suppliesRepository;
     private final AllowedSupplyRepository allowedSupplyRepository;
 
     public static class InputSupplies {
@@ -31,6 +27,7 @@ public class SaveSupplyService {
         public String subjectName;
         public List<InputSupplyItem> items;
         public boolean active;
+        public SupplyPriority priority;
     }
 
     public static class InputSupplyItem {
@@ -52,35 +49,36 @@ public class SaveSupplyService {
                 .studierId(studierId)
                 .supplies(supplyList)
                 .build();
+        suppliesRepository.save(supplies);
     }
 
     public Supply buildSupply(InputSupply inputSupply, List<AllowedSupply> allowedSupplies) throws InvalidInputException {
-        AllowedSupply allowedSupply = null;
-        for (AllowedSupply as : allowedSupplies)
-            if (as.getSubjectName().equals(inputSupply.subjectName))
-                allowedSupply = as;
+        final AllowedSupply allowedSupply = findAllowedSupplyBySubjectName(allowedSupplies, inputSupply.subjectName);
         if (allowedSupply == null)
             throw new InvalidInputException("There are no Allowed Supply with subject name: " + inputSupply.subjectName);
-        final Supply supply = Supply.newSupplyBuilder()
-                .active(inputSupply.active)
-                .allowedSupplyId(allowedSupply.getId())
-                .build();
-        for (InputSupplyItem inputSupplyItem : inputSupply.items) {
-            final AllowedSupplyItem allowedSupplyItem = allowedSupply.findItemByKey(inputSupplyItem.key);
-            if (allowedSupplyItem == null)
-                throw new InvalidInputException("There are no Allowed Supply Item with key: " + inputSupplyItem.key);
-            if (!allowedSupplyItem.canUse(inputSupplyItem.operator))
-                throw new InvalidInputException(String.format("Cannot use operator %s for the key %s", inputSupplyItem.operator, inputSupplyItem.key));
-            supply.getItems().add(SupplyItem.newSupplyItemBuilder()
-                    .allowedSupplyItemIndex(allowedSupply.findItemIndexByKey(inputSupplyItem.key))
+        final List<SupplyItem> supplyItems = new ArrayList<>();
+        for (InputSupplyItem inputSupplyItem : inputSupply.items)
+            supplyItems.add(SupplyItem.fromAllowedSupplyBuilder()
+                    .key(inputSupplyItem.key)
                     .operator(inputSupplyItem.operator)
-                    .value(allowedSupplyItem.getValue().convertToSupplyItemValue(
-                            inputSupplyItem.operator,
-                            inputSupplyItem.value
-                    ))
+                    .value(inputSupplyItem.value)
                     .description(inputSupplyItem.description)
+                    .allowedSupply(allowedSupply)
                     .build());
-        }
+        final Supply supply = Supply.fromAllowedSupplyBuilder()
+                .allowedSupplyId(allowedSupply.getId())
+                .items(supplyItems)
+                .active(inputSupply.active)
+                .priority(inputSupply.priority)
+                .allowedSupply(allowedSupply)
+                .build();
         return supply;
+    }
+
+    private AllowedSupply findAllowedSupplyBySubjectName(List<AllowedSupply> allowedSupplies, String subjectName) {
+        for (AllowedSupply allowedSupply : allowedSupplies)
+            if (allowedSupply.getSubjectName().equals(subjectName))
+                return allowedSupply;
+        return null;
     }
 }
