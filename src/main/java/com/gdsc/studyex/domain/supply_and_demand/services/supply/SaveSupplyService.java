@@ -3,8 +3,11 @@ package com.gdsc.studyex.domain.supply_and_demand.services.supply;
 import com.gdsc.studyex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studyex.domain.share.models.Id;
 import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
+import com.gdsc.studyex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
+import com.gdsc.studyex.domain.supply_and_demand.models.supplies_quota.SuppliesQuota;
 import com.gdsc.studyex.domain.supply_and_demand.models.supply.*;
 import com.gdsc.studyex.domain.supply_and_demand.repositories.AllowedSupplyRepository;
+import com.gdsc.studyex.domain.supply_and_demand.repositories.SuppliesQuotaRepository;
 import com.gdsc.studyex.domain.supply_and_demand.repositories.SuppliesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 public class SaveSupplyService {
     private final SuppliesRepository suppliesRepository;
     private final AllowedSupplyRepository allowedSupplyRepository;
+    private final SuppliesQuotaRepository suppliesQuotaRepository;
 
     public static class InputSupplies {
         public List<InputSupply> supplies;
@@ -28,6 +32,7 @@ public class SaveSupplyService {
         public List<InputSupplyItem> items;
         public boolean active;
         public SupplyPriority priority;
+        private List<AllowedSupplyItem> customSupplyItems;
     }
 
     public static class InputSupplyItem {
@@ -45,9 +50,11 @@ public class SaveSupplyService {
         final List<Supply> supplyList = new ArrayList<>();
         for (InputSupply inputSupply : input.supplies)
             supplyList.add(buildSupply(inputSupply, allowedSupplies));
+        final SuppliesQuota suppliesQuota = suppliesQuotaRepository.get();
         final Supplies supplies = Supplies.newSuppliesBuilder()
                 .studierId(studierId)
                 .supplies(supplyList)
+                .suppliesQuota(suppliesQuota)
                 .build();
         suppliesRepository.save(supplies);
     }
@@ -67,9 +74,10 @@ public class SaveSupplyService {
                     .build());
         final Supply supply = Supply.fromAllowedSupplyBuilder()
                 .allowedSupplyId(allowedSupply.getId())
-                .items(supplyItems)
+                .supplyItems(supplyItems)
                 .active(inputSupply.active)
                 .priority(inputSupply.priority)
+                .customSupplyItems(inputSupply.customSupplyItems)
                 .allowedSupply(allowedSupply)
                 .build();
         return supply;

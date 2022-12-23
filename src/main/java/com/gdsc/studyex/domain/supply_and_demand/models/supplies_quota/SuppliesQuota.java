@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 public class SuppliesQuota {
-    private int minQuota;
-    private int maxQuota;
+    private int maxActiveQuota;
     private DateTime updatedAt;
 }

@@ -14,33 +14,33 @@ import java.util.List;
 @Getter
 public class AllowedSupply extends IdentifiedVersioningDomainObject {
     private String subjectName;
-    private List<AllowedSupplyItem> items;
+    private List<AllowedSupplyItem> allowedSupplyItems;
 
     @Builder(builderMethodName = "newAllowedSupplyBuilder", builderClassName = "NewAllowedSupplyBuilder")
-    public AllowedSupply(String subjectName, List<AllowedSupplyItem> items) throws InvalidInputException {
+    public AllowedSupply(String subjectName, List<AllowedSupplyItem> allowedSupplyItems) throws InvalidInputException {
         super(Id.generateRandom(), 0);
         this.subjectName = subjectName;
-        this.items = items;
+        this.allowedSupplyItems = allowedSupplyItems;
         validate();
     }
 
     private void validate() throws InvalidInputException {
         if (subjectName == null)
             throw new InvalidInputException("AllowedSupplyItem.subjectName must not be null");
-        if (items == null)
-            items = new ArrayList<>();
+        if (allowedSupplyItems == null)
+            allowedSupplyItems = new ArrayList<>();
     }
 
     public AllowedSupplyItem findItemByKey(String key) {
-        for (AllowedSupplyItem item : items)
+        for (AllowedSupplyItem item : allowedSupplyItems)
             if (item.getKey().equals(key))
                 return item;
         return null;
     }
 
     public int findItemIndexByKey(String key) {
-        for (int i = 0; i < items.size(); i++)
-            if (items.get(i).getKey().equals(key))
+        for (int i = 0; i < allowedSupplyItems.size(); i++)
+            if (allowedSupplyItems.get(i).getKey().equals(key))
                 return i;
         return -1;
     }

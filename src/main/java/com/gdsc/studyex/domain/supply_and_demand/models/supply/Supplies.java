@@ -20,10 +20,17 @@ public class Supplies extends VersioningDomainObject {
         super(0);
         this.studierId = studierId;
         this.supplies = supplies;
-        if (supplies.size() > suppliesQuota.getMaxQuota() || supplies.size() < suppliesQuota.getMinQuota())
-            throw new InvalidInputException("Invalid number of supplies, require min " + suppliesQuota.getMinQuota()
-                    + ", require max " + suppliesQuota.getMaxQuota());
+        if (countActiveSupplies() > suppliesQuota.getMaxActiveQuota())
+            throw new InvalidInputException("Active Supplies exceed max active quota: " + suppliesQuota.getMaxActiveQuota());
         validate();
+    }
+
+    private int countActiveSupplies() {
+        int result = 0;
+        for (Supply supply : supplies)
+            if (supply.isActive())
+                result++;
+        return result;
     }
 
     private void validate() throws InvalidInputException {

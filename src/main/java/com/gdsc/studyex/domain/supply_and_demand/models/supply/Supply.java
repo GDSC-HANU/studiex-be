@@ -14,31 +14,33 @@ import java.util.List;
 @Getter
 public class Supply {
     private Id allowedSupplyId;
-    private List<SupplyItem> items;
+    private List<SupplyItem> supplyItems;
     private boolean active;
     private SupplyPriority priority;
+    private List<AllowedSupplyItem> customSupplyItems;
 
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public Supply(Id allowedSupplyId,
-                  List<SupplyItem> items,
+                  List<SupplyItem> supplyItems,
                   boolean active,
                   SupplyPriority priority,
+                  List<AllowedSupplyItem> customSupplyItems,
                   AllowedSupply allowedSupply) throws InvalidInputException {
         this.allowedSupplyId = allowedSupplyId;
-        this.items = items;
+        this.supplyItems = supplyItems;
         this.active = active;
         this.priority = priority;
-        for (int i = 0; i < allowedSupply.getItems().size(); i++) {
-            final AllowedSupplyItem allowedSupplyItem = allowedSupply.getItems().get(i);
-            if (allowedSupplyItem.isRequired())
-                if (findSupplyItemByAllowedSupplyItemIndex(i) == null)
-                    throw new InvalidInputException("Lack of Required Allowed Suppy Item of key: " + allowedSupplyItem.getKey());
+        this.customSupplyItems = customSupplyItems;
+        for (int i = 0; i < allowedSupply.getAllowedSupplyItems().size(); i++) {
+            final AllowedSupplyItem allowedSupplyItem = allowedSupply.getAllowedSupplyItems().get(i);
+            if (allowedSupplyItem.isRequired() && findSupplyItemByAllowedSupplyItemIndex(i) == null)
+                throw new InvalidInputException("Lack of Required Allowed Suppy Item of key: " + allowedSupplyItem.getKey());
         }
         validate();
     }
 
     private SupplyItem findSupplyItemByAllowedSupplyItemIndex(int index) {
-        for (SupplyItem item : items)
+        for (SupplyItem item : supplyItems)
             if (item.getAllowedSupplyItemIndex() == index)
                 return item;
         return null;
@@ -47,13 +49,15 @@ public class Supply {
     private void validate() throws InvalidInputException {
         if (allowedSupplyId == null)
             throw new InvalidInputException("Supply.allowedSupplyId must not be null");
-        if (items == null)
-            items = new ArrayList<>();
+        if (supplyItems == null)
+            supplyItems = new ArrayList<>();
         if (priority == null)
             throw new InvalidInputException("Supply.priority must not be null");
+        if (customSupplyItems == null)
+            customSupplyItems = new ArrayList<>();
     }
 
-    public List<SupplyItem> getItems() {
-        return Collections.unmodifiableList(items);
+    public List<SupplyItem> getSupplyItems() {
+        return Collections.unmodifiableList(supplyItems);
     }
 }

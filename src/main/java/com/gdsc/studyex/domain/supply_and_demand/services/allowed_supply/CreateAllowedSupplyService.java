@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class CreateAllowedSupplyService {
     private final AllowedSupplyRepository allowedSupplyRepository;
 
@@ -33,7 +33,7 @@ public class CreateAllowedSupplyService {
                 .subjectName(input.subjectName)
                 .build();
         for (InputAllowedSupplyItem inputAllowedSupplyItem : input.items)
-            allowedSupply.getItems().add(AllowedSupplyItem.newAllowedSupplyItemBuilder()
+            allowedSupply.getAllowedSupplyItems().add(AllowedSupplyItem.newAllowedSupplyItemBuilder()
                     .key(inputAllowedSupplyItem.key)
                     .operator(inputAllowedSupplyItem.operator)
                     .value(AllowedSupplyItemValueFactory
