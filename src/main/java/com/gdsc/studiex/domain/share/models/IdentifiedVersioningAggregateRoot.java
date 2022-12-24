@@ -1,11 +1,11 @@
 package com.gdsc.studiex.domain.share.models;
 
-public class IdentifiedVersioningDomainObject {
+public class IdentifiedVersioningAggregateRoot {
     @org.springframework.data.annotation.Id
     private Id id;
     private long version;
 
-    protected IdentifiedVersioningDomainObject(Id id, long version) {
+    protected IdentifiedVersioningAggregateRoot(Id id, long version) {
         this.id = id;
         this.version = version;
     }

@@ -2,7 +2,7 @@ package com.gdsc.studiex.domain.supply_and_demand.models.supply;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
-import com.gdsc.studiex.domain.share.models.VersioningDomainObject;
+import com.gdsc.studiex.domain.share.models.VersioningAggregateRoot;
 import com.gdsc.studiex.domain.supply_and_demand.models.supplies_quota.SuppliesQuota;
 import lombok.Builder;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "supplies")
-public class Supplies extends VersioningDomainObject {
+public class Supplies extends VersioningAggregateRoot {
     private Id studierId;
     private List<Supply> supplies;
 

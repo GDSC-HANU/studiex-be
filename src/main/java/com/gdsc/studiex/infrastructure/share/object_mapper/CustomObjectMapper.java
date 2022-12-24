@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.share.models.IntegerValueObject;
+import com.gdsc.studiex.domain.share.models.LongValueObject;
+import com.gdsc.studiex.domain.share.models.StringValueObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,8 +27,14 @@ public class CustomObjectMapper {
     private static final SimpleModule module = new SimpleModule();
 
     static {
-        addSerializer(Id.class, new IdObjectMapper.Serializer());
-        addDeserializer(Id.class, new IdObjectMapper.Deserializer());
+        addSerializer(IntegerValueObject.class, new IntegerValueObjectObjectMapper.Serializer());
+        addDeserializer(IntegerValueObject.class, new IntegerValueObjectObjectMapper.Deserializer());
+
+        addSerializer(LongValueObject.class, new LongValueObjectObjectMapper.Serializer());
+        addDeserializer(LongValueObject.class, new LongValueObjectObjectMapper.Deserializer());
+
+        addSerializer(StringValueObject.class, new StringValueObjectObjectMapper.Serializer());
+        addDeserializer(StringValueObject.class, new StringValueObjectObjectMapper.Deserializer());
     }
 
     private static void reset() {

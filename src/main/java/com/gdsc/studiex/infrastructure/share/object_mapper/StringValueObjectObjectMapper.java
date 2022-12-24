@@ -6,32 +6,30 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
-import com.gdsc.studiex.domain.share.exceptions.RuntimeBusinessLogicException;
-import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.share.models.StringValueObject;
 
 import java.io.IOException;
 
-public class IdObjectMapper {
-    public static class Serializer extends StdSerializer<Id> {
+public class StringValueObjectObjectMapper {
+    public static class Serializer extends StdSerializer<StringValueObject> {
         protected Serializer() {
             this(null);
         }
 
 
-        public Serializer(Class<Id> t) {
+        public Serializer(Class<StringValueObject> t) {
             super(t);
         }
 
         @Override
-        public void serialize(Id value,
+        public void serialize(StringValueObject value,
                               JsonGenerator jsonGenerator,
                               SerializerProvider serializerProvider) throws IOException {
-            jsonGenerator.writeString(value.toString());
+            jsonGenerator.writeNumber(value.toString());
         }
     }
 
-    public static class Deserializer extends StdDeserializer<Id> {
+    public static class Deserializer extends StdDeserializer<StringValueObject> {
         public Deserializer() {
             this(null);
         }
@@ -41,14 +39,10 @@ public class IdObjectMapper {
         }
 
         @Override
-        public Id deserialize(com.fasterxml.jackson.core.JsonParser jsonParser,
-                              DeserializationContext deserializationContext) throws
+        public StringValueObject deserialize(com.fasterxml.jackson.core.JsonParser jsonParser,
+                                             DeserializationContext deserializationContext) throws
                 IOException, JacksonException {
-            try {
-                return Id.parse(jsonParser.getValueAsString());
-            } catch (InvalidInputException e) {
-                throw new RuntimeBusinessLogicException(e.getMessage(), e.getCode());
-            }
+            return new StringValueObject(jsonParser.getValueAsString(), jsonParser.getCurrentName());
         }
     }
 }

@@ -2,11 +2,11 @@ package com.gdsc.studiex.domain.share.models;
 
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
-public class VersioningDomainObject {
+public class VersioningAggregateRoot {
     @BsonProperty(value = "version")
     private long version;
 
-    protected VersioningDomainObject(long version) {
+    protected VersioningAggregateRoot(long version) {
         this.version = version;
     }
 

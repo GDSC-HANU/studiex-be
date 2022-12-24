@@ -4,13 +4,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
-public class IdentifiedDomainObject {
-    @BsonProperty(value = "id")
-    @JsonSerialize(using = ToStringSerializer.class)
+public class IdentifiedAggregateRoot {
+    @org.springframework.data.annotation.Id
     private Id id;
 
 
-    protected IdentifiedDomainObject(Id id) {
+    protected IdentifiedAggregateRoot(Id id) {
         this.id = id;
     }
 
