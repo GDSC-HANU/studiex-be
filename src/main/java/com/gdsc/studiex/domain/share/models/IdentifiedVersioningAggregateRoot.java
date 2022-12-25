@@ -1,5 +1,8 @@
 package com.gdsc.studiex.domain.share.models;
 
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+
 public class IdentifiedVersioningAggregateRoot {
     @org.springframework.data.annotation.Id
     private Id id;

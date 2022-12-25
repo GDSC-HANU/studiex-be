@@ -5,11 +5,14 @@ import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.share.models.VersioningAggregateRoot;
 import com.gdsc.studiex.domain.supply_and_demand.models.supplies_quota.SuppliesQuota;
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+@Getter
 @Document(collection = "supplies")
 public class Supplies extends VersioningAggregateRoot {
     private Id studierId;
@@ -38,5 +41,9 @@ public class Supplies extends VersioningAggregateRoot {
             throw new InvalidInputException("Supplies.studierId must not be null");
         if (supplies == null)
             supplies = new ArrayList<>();
+    }
+
+    public List<Supply> getSupplies() {
+        return Collections.unmodifiableList(supplies);
     }
 }

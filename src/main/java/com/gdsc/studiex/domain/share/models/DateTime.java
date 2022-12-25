@@ -15,4 +15,8 @@ public class DateTime extends StringValueObject {
             throw new InvalidInputException("Invalid DateTime: " + value);
         }
     }
+
+    public static DateTime now() {
+        return new DateTime(ZonedDateTime.now().toString());
+    }
 }

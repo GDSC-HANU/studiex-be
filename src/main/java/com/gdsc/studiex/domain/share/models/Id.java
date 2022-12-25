@@ -4,8 +4,6 @@ import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import org.bson.types.ObjectId;
 
 public class Id extends StringValueObject {
-    private String value;
-
     public Id(String value) throws InvalidInputException {
         super(value);
     }
@@ -19,5 +17,9 @@ public class Id extends StringValueObject {
 
     public static Id generateRandom() {
         return new Id(new ObjectId().toString());
+    }
+
+    public ObjectId toObjectId() {
+        return new ObjectId(value);
     }
 }
