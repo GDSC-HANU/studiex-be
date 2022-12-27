@@ -14,11 +14,11 @@ public class SupplyItemRangeValue implements SupplyItemValue {
             throw new InvalidInputException("Invalid Supply Item Value Min Value, require smaller than " + minValue + ": " + getMinValue());
         if (allowedSupplyItemRangeValue.getMaxValue() < getMaxValue())
             throw new InvalidInputException("Invalid Supply Item Value Max Value, require greater than " + maxValue + ": " + getMaxValue());
-        if ((getMinValue() - allowedSupplyItemRangeValue.getMinValue()) % allowedSupplyItemRangeValue.getDifferent() != 0)
+        if ((getMinValue() - allowedSupplyItemRangeValue.getMinValue()) % allowedSupplyItemRangeValue.getDifference() != 0)
             throw new InvalidInputException("Invalid Supply Item Value Min Value, require different to be power of "
-                    + allowedSupplyItemRangeValue.getDifferent() + ": " + getMinValue());
-        if ((allowedSupplyItemRangeValue.getMaxValue() - getMaxValue()) % allowedSupplyItemRangeValue.getDifferent() != 0)
+                    + allowedSupplyItemRangeValue.getDifference() + ": " + getMinValue());
+        if ((allowedSupplyItemRangeValue.getMaxValue() - getMaxValue()) % allowedSupplyItemRangeValue.getDifference() != 0)
             throw new InvalidInputException("Invalid Supply Item Value Max Value, require different to be power of "
-                    + allowedSupplyItemRangeValue.getDifferent() + ": " + getMaxValue());
+                    + allowedSupplyItemRangeValue.getDifference() + ": " + getMaxValue());
     }
 }

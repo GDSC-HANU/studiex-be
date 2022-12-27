@@ -13,6 +13,8 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.gdsc.studiex.domain.share.models.IntegerValueObject;
 import com.gdsc.studiex.domain.share.models.LongValueObject;
 import com.gdsc.studiex.domain.share.models.StringValueObject;
+import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValue;
+import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.AllowedSupplyItemValueObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,6 +37,8 @@ public class CustomObjectMapper {
 
         addSerializer(StringValueObject.class, new StringValueObjectObjectMapper.Serializer());
         addDeserializer(StringValueObject.class, new StringValueObjectObjectMapper.Deserializer());
+
+        addDeserializer(AllowedSupplyItemValue.class, new AllowedSupplyItemValueObjectMapper.Deserializer());
     }
 
     private static void reset() {

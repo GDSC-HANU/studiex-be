@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
+    private final String COLLECTION = "allowedSupplies";
     @Override
     public void save(AllowedSupply allowedSupply) {
         final Query query = Query.query(
@@ -31,7 +32,11 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
         update.set("_id", allowedSupply.getId().toObjectId());
         update.set("id", allowedSupply.getId().toObjectId());
         update.set("subjectName", allowedSupply.getSubjectName());
-        update.set("allowedSupplyItems", allowedSupply.getAllowedSupplyItems());
+        final Object allowedSupplyItems = CustomObjectMapper.convertObjectClass(
+                allowedSupply.getAllowedSupplyItems(),
+                Object.class
+        );
+        update.set("allowedSupplyItems", allowedSupplyItems);
         update.set("version", allowedSupply.getVersion());
         mongoTemplate.upsert(
                 query,
@@ -48,6 +53,17 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
                         .in(subjectNames)
         );
         final List<String> result = mongoTemplate.find(query, String.class);
+        return result.stream()
+                .map(str -> CustomObjectMapper.deserialize(str, AllowedSupply.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AllowedSupply> findPaging(int page, int perPage) {
+        final Query query = new Query();
+        query.skip(perPage * (page - 1));
+        query.limit(perPage);
+        final List<String> result = mongoTemplate.find(query, String.class, COLLECTION);
         return result.stream()
                 .map(str -> CustomObjectMapper.deserialize(str, AllowedSupply.class))
                 .collect(Collectors.toList());

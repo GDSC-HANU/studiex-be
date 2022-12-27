@@ -8,4 +8,6 @@ public interface AllowedSupplyRepository {
     public void save(AllowedSupply allowedSupply);
 
     public List<AllowedSupply> findBySubjectNames(List<String> subjectNames);
+
+    public List<AllowedSupply> findPaging(int page, int perPage);
 }

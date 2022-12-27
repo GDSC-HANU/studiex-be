@@ -25,7 +25,7 @@ public class StringValueObjectObjectMapper {
         public void serialize(StringValueObject value,
                               JsonGenerator jsonGenerator,
                               SerializerProvider serializerProvider) throws IOException {
-            jsonGenerator.writeNumber(value.toString());
+            jsonGenerator.writeString(value.toString());
         }
     }
 

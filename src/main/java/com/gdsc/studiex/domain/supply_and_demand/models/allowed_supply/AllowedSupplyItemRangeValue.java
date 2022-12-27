@@ -12,16 +12,16 @@ import lombok.Getter;
 public class AllowedSupplyItemRangeValue implements AllowedSupplyItemValue {
     private double minValue;
     private double maxValue;
-    private double different;
+    private double difference;
 
     @Builder(builderMethodName = "newAllowedSupplyItemRangeValue", builderClassName = "NewAllowedSupplyItemRangeValue")
-    public AllowedSupplyItemRangeValue(double minValue, double maxValue, double different) throws InvalidInputException {
-        if (minValue % different != 0 || maxValue % different != 0) {
-            throw new InvalidInputException("Invalid different");
+    public AllowedSupplyItemRangeValue(double minValue, double maxValue, double difference) throws InvalidInputException {
+        if (minValue % difference != 0 || maxValue % difference != 0) {
+            throw new InvalidInputException("Invalid difference");
         }
         this.minValue = minValue;
         this.maxValue = maxValue;
-        this.different = different;
+        this.difference = difference;
     }
 
     @Override
