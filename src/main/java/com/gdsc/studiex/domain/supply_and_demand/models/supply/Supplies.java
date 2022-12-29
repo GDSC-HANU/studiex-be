@@ -14,13 +14,12 @@ import java.util.List;
 
 @Getter
 @Document(collection = "supplies")
-public class Supplies extends VersioningAggregateRoot {
+public class Supplies {
     private Id studierId;
     private List<Supply> supplies;
 
     @Builder(builderMethodName = "newSuppliesBuilder", builderClassName = "NewSuppliesBuilder")
     public Supplies(Id studierId, List<Supply> supplies, SuppliesQuota suppliesQuota) throws InvalidInputException {
-        super(0);
         this.studierId = studierId;
         this.supplies = supplies;
         if (countActiveSupplies() > suppliesQuota.getMaxActiveQuota())

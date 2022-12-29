@@ -2,6 +2,7 @@ package com.gdsc.studiex.infrastructure.supply_and_demand.repositories;
 
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.Supplies;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.SuppliesRepository;
+import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -19,15 +20,15 @@ public class SuppliesMongoRepository implements SuppliesRepository {
                 Criteria
                         .where("_id")
                         .is(supplies.getStudierId().toString())
-                        .and("version")
-                        .is(supplies.getVersion())
         );
-        supplies.increaseVersion();
         final Update update = new Update();
         update.set("_id", supplies.getStudierId().toObjectId());
         update.set("studierId", supplies.getStudierId().toObjectId());
-        update.set("supplies", supplies.getSupplies());
-        update.set("version", supplies.getVersion());
+        final Object supplyList = CustomObjectMapper.convertObjectClass(
+                supplies.getSupplies(),
+                Object.class
+        );
+        update.set("supplies", supplyList);
         mongoTemplate.upsert(
                 query,
                 update,

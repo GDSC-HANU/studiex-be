@@ -19,7 +19,7 @@ public class SaveSuppliesController {
     private AuthorizeStudierService authorizeStudierService;
 
     @PostMapping("/supply")
-    public ResponseEntity<?> saveSupplies(@RequestHeader String accessToken,
+    public ResponseEntity<?> saveSupplies(@RequestHeader(name = "access-token") String accessToken,
                                           @RequestBody SaveSuppliesService.InputSupplies body) {
         return ControllerHandler.handle(() -> {
             final Id studierId = authorizeStudierService.authorize(accessToken);

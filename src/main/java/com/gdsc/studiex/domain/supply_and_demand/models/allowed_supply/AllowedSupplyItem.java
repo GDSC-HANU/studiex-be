@@ -39,9 +39,11 @@ public class AllowedSupplyItem {
             case MANY_OF:
                 if (!(value instanceof AllowedSupplyItemArrayValue))
                     throw new InvalidInputException("Invalid AllowedSupplyItem.value for operator " + operator);
+                break;
             case BETWEEN:
                 if (!(value instanceof AllowedSupplyItemRangeValue))
                     throw new InvalidInputException("Invalid AllowedSupplyItem.value for operator " + operator);
+                break;
         }
     }
 

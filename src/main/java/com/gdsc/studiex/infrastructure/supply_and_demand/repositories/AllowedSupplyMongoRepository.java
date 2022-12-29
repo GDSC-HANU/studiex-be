@@ -52,7 +52,7 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
                         .where("subjectName")
                         .in(subjectNames)
         );
-        final List<String> result = mongoTemplate.find(query, String.class);
+        final List<String> result = mongoTemplate.find(query, String.class, COLLECTION);
         return result.stream()
                 .map(str -> CustomObjectMapper.deserialize(str, AllowedSupply.class))
                 .collect(Collectors.toList());

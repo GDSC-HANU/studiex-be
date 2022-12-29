@@ -29,7 +29,7 @@ public class SaveSuppliesService {
 
     public static class InputSupply {
         public String subjectName;
-        public List<InputSupplyItem> items;
+        public List<InputSupplyItem> supplyItems;
         public boolean active;
         public SupplyPriority priority;
         private List<CustomSupplyItem> customSupplyItems;
@@ -64,7 +64,7 @@ public class SaveSuppliesService {
         if (allowedSupply == null)
             throw new InvalidInputException("There are no Allowed Supply with subject name: " + inputSupply.subjectName);
         final List<SupplyItem> supplyItems = new ArrayList<>();
-        for (InputSupplyItem inputSupplyItem : inputSupply.items)
+        for (InputSupplyItem inputSupplyItem : inputSupply.supplyItems)
             supplyItems.add(SupplyItem.fromAllowedSupplyBuilder()
                     .key(inputSupplyItem.key)
                     .operator(inputSupplyItem.operator)
