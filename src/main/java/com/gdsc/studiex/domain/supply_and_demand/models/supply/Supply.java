@@ -17,14 +17,14 @@ public class Supply {
     private List<SupplyItem> supplyItems;
     private boolean active;
     private SupplyPriority priority;
-    private List<AllowedSupplyItem> customSupplyItems;
+    private List<CustomSupplyItem> customSupplyItems;
 
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public Supply(Id allowedSupplyId,
                   List<SupplyItem> supplyItems,
                   boolean active,
                   SupplyPriority priority,
-                  List<AllowedSupplyItem> customSupplyItems,
+                  List<CustomSupplyItem> customSupplyItems,
                   AllowedSupply allowedSupply) throws InvalidInputException {
         this.allowedSupplyId = allowedSupplyId;
         this.supplyItems = supplyItems;

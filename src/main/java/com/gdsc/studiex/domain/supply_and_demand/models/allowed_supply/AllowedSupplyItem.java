@@ -28,8 +28,21 @@ public class AllowedSupplyItem {
             throw new InvalidInputException("AllowedSupplyItem.key must not be null");
         if (operator == null)
             throw new InvalidInputException("AllowedSupplyItem.operator must not be null");
+        validateValue();
+    }
+
+    private void validateValue() throws InvalidInputException {
         if (value == null)
             throw new InvalidInputException("AllowedSupplyItem.value must not be null");
+        switch (operator) {
+            case ONE_OF:
+            case MANY_OF:
+                if (!(value instanceof AllowedSupplyItemArrayValue))
+                    throw new InvalidInputException("Invalid AllowedSupplyItem.value for operator " + operator);
+            case BETWEEN:
+                if (!(value instanceof AllowedSupplyItemRangeValue))
+                    throw new InvalidInputException("Invalid AllowedSupplyItem.value for operator " + operator);
+        }
     }
 
     public boolean canUse(SupplyItemOperator supplyItemOperator) {

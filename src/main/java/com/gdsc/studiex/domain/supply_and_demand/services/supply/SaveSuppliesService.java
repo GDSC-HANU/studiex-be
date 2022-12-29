@@ -4,8 +4,6 @@ import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
-import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValueFactory;
-import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyOperator;
 import com.gdsc.studiex.domain.supply_and_demand.models.supplies_quota.SuppliesQuota;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.*;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.AllowedSupplyRepository;
@@ -34,14 +32,7 @@ public class SaveSuppliesService {
         public List<InputSupplyItem> items;
         public boolean active;
         public SupplyPriority priority;
-        private List<InputAllowedSupplyItem> customSupplyItems;
-    }
-
-    public static class InputAllowedSupplyItem {
-        private String key;
-        private AllowedSupplyOperator operator;
-        private Object value;
-        private String description;
+        private List<CustomSupplyItem> customSupplyItems;
     }
 
     public static class InputSupplyItem {
@@ -81,22 +72,12 @@ public class SaveSuppliesService {
                     .description(inputSupplyItem.description)
                     .allowedSupply(allowedSupply)
                     .build());
-        final List<AllowedSupplyItem> customSupplyItems = new ArrayList<>();
-        for (InputAllowedSupplyItem inputCustomSupplyItem : inputSupply.customSupplyItems) {
-            customSupplyItems.add(AllowedSupplyItem.newAllowedSupplyItemBuilder()
-                    .key(inputCustomSupplyItem.key)
-                    .operator(inputCustomSupplyItem.operator)
-                    .value(AllowedSupplyItemValueFactory
-                            .get(inputCustomSupplyItem.operator, inputCustomSupplyItem.value))
-                    .description(inputCustomSupplyItem.description)
-                    .build());
-        }
         final Supply supply = Supply.fromAllowedSupplyBuilder()
                 .allowedSupplyId(allowedSupply.getId())
                 .supplyItems(supplyItems)
                 .active(inputSupply.active)
                 .priority(inputSupply.priority)
-                .customSupplyItems(customSupplyItems)
+                .customSupplyItems(inputSupply.customSupplyItems)
                 .allowedSupply(allowedSupply)
                 .build();
         return supply;

@@ -3,7 +3,7 @@ package com.gdsc.studiex.domain.supply_and_demand.services.allowed_supply;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
-import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValueFactory;
+import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValue;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyOperator;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.AllowedSupplyRepository;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class CreateAllowedSupplyService {
     public static class InputAllowedSupplyItem {
         private String key;
         private AllowedSupplyOperator operator;
-        private Object value;
+        private AllowedSupplyItemValue value;
         private String description;
     }
 
@@ -36,8 +36,7 @@ public class CreateAllowedSupplyService {
             allowedSupply.getAllowedSupplyItems().add(AllowedSupplyItem.newAllowedSupplyItemBuilder()
                     .key(inputAllowedSupplyItem.key)
                     .operator(inputAllowedSupplyItem.operator)
-                    .value(AllowedSupplyItemValueFactory
-                            .get(inputAllowedSupplyItem.operator, inputAllowedSupplyItem.value))
+                    .value(inputAllowedSupplyItem.value)
                     .description(inputAllowedSupplyItem.description)
                     .build());
         allowedSupplyRepository.save(allowedSupply);
