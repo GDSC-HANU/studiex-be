@@ -2,8 +2,7 @@ package com.gdsc.studiex.domain.supply_and_demand.models.supply;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
-import com.gdsc.studiex.domain.share.models.VersioningAggregateRoot;
-import com.gdsc.studiex.domain.supply_and_demand.models.supplies_quota.SuppliesQuota;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply_and_demand_quota.SupplyAndDemandQuota;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,11 +18,11 @@ public class Supplies {
     private List<Supply> supplies;
 
     @Builder(builderMethodName = "newSuppliesBuilder", builderClassName = "NewSuppliesBuilder")
-    public Supplies(Id studierId, List<Supply> supplies, SuppliesQuota suppliesQuota) throws InvalidInputException {
+    public Supplies(Id studierId, List<Supply> supplies, SupplyAndDemandQuota supplyAndDemandQuota) throws InvalidInputException {
         this.studierId = studierId;
         this.supplies = supplies;
-        if (countActiveSupplies() > suppliesQuota.getMaxActiveQuota())
-            throw new InvalidInputException("Active Supplies exceed max active quota: " + suppliesQuota.getMaxActiveQuota());
+        if (countActiveSupplies() > supplyAndDemandQuota.getMaxActiveSupply())
+            throw new InvalidInputException("Active Supplies exceed max active quota: " + supplyAndDemandQuota.getMaxActiveSupply());
         validate();
     }
 

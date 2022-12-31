@@ -3,8 +3,7 @@ package com.gdsc.studiex.domain.supply_and_demand.services.supply;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
-import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
-import com.gdsc.studiex.domain.supply_and_demand.models.supplies_quota.SuppliesQuota;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply_and_demand_quota.SupplyAndDemandQuota;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.*;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.AllowedSupplyRepository;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.SuppliesQuotaRepository;
@@ -50,11 +49,11 @@ public class SaveSuppliesService {
         final List<Supply> supplyList = new ArrayList<>();
         for (InputSupply inputSupply : input.supplies)
             supplyList.add(buildSupply(inputSupply, allowedSupplies));
-        final SuppliesQuota suppliesQuota = suppliesQuotaRepository.get();
+        final SupplyAndDemandQuota supplyAndDemandQuota = suppliesQuotaRepository.get();
         final Supplies supplies = Supplies.newSuppliesBuilder()
                 .studierId(studierId)
                 .supplies(supplyList)
-                .suppliesQuota(suppliesQuota)
+                .supplyAndDemandQuota(supplyAndDemandQuota)
                 .build();
         suppliesRepository.save(supplies);
     }
