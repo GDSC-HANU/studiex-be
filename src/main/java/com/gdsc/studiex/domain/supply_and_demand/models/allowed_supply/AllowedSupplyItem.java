@@ -34,20 +34,11 @@ public class AllowedSupplyItem {
     private void validateValue() throws InvalidInputException {
         if (value == null)
             throw new InvalidInputException("AllowedSupplyItem.value must not be null");
-        switch (operator) {
-            case ONE_OF:
-            case MANY_OF:
-                if (!(value instanceof AllowedSupplyItemArrayValue))
-                    throw new InvalidInputException("Invalid AllowedSupplyItem.value for operator " + operator);
-                break;
-            case BETWEEN:
-                if (!(value instanceof AllowedSupplyItemRangeValue))
-                    throw new InvalidInputException("Invalid AllowedSupplyItem.value for operator " + operator);
-                break;
-        }
+        if (!value.canBeUsedWith(operator))
+            throw new InvalidInputException("Invalid AllowedSupplyItem.value for operator " + operator);
     }
 
-    public boolean canUse(SupplyItemOperator supplyItemOperator) {
+    public boolean canBeUsedWith(SupplyItemOperator supplyItemOperator) {
         switch (supplyItemOperator) {
             case IS:
                 return operator.equals(AllowedSupplyOperator.ONE_OF);

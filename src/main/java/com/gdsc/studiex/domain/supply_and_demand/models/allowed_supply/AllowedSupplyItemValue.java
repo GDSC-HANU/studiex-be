@@ -6,7 +6,9 @@ import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemOperato
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemValue;
 
 public interface AllowedSupplyItemValue {
-    public SupplyItemValue convertToSupplyItemValue(SupplyItemOperator supplyItemOperator,
-                                                    SuppliesDTO.SupplyItemValueDTO supplyItemValue) throws InvalidInputException;
+    public SupplyItemValue toSupplyItemValue(SupplyItemOperator supplyItemOperator,
+                                             SuppliesDTO.SupplyItemValueDTO supplyItemValue) throws InvalidInputException;
     public AllowedSupplyDTO.AllowedSupplyItemValueDTO toAllowedSupplyItemValueDTO();
+
+    public boolean canBeUsedWith(AllowedSupplyOperator operator);
 }

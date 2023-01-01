@@ -26,7 +26,7 @@ public class AllowedSupplyItemRangeValue implements AllowedSupplyItemValue {
     }
 
     @Override
-    public SupplyItemValue convertToSupplyItemValue(SupplyItemOperator supplyItemOperator, SuppliesDTO.SupplyItemValueDTO supplyItemValue) throws InvalidInputException {
+    public SupplyItemValue toSupplyItemValue(SupplyItemOperator supplyItemOperator, SuppliesDTO.SupplyItemValueDTO supplyItemValue) throws InvalidInputException {
         if (!supplyItemOperator.equals(SupplyItemOperator.BETWEEN)) {
             throw new InvalidInputException("Invalid Supply Item Operator, require BETWEEN: " + supplyItemOperator);
         }
@@ -50,5 +50,10 @@ public class AllowedSupplyItemRangeValue implements AllowedSupplyItemValue {
                 .maxValue(maxValue)
                 .difference(difference)
                 .build();
+    }
+
+    @Override
+    public boolean canBeUsedWith(AllowedSupplyOperator operator) {
+        return operator.equals(AllowedSupplyOperator.BETWEEN);
     }
 }

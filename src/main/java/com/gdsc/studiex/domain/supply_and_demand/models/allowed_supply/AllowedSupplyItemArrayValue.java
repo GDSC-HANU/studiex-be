@@ -32,7 +32,7 @@ public class AllowedSupplyItemArrayValue implements AllowedSupplyItemValue {
     }
 
     @Override
-    public SupplyItemValue convertToSupplyItemValue(SupplyItemOperator supplyItemOperator, SuppliesDTO.SupplyItemValueDTO supplyItemValue) throws InvalidInputException {
+    public SupplyItemValue toSupplyItemValue(SupplyItemOperator supplyItemOperator, SuppliesDTO.SupplyItemValueDTO supplyItemValue) throws InvalidInputException {
         switch (supplyItemOperator) {
             case IS:
                 try {
@@ -77,5 +77,10 @@ public class AllowedSupplyItemArrayValue implements AllowedSupplyItemValue {
                 .map(e -> e.getValue())
                 .collect(Collectors.toList());
         return new AllowedSupplyDTO.AllowedSupplyArrayValueDTO(values);
+    }
+
+    @Override
+    public boolean canBeUsedWith(AllowedSupplyOperator operator) {
+        return operator.equals(AllowedSupplyOperator.ONE_OF) || operator.equals(AllowedSupplyOperator.MANY_OF);
     }
 }

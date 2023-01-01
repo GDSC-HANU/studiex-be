@@ -22,11 +22,11 @@ public class SupplyItem {
         final AllowedSupplyItem allowedSupplyItem = allowedSupply.findItemByKey(key);
         if (allowedSupplyItem == null)
             throw new InvalidInputException("There are no Allowed Supply Item with key: " + key);
-        if (!allowedSupplyItem.canUse(operator))
+        if (!allowedSupplyItem.canBeUsedWith(operator))
             throw new InvalidInputException(String.format("Cannot use operator %s for the key %s", operator, key));
         this.allowedSupplyItemIndex = allowedSupply.findItemIndexByKey(key);
         this.operator = operator;
-        this.value = allowedSupplyItem.getValue().convertToSupplyItemValue(operator, value);
+        this.value = allowedSupplyItem.getValue().toSupplyItemValue(operator, value);
         this.description = description;
         validate();
     }
