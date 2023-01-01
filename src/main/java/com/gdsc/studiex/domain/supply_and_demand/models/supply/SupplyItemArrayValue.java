@@ -6,10 +6,10 @@ import lombok.Builder;
 import java.util.List;
 
 public class SupplyItemArrayValue implements SupplyItemValue {
-    private List<Id> allowedSupplyItemArrayValueIndexes;
+    private List<Id> allowedSupplyItemArrayValueIds;
 
     @Builder(builderMethodName = "newSupplyItemArrayValue", builderClassName = "NewSupplyItemArrayValue")
-    public SupplyItemArrayValue(List<Id> allowedSupplyItemArrayValueIndexes) {
-        this.allowedSupplyItemArrayValueIndexes = allowedSupplyItemArrayValueIndexes;
+    public SupplyItemArrayValue(List<Id> allowedSupplyItemArrayValueIds) {
+        this.allowedSupplyItemArrayValueIds = allowedSupplyItemArrayValueIds;
     }
 }

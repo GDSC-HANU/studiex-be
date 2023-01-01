@@ -13,8 +13,14 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.gdsc.studiex.domain.share.models.IntegerValueObject;
 import com.gdsc.studiex.domain.share.models.LongValueObject;
 import com.gdsc.studiex.domain.share.models.StringValueObject;
+import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyDTO;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValue;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SuppliesDTO;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemValue;
+import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.AllowedSupplyItemValueDTOObjectMapper;
 import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.AllowedSupplyItemValueObjectMapper;
+import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.SupplyItemValueDTOObjectMapper;
+import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.SupplyItemValueObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -39,6 +45,11 @@ public class CustomObjectMapper {
         addDeserializer(StringValueObject.class, new StringValueObjectObjectMapper.Deserializer());
 
         addDeserializer(AllowedSupplyItemValue.class, new AllowedSupplyItemValueObjectMapper.Deserializer());
+        addDeserializer(AllowedSupplyDTO.AllowedSupplyItemValueDTO.class, new AllowedSupplyItemValueDTOObjectMapper.Deserializer());
+
+        addDeserializer(SupplyItemValue.class, new SupplyItemValueObjectMapper.Deserializer());
+        addDeserializer(SuppliesDTO.SupplyItemValueDTO.class, new SupplyItemValueDTOObjectMapper.Deserializer());
+
     }
 
     private static void reset() {

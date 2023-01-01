@@ -61,7 +61,7 @@ public class AllowedSupplyItemArrayValue implements AllowedSupplyItemValue {
                             throw new InvalidInputException("Unknown Supply Item Value: " + value);
                     }
                     return SupplyItemArrayValue.newSupplyItemArrayValue()
-                            .allowedSupplyItemArrayValueIndexes(ids)
+                            .allowedSupplyItemArrayValueIds(ids)
                             .build();
                 } catch (Throwable e) {
                     throw new InvalidInputException("Invalid Supply Item Value, require List<String>: " + supplyItemValue);
