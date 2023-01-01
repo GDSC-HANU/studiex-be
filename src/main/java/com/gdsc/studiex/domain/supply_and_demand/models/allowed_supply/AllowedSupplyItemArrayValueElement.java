@@ -17,4 +17,7 @@ public class AllowedSupplyItemArrayValueElement {
             throw new InvalidInputException("AllowedSupplyItemArrayValueElement.value must be not null");
         this.value = value;
     }
+
+    private AllowedSupplyItemArrayValueElement() {
+    }
 }

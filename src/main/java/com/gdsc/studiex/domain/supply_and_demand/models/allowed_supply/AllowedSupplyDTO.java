@@ -63,6 +63,8 @@ public class AllowedSupplyDTO {
     }
 
     public static class AllowedSupplyArrayValueDTO extends ArrayList<String> implements AllowedSupplyItemValueDTO {
+        public AllowedSupplyArrayValueDTO() {
+        }
 
         public AllowedSupplyArrayValueDTO(Collection<? extends String> c) {
             super(c);

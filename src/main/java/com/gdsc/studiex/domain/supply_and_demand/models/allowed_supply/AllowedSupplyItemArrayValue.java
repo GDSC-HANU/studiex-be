@@ -20,6 +20,9 @@ public class AllowedSupplyItemArrayValue implements AllowedSupplyItemValue {
         this.elements = elements;
     }
 
+    private AllowedSupplyItemArrayValue() {
+    }
+
     public static AllowedSupplyItemArrayValue fromListString(List<String> values) {
         final List<AllowedSupplyItemArrayValueElement> elements = values.stream()
                 .map(value -> AllowedSupplyItemArrayValueElement.newAllowedSupplyItemArrayValueElement()
