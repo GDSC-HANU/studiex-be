@@ -2,12 +2,18 @@ package com.gdsc.studiex.domain.supply_and_demand.models.supply;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemRangeValue;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class SupplyItemRangeValue implements SupplyItemValue {
     private double minValue;
     private double maxValue;
+    @Builder(builderMethodName = "newSupplyItemRangeValue", builderClassName = "NewSupplyItemRangeValue")
+    public SupplyItemRangeValue(double minValue, double maxValue) {
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+    }
 
     public void validate(AllowedSupplyItemRangeValue allowedSupplyItemRangeValue) throws InvalidInputException {
         if (getMinValue() < allowedSupplyItemRangeValue.getMinValue())

@@ -1,6 +1,7 @@
 package com.gdsc.studiex.infrastructure.supply_and_demand.controllers.allowed_supply;
 
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
+import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyDTO;
 import com.gdsc.studiex.domain.supply_and_demand.services.allowed_supply.SearchAllowedSupplyService;
 import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class SearchAllowedSupplyController {
     @GetMapping(path = "/allowedSupply")
     public ResponseEntity<?> searchAllowedSupply(@RequestParam int page, @RequestParam int perPage) {
         return ControllerHandler.handle(() -> {
-            final List<AllowedSupply> result = searchAllowedSupplyService.searchAllowedSupply(page, perPage);
+            final List<AllowedSupplyDTO> result = searchAllowedSupplyService.searchAllowedSupply(page, perPage);
             return new ControllerHandler.Result(
                     "Success",
                     result

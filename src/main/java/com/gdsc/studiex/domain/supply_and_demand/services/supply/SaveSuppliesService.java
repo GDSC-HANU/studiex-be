@@ -2,6 +2,7 @@ package com.gdsc.studiex.domain.supply_and_demand.services.supply;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SuppliesDTO;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply_and_demand_quota.SupplyAndDemandQuota;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.*;
@@ -22,32 +23,13 @@ public class SaveSuppliesService {
     private final AllowedSupplyRepository allowedSupplyRepository;
     private final SuppliesQuotaRepository suppliesQuotaRepository;
 
-    public static class InputSupplies {
-        public List<InputSupply> supplies;
-    }
-
-    public static class InputSupply {
-        public String subjectName;
-        public List<InputSupplyItem> supplyItems;
-        public boolean active;
-        public SupplyPriority priority;
-        private List<CustomSupplyItem> customSupplyItems;
-    }
-
-    public static class InputSupplyItem {
-        public String key;
-        public SupplyItemOperator operator;
-        public Object value;
-        public String description;
-    }
-
-    public void saveSupplies(Id studierId, InputSupplies input) throws InvalidInputException {
+    public void saveSupplies(Id studierId, SuppliesDTO input) throws InvalidInputException {
         final List<AllowedSupply> allowedSupplies = allowedSupplyRepository
                 .findBySubjectNames(input.supplies.stream()
                         .map(supply -> supply.subjectName)
                         .collect(Collectors.toList()));
         final List<Supply> supplyList = new ArrayList<>();
-        for (InputSupply inputSupply : input.supplies)
+        for (SuppliesDTO.SupplyDTO inputSupply : input.supplies)
             supplyList.add(buildSupply(inputSupply, allowedSupplies));
         final SupplyAndDemandQuota supplyAndDemandQuota = suppliesQuotaRepository.get();
         final Supplies supplies = Supplies.newSuppliesBuilder()
@@ -58,12 +40,12 @@ public class SaveSuppliesService {
         suppliesRepository.save(supplies);
     }
 
-    private Supply buildSupply(InputSupply inputSupply, List<AllowedSupply> allowedSupplies) throws InvalidInputException {
+    private Supply buildSupply(SuppliesDTO.SupplyDTO inputSupply, List<AllowedSupply> allowedSupplies) throws InvalidInputException {
         final AllowedSupply allowedSupply = findAllowedSupplyBySubjectName(allowedSupplies, inputSupply.subjectName);
         if (allowedSupply == null)
             throw new InvalidInputException("There are no Allowed Supply with subject name: " + inputSupply.subjectName);
         final List<SupplyItem> supplyItems = new ArrayList<>();
-        for (InputSupplyItem inputSupplyItem : inputSupply.supplyItems)
+        for (SuppliesDTO.SupplyItemDTO inputSupplyItem : inputSupply.supplyItems)
             supplyItems.add(SupplyItem.fromAllowedSupplyBuilder()
                     .key(inputSupplyItem.key)
                     .operator(inputSupplyItem.operator)

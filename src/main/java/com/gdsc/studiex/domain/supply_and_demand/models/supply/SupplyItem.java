@@ -16,7 +16,7 @@ public class SupplyItem {
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public SupplyItem(String key,
                       SupplyItemOperator operator,
-                      Object value,
+                      SuppliesDTO.SupplyItemValueDTO value,
                       String description,
                       AllowedSupply allowedSupply) throws InvalidInputException {
         final AllowedSupplyItem allowedSupplyItem = allowedSupply.findItemByKey(key);

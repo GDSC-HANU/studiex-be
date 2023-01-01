@@ -1,6 +1,7 @@
 package com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SuppliesDTO;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemOperator;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemRangeValue;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemValue;
@@ -25,16 +26,29 @@ public class AllowedSupplyItemRangeValue implements AllowedSupplyItemValue {
     }
 
     @Override
-    public SupplyItemValue convertToSupplyItemValue(SupplyItemOperator supplyItemOperator, Object supplyItemValue) throws InvalidInputException {
+    public SupplyItemValue convertToSupplyItemValue(SupplyItemOperator supplyItemOperator, SuppliesDTO.SupplyItemValueDTO supplyItemValue) throws InvalidInputException {
         if (!supplyItemOperator.equals(SupplyItemOperator.BETWEEN)) {
             throw new InvalidInputException("Invalid Supply Item Operator, require BETWEEN: " + supplyItemOperator);
         }
         try {
-            final SupplyItemRangeValue value = CustomObjectMapper.convertObjectClass(supplyItemValue, SupplyItemRangeValue.class);
-            value.validate(this);
-            return value;
+            final SuppliesDTO.SupplyItemRangeValueDTO value = CustomObjectMapper.convertObjectClass(supplyItemValue, SuppliesDTO.SupplyItemRangeValueDTO.class);
+            final SupplyItemRangeValue rangeValue = SupplyItemRangeValue.newSupplyItemRangeValue()
+                    .minValue(value.minValue)
+                    .maxValue(value.maxValue)
+                    .build();
+            rangeValue.validate(this);
+            return rangeValue;
         } catch (Throwable e) {
             throw new InvalidInputException("Invalid Supply Item Value, require String: " + supplyItemValue);
         }
+    }
+
+    @Override
+    public AllowedSupplyDTO.AllowedSupplyItemValueDTO toAllowedSupplyItemValueDTO() {
+        return AllowedSupplyDTO.AllowedSupplyRangeValueDTO.builder()
+                .minValue(minValue)
+                .maxValue(maxValue)
+                .difference(difference)
+                .build();
     }
 }

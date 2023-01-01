@@ -2,6 +2,7 @@ package com.gdsc.studiex.infrastructure.supply_and_demand.controllers.supply;
 
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.studier_auth.services.AuthorizeStudierService;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SuppliesDTO;
 import com.gdsc.studiex.domain.supply_and_demand.services.supply.SaveSuppliesService;
 import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class SaveSuppliesController {
 
     @PostMapping("/supply")
     public ResponseEntity<?> saveSupplies(@RequestHeader(name = "access-token") String accessToken,
-                                          @RequestBody SaveSuppliesService.InputSupplies body) {
+                                          @RequestBody SuppliesDTO body) {
         return ControllerHandler.handle(() -> {
             final Id studierId = authorizeStudierService.authorize(accessToken);
             saveSuppliesService.saveSupplies(studierId, body);

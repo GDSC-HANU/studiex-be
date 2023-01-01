@@ -1,12 +1,13 @@
 package com.gdsc.studiex.domain.supply_and_demand.models.supply;
 
+import com.gdsc.studiex.domain.share.models.Id;
 import lombok.Builder;
 
 public class SupplyItemExactValue implements SupplyItemValue{
-    private int allowedSupplyItemArrayValueIndex;
+    private Id allowedSupplyItemArrayValueId;
 
     @Builder(builderMethodName = "newSupplyItemExactValue", builderClassName = "NewSupplyItemExactValue")
-    public SupplyItemExactValue(int allowedSupplyItemArrayValueIndex) {
-        this.allowedSupplyItemArrayValueIndex = allowedSupplyItemArrayValueIndex;
+    public SupplyItemExactValue(Id allowedSupplyItemArrayValueId) {
+        this.allowedSupplyItemArrayValueId = allowedSupplyItemArrayValueId;
     }
 }
