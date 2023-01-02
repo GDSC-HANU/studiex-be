@@ -5,7 +5,6 @@ import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.share.models.IdentifiedVersioningAggregateRoot;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +20,10 @@ public class AllowedSupply extends IdentifiedVersioningAggregateRoot {
         this.subjectName = subjectName;
         this.allowedSupplyItems = allowedSupplyItems;
         validate();
+    }
+
+    private AllowedSupply() {
+        super();
     }
 
     private void validate() throws InvalidInputException {
@@ -41,6 +44,13 @@ public class AllowedSupply extends IdentifiedVersioningAggregateRoot {
         for (AllowedSupply allowedSupply : allowedSupplies)
             if (allowedSupply.getSubjectName().equals(subjectName))
                 return allowedSupply;
+        return null;
+    }
+
+    public AllowedSupplyItem findItemById(Id allowedSupplyItemId) {
+        for (AllowedSupplyItem item : allowedSupplyItems)
+            if (item.getId().equals(allowedSupplyItemId))
+                return item;
         return null;
     }
 }

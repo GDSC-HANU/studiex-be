@@ -6,11 +6,13 @@ import com.gdsc.studiex.domain.supply_and_demand.models.demand.*;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.*;
 import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class AllowedSupplyItemArrayValue implements AllowedSupplyItemValue {
     private List<AllowedSupplyItemArrayValueElement> elements;
 

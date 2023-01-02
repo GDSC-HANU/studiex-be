@@ -36,6 +36,9 @@ public class Supply {
         validate();
     }
 
+    private Supply() {
+    }
+
     private SupplyItem findSupplyItemByAllowedSupplyItemId(Id id) {
         for (SupplyItem item : supplyItems)
             if (item.getAllowedSupplyItemId().equals(id))

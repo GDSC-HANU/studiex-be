@@ -13,6 +13,9 @@ public class IdentifiedVersioningAggregateRoot {
         this.version = version;
     }
 
+    protected IdentifiedVersioningAggregateRoot() {
+    }
+
     public Id getId() {
         return id;
     }

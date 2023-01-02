@@ -1,11 +1,15 @@
 package com.gdsc.studiex.domain.share.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 
 import java.util.Objects;
 
 public class StringValueObject {
+    @JsonProperty("value")
     protected String value;
+
+    public StringValueObject() {}
 
     public StringValueObject(String value) throws InvalidInputException {
         this.value = value;

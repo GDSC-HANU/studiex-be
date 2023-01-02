@@ -32,6 +32,9 @@ public class SupplyItem {
         validate();
     }
 
+    private SupplyItem() {
+    }
+
     private void validate() throws InvalidInputException {
         if (operator == null)
             throw new InvalidInputException("SupplyItem.operator must not be null");

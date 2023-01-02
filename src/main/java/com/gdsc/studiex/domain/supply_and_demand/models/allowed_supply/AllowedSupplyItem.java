@@ -27,6 +27,9 @@ public class AllowedSupplyItem {
         validate();
     }
 
+    private AllowedSupplyItem() {
+    }
+
     private void validate() throws InvalidInputException {
         if (key == null || key.trim().isEmpty())
             throw new InvalidInputException("AllowedSupplyItem.key must not be null");

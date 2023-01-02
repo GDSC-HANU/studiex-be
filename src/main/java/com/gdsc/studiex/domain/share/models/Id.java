@@ -1,9 +1,17 @@
 package com.gdsc.studiex.domain.share.models;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 
+import java.util.Objects;
+
 public class Id extends StringValueObject {
+
+    public Id() {
+        super();
+    }
+
     public Id(String value) throws InvalidInputException {
         super(value);
     }
@@ -21,5 +29,9 @@ public class Id extends StringValueObject {
 
     public ObjectId toObjectId() {
         return new ObjectId(value);
+    }
+
+    public boolean equals(Id other) {
+        return Objects.equals(this.value, other.value);
     }
 }

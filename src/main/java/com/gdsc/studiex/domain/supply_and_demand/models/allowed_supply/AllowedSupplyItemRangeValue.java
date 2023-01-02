@@ -29,6 +29,10 @@ public class AllowedSupplyItemRangeValue implements AllowedSupplyItemValue {
         this.difference = difference;
     }
 
+    private AllowedSupplyItemRangeValue() {
+
+    }
+
     @Override
     public SupplyItemValue toSupplyItemValue(AllowedSupplyOperator allowedSupplyOperator,
                                              SupplyItemOperator supplyItemOperator,
