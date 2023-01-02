@@ -23,7 +23,7 @@ public class SuppliesMongoRepository implements SuppliesRepository {
         );
         final Update update = new Update();
         update.set("_id", supplies.getStudierId().toObjectId());
-        update.set("studierId", supplies.getStudierId().toObjectId());
+        update.set("studierId", supplies.getStudierId().toString());
         final Object supplyList = CustomObjectMapper.convertObjectClass(
                 supplies.getSupplies(),
                 Object.class

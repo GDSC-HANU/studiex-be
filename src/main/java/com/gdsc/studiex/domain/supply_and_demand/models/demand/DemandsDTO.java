@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DemandsDTO {
-    private Id studierId;
-    private List<DemandDTO> demands;
+    public Id studierId;
+    public List<DemandDTO> demands;
 
     public static class DemandDTO {
-        private Id allowedSupplyId;
-        private List<DemandItemDTO> demandItems;
-        private boolean active;
-        private DemandItemPriority priority;
-        private List<CustomDemandItem> customDemandItems;
+        public String subjectName;
+        public List<DemandItemDTO> demandItems;
+        public boolean active;
+        public DemandItemPriority priority;
+        public List<CustomDemandItem> customDemandItems;
     }
 
     public static class DemandItemDTO {

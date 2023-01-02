@@ -37,4 +37,11 @@ public class AllowedSupply extends IdentifiedVersioningAggregateRoot {
                 return item;
         return null;
     }
+
+    public static AllowedSupply findAllowedSupplyBySubjectName(List<AllowedSupply> allowedSupplies, String subjectName) {
+        for (AllowedSupply allowedSupply : allowedSupplies)
+            if (allowedSupply.getSubjectName().equals(subjectName))
+                return allowedSupply;
+        return null;
+    }
 }

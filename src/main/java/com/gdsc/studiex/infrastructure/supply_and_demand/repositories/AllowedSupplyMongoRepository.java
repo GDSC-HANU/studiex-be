@@ -30,7 +30,7 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
         allowedSupply.increaseVersion();
         final Update update = new Update();
         update.set("_id", allowedSupply.getId().toObjectId());
-        update.set("id", allowedSupply.getId().toObjectId());
+        update.set("id", allowedSupply.getId().toString());
         update.set("subjectName", allowedSupply.getSubjectName());
         final Object allowedSupplyItems = CustomObjectMapper.convertObjectClass(
                 allowedSupply.getAllowedSupplyItems(),

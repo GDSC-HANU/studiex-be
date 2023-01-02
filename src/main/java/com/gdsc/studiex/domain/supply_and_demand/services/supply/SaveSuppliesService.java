@@ -41,7 +41,7 @@ public class SaveSuppliesService {
     }
 
     private Supply buildSupply(SuppliesDTO.SupplyDTO inputSupply, List<AllowedSupply> allowedSupplies) throws InvalidInputException {
-        final AllowedSupply allowedSupply = findAllowedSupplyBySubjectName(allowedSupplies, inputSupply.subjectName);
+        final AllowedSupply allowedSupply = AllowedSupply.findAllowedSupplyBySubjectName(allowedSupplies, inputSupply.subjectName);
         if (allowedSupply == null)
             throw new InvalidInputException("There are no Allowed Supply with subject name: " + inputSupply.subjectName);
         final List<SupplyItem> supplyItems = new ArrayList<>();
@@ -61,12 +61,5 @@ public class SaveSuppliesService {
                 .allowedSupply(allowedSupply)
                 .build();
         return supply;
-    }
-
-    private AllowedSupply findAllowedSupplyBySubjectName(List<AllowedSupply> allowedSupplies, String subjectName) {
-        for (AllowedSupply allowedSupply : allowedSupplies)
-            if (allowedSupply.getSubjectName().equals(subjectName))
-                return allowedSupply;
-        return null;
     }
 }
