@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public class SuppliesMongoRepository implements SuppliesRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
+    private final String COLLECTION = "supplies";
     @Override
     public void save(Supplies supplies) {
         final Query query = Query.query(
@@ -32,7 +33,7 @@ public class SuppliesMongoRepository implements SuppliesRepository {
         mongoTemplate.upsert(
                 query,
                 update,
-                Supplies.class
+                COLLECTION
         );
     }
 }

@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-@Document(collection = "supplies")
 public class Supplies {
     private Id studierId;
     private List<Supply> supplies;

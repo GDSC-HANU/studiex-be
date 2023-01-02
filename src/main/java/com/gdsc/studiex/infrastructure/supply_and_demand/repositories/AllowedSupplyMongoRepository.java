@@ -41,7 +41,7 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
         mongoTemplate.upsert(
                 query,
                 update,
-                AllowedSupply.class
+                COLLECTION
         );
     }
 
