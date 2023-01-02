@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class SaveSuppliesController {
     @Autowired
@@ -21,7 +23,7 @@ public class SaveSuppliesController {
 
     @PostMapping("/supply")
     public ResponseEntity<?> saveSupplies(@RequestHeader(name = "access-token") String accessToken,
-                                          @RequestBody SuppliesDTO body) {
+                                          @RequestBody List<SuppliesDTO.SupplyDTO> body) {
         return ControllerHandler.handle(() -> {
             final Id studierId = authorizeStudierService.authorize(accessToken);
             saveSuppliesService.saveSupplies(studierId, body);

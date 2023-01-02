@@ -2,11 +2,11 @@ package com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.supply_and_demand.models.demand.*;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.*;
 import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,23 +38,29 @@ public class AllowedSupplyItemArrayValue implements AllowedSupplyItemValue {
     }
 
     @Override
-    public SupplyItemValue toSupplyItemValue(SupplyItemOperator supplyItemOperator, SuppliesDTO.SupplyItemValueDTO supplyItemValue) throws InvalidInputException {
+    public SupplyItemValue toSupplyItemValue(AllowedSupplyOperator allowedSupplyOperator,
+                                             SupplyItemOperator supplyItemOperator,
+                                             SuppliesDTO.SupplyItemValueDTO supplyItemValueDTO) throws InvalidInputException {
         switch (supplyItemOperator) {
             case IS:
+                if (!allowedSupplyOperator.equals(AllowedSupplyOperator.ONE_OF))
+                    throw new InvalidInputException("Invalid Supply Item Operator: " + supplyItemOperator);
                 try {
-                    final SuppliesDTO.SupplyItemExactValueDTO value = CustomObjectMapper.convertObjectClass(supplyItemValue, SuppliesDTO.SupplyItemExactValueDTO.class);
+                    final SuppliesDTO.SupplyItemExactValueDTO value = CustomObjectMapper.convertObjectClass(supplyItemValueDTO, SuppliesDTO.SupplyItemExactValueDTO.class);
                     for (AllowedSupplyItemArrayValueElement element : elements)
                         if (element.getValue().equals(value.toString()))
-                            return SupplyItemExactValue.newSupplyItemExactValue()
+                            return SupplyItemExactValue.newSupplyItemExactValueBuilder()
                                     .allowedSupplyItemArrayValueId(element.getId())
                                     .build();
                     throw new InvalidInputException("Unknown Supply Item Value: " + value);
                 } catch (Throwable e) {
-                    throw new InvalidInputException("Invalid Supply Item Value, require String: " + supplyItemValue);
+                    throw new InvalidInputException("Invalid Supply Item Value, require String: " + supplyItemValueDTO);
                 }
             case ARE:
+                if (!allowedSupplyOperator.equals(AllowedSupplyOperator.MANY_OF))
+                    throw new InvalidInputException("Invalid Supply Item Operator: " + supplyItemOperator);
                 try {
-                    final SuppliesDTO.SupplyItemArrayValueDTO values = CustomObjectMapper.convertObjectClass(supplyItemValue, SuppliesDTO.SupplyItemArrayValueDTO.class);
+                    final SuppliesDTO.SupplyItemArrayValueDTO values = CustomObjectMapper.convertObjectClass(supplyItemValueDTO, SuppliesDTO.SupplyItemArrayValueDTO.class);
                     final List<Id> ids = new ArrayList<>();
                     for (String value : values) {
                         boolean found = false;
@@ -66,15 +72,68 @@ public class AllowedSupplyItemArrayValue implements AllowedSupplyItemValue {
                         if (!found)
                             throw new InvalidInputException("Unknown Supply Item Value: " + value);
                     }
-                    return SupplyItemArrayValue.newSupplyItemArrayValue()
+                    return SupplyItemArrayValue.newSupplyItemArrayValueBuilder()
                             .allowedSupplyItemArrayValueIds(ids)
                             .build();
                 } catch (Throwable e) {
-                    throw new InvalidInputException("Invalid Supply Item Value, require List<String>: " + supplyItemValue);
+                    throw new InvalidInputException("Invalid Supply Item Value, require List<String>: " + supplyItemValueDTO);
                 }
             default:
                 throw new InvalidInputException("Invalid Supply Item Operator, require IS, ARE: " + supplyItemOperator);
         }
+    }
+
+    @Override
+    public DemandItemValue toDemandItemValue(AllowedSupplyOperator allowedSupplyOperator,
+                                             DemandItemOperator demandItemOperator,
+                                             DemandsDTO.DemandItemValueDTO demandItemValueDTO) throws InvalidInputException {
+        switch (demandItemOperator) {
+            case IS:
+                if (!allowedSupplyOperator.equals(AllowedSupplyOperator.ONE_OF))
+                    throw new InvalidInputException("Invalid Demand Item Operator: " + demandItemOperator);
+                try {
+                    final DemandsDTO.DemandItemExactValueDTO value = CustomObjectMapper.convertObjectClass(demandItemValueDTO, DemandsDTO.DemandItemExactValueDTO.class);
+                    for (AllowedSupplyItemArrayValueElement element : elements)
+                        if (element.getValue().equals(value.toString()))
+                            return DemandItemExactValue.newDemandItemExactValueBuilder()
+                                    .allowedSupplyItemArrayValueId(element.getId())
+                                    .build();
+                    throw new InvalidInputException("Unknown Demand Item Value: " + value);
+                } catch (Throwable e) {
+                    throw new InvalidInputException("Invalid Demand Item Value, require String: " + demandItemValueDTO);
+                }
+            case INCLUDES_ANY:
+                if (!allowedSupplyOperator.equals(AllowedSupplyOperator.MANY_OF))
+                    throw new InvalidInputException("Invalid Demand Item Operator: " + demandItemOperator);
+                try {
+                    final DemandsDTO.DemandItemArrayValueDTO values = CustomObjectMapper.convertObjectClass(demandItemValueDTO, DemandsDTO.DemandItemArrayValueDTO.class);
+                    final List<Id> ids = new ArrayList<>();
+                    for (String value : values) {
+                        boolean found = false;
+                        for (AllowedSupplyItemArrayValueElement element : elements)
+                            if (element.getValue().equals(value)) {
+                                ids.add(element.getId());
+                                found = true;
+                            }
+                        if (!found)
+                            throw new InvalidInputException("Unknown Demand Item Value: " + value);
+                    }
+                    return DemandItemArrayValue.newDemandItemArrayValueBuilder()
+                            .allowedSupplyItemArrayValueIds(ids)
+                            .build();
+                } catch (Throwable e) {
+                    throw new InvalidInputException("Invalid Demand Item Value, require List<String>: " + demandItemValueDTO);
+                }
+            case INCLUDES_ALL:
+                if (!allowedSupplyOperator.equals(AllowedSupplyOperator.MANY_OF))
+                    throw new InvalidInputException("Invalid Demand Item Operator: " + demandItemOperator);
+                return DemandItemArrayValue.newDemandItemArrayValueBuilder()
+                        .allowedSupplyItemArrayValueIds(elements.stream()
+                                .map(element -> element.getId())
+                                .collect(Collectors.toList()))
+                        .build();
+        }
+        throw new InvalidInputException("Invalid Demand Item Operator, require IS, INCLUDES_ANY, INCLUDES_ALL: " + demandItemOperator);
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.List;
 public class SupplyItemArrayValue implements SupplyItemValue {
     private List<Id> allowedSupplyItemArrayValueIds;
 
-    @Builder(builderMethodName = "newSupplyItemArrayValue", builderClassName = "NewSupplyItemArrayValue")
+    @Builder(builderMethodName = "newSupplyItemArrayValueBuilder", builderClassName = "NewSupplyItemArrayValueBuilder")
     public SupplyItemArrayValue(List<Id> allowedSupplyItemArrayValueIds) {
         this.allowedSupplyItemArrayValueIds = allowedSupplyItemArrayValueIds;
     }
