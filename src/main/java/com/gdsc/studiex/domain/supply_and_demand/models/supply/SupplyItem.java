@@ -26,17 +26,17 @@ public class SupplyItem {
             throw new InvalidInputException(String.format("Cannot use operator %s for the key %s", operator, key));
         this.allowedSupplyItemIndex = allowedSupply.findItemIndexByKey(key);
         this.operator = operator;
-        this.value = allowedSupplyItem.getValue().toSupplyItemValue(operator, value);
+        this.value = allowedSupplyItem.getValue().toSupplyItemValue(allowedSupplyItem.getOperator(), operator, value);
         this.description = description;
         validate();
     }
 
     private void validate() throws InvalidInputException {
         if (operator == null)
-            throw new InvalidInputException("Supply.operator must not be null");
+            throw new InvalidInputException("SupplyItem.operator must not be null");
         if (value == null)
-            throw new InvalidInputException("Supply.value must not be null");
+            throw new InvalidInputException("SupplyItem.value must not be null");
         if (description == null)
-            throw new InvalidInputException("Supply.description must not be null");
+            throw new InvalidInputException("SupplyItem.description must not be null");
     }
 }

@@ -6,7 +6,7 @@ import lombok.Builder;
 public class SupplyItemExactValue implements SupplyItemValue {
     private Id allowedSupplyItemArrayValueId;
 
-    @Builder(builderMethodName = "newSupplyItemExactValue", builderClassName = "NewSupplyItemExactValue")
+    @Builder(builderMethodName = "newSupplyItemExactValueBuilder", builderClassName = "NewSupplyItemExactValueBuilder")
     public SupplyItemExactValue(Id allowedSupplyItemArrayValueId) {
         this.allowedSupplyItemArrayValueId = allowedSupplyItemArrayValueId;
     }

@@ -1,6 +1,7 @@
 package com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
+import com.gdsc.studiex.domain.supply_and_demand.models.demand.DemandItemOperator;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemOperator;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,6 +47,19 @@ public class AllowedSupplyItem {
                 return operator.equals(AllowedSupplyOperator.MANY_OF);
             case BETWEEN:
                 return operator.equals(AllowedSupplyOperator.BETWEEN);
+        }
+        return false;
+    }
+
+    public boolean canBeUsedWith(DemandItemOperator demandItemOperator) {
+        switch (demandItemOperator) {
+            case BETWEEN:
+                return operator.equals(AllowedSupplyOperator.BETWEEN);
+            case IS:
+                return operator.equals(AllowedSupplyOperator.ONE_OF);
+            case INCLUDES_ALL:
+            case INCLUDES_ANY:
+                return operator.equals(AllowedSupplyOperator.MANY_OF);
         }
         return false;
     }

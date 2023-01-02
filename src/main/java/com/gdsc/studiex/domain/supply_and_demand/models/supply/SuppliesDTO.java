@@ -40,7 +40,6 @@ public class SuppliesDTO {
         public SupplyItemExactValueDTO(String value) throws InvalidInputException {
             super(value);
         }
-
     }
 
     public static class SupplyItemRangeValueDTO  implements SupplyItemValueDTO {
