@@ -1,6 +1,7 @@
 package com.gdsc.studiex.domain.supply_and_demand.models.demand;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
+import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
 import lombok.Builder;
@@ -8,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class DemandItem {
-    private int allowedSupplyItemIndex;
+    private Id allowedSupplyItemId;
     private DemandItemOperator operator;
     private DemandItemValue value;
     private String description;
@@ -24,7 +25,7 @@ public class DemandItem {
             throw new InvalidInputException("There are no Allowed Supply Item with key: " + key);
         if (!allowedSupplyItem.canBeUsedWith(operator))
             throw new InvalidInputException(String.format("Cannot use operator %s for the key %s", operator, key));
-        this.allowedSupplyItemIndex = allowedSupply.findItemIndexByKey(key);
+        this.allowedSupplyItemId = allowedSupplyItem.getId();
         this.operator = operator;
         this.value = allowedSupplyItem.getValue().toDemandItemValue(allowedSupplyItem.getOperator(), operator, value);
         this.description = description;

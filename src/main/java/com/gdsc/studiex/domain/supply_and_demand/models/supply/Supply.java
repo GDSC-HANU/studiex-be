@@ -20,28 +20,25 @@ public class Supply {
     private List<CustomSupplyItem> customSupplyItems;
 
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
-    public Supply(Id allowedSupplyId,
-                  List<SupplyItem> supplyItems,
+    public Supply(List<SupplyItem> supplyItems,
                   boolean active,
                   SupplyPriority priority,
                   List<CustomSupplyItem> customSupplyItems,
                   AllowedSupply allowedSupply) throws InvalidInputException {
-        this.allowedSupplyId = allowedSupplyId;
+        this.allowedSupplyId = allowedSupply.getId();
         this.supplyItems = supplyItems;
         this.active = active;
         this.priority = priority;
         this.customSupplyItems = customSupplyItems;
-        for (int i = 0; i < allowedSupply.getAllowedSupplyItems().size(); i++) {
-            final AllowedSupplyItem allowedSupplyItem = allowedSupply.getAllowedSupplyItems().get(i);
-            if (allowedSupplyItem.isRequired() && findSupplyItemByAllowedSupplyItemIndex(i) == null)
+        for (AllowedSupplyItem allowedSupplyItem : allowedSupply.getAllowedSupplyItems())
+            if (allowedSupplyItem.isRequired() && findSupplyItemByAllowedSupplyItemId(allowedSupplyItem.getId()) == null)
                 throw new InvalidInputException("Lack of Required Allowed Suppy Item of key: " + allowedSupplyItem.getKey());
-        }
         validate();
     }
 
-    private SupplyItem findSupplyItemByAllowedSupplyItemIndex(int index) {
+    private SupplyItem findSupplyItemByAllowedSupplyItemId(Id id) {
         for (SupplyItem item : supplyItems)
-            if (item.getAllowedSupplyItemIndex() == index)
+            if (item.getAllowedSupplyItemId().equals(id))
                 return item;
         return null;
     }

@@ -54,7 +54,6 @@ public class SaveSuppliesService {
                     .allowedSupply(allowedSupply)
                     .build());
         final Supply supply = Supply.fromAllowedSupplyBuilder()
-                .allowedSupplyId(allowedSupply.getId())
                 .supplyItems(supplyItems)
                 .active(inputSupply.active)
                 .priority(inputSupply.priority)

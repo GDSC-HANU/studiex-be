@@ -37,12 +37,4 @@ public class AllowedSupply extends IdentifiedVersioningAggregateRoot {
                 return item;
         return null;
     }
-
-    public int findItemIndexByKey(String key) {
-        for (int i = 0; i < allowedSupplyItems.size(); i++)
-            if (allowedSupplyItems.get(i).getKey().equals(key))
-                return i;
-        return -1;
-    }
-
 }
