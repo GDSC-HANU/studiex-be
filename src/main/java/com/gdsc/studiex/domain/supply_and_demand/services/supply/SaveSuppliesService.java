@@ -23,13 +23,13 @@ public class SaveSuppliesService {
     private final AllowedSupplyRepository allowedSupplyRepository;
     private final SuppliesQuotaRepository suppliesQuotaRepository;
 
-    public void saveSupplies(Id studierId, SuppliesDTO input) throws InvalidInputException {
+    public void saveSupplies(Id studierId, List<SuppliesDTO.SupplyDTO> input) throws InvalidInputException {
         final List<AllowedSupply> allowedSupplies = allowedSupplyRepository
-                .findBySubjectNames(input.supplies.stream()
+                .findBySubjectNames(input.stream()
                         .map(supply -> supply.subjectName)
                         .collect(Collectors.toList()));
         final List<Supply> supplyList = new ArrayList<>();
-        for (SuppliesDTO.SupplyDTO inputSupply : input.supplies)
+        for (SuppliesDTO.SupplyDTO inputSupply : input)
             supplyList.add(buildSupply(inputSupply, allowedSupplies));
         final SupplyAndDemandQuota supplyAndDemandQuota = suppliesQuotaRepository.get();
         final Supplies supplies = Supplies.newSuppliesBuilder()
