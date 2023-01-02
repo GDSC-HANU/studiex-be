@@ -4,6 +4,7 @@ import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemRangeValue;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public class SupplyItemRangeValue implements SupplyItemValue {
@@ -13,6 +14,9 @@ public class SupplyItemRangeValue implements SupplyItemValue {
     public SupplyItemRangeValue(double minValue, double maxValue) {
         this.minValue = minValue;
         this.maxValue = maxValue;
+    }
+
+    private SupplyItemRangeValue() {
     }
 
     public void validate(AllowedSupplyItemRangeValue allowedSupplyItemRangeValue) throws InvalidInputException {

@@ -26,6 +26,9 @@ public class Supplies {
         validate();
     }
 
+    private Supplies() {
+    }
+
     private int countActiveSupplies() {
         int result = 0;
         for (Supply supply : supplies)

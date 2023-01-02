@@ -1,12 +1,15 @@
 package com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
+import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemOperator;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public class AllowedSupplyItem {
+    private Id id;
     private String key;
     private AllowedSupplyOperator operator;
     private AllowedSupplyItemValue value;
@@ -15,12 +18,17 @@ public class AllowedSupplyItem {
 
     @Builder(builderMethodName = "newAllowedSupplyItemBuilder", builderClassName = "NewAllowedSupplyItemBuilder")
     public AllowedSupplyItem(String key, AllowedSupplyOperator operator, AllowedSupplyItemValue value, String description, boolean required) throws InvalidInputException {
+        this.id = Id.generateRandom();
         this.key = key;
         this.operator = operator;
         this.value = value;
         this.description = description;
         this.required = required;
         validate();
+    }
+
+    private AllowedSupplyItem() {
+
     }
 
     private void validate() throws InvalidInputException {

@@ -13,4 +13,7 @@ public class CustomSupplyItem {
         this.value = value;
         this.description = description;
     }
+
+    private CustomSupplyItem() {
+    }
 }

@@ -31,17 +31,19 @@ public class Supply {
         this.active = active;
         this.priority = priority;
         this.customSupplyItems = customSupplyItems;
-        for (int i = 0; i < allowedSupply.getAllowedSupplyItems().size(); i++) {
-            final AllowedSupplyItem allowedSupplyItem = allowedSupply.getAllowedSupplyItems().get(i);
-            if (allowedSupplyItem.isRequired() && findSupplyItemByAllowedSupplyItemIndex(i) == null)
+        for (AllowedSupplyItem allowedSupplyItem : allowedSupply.getAllowedSupplyItems()) {
+            if (allowedSupplyItem.isRequired() && findSupplyItemByAllowedSupplyItemId(allowedSupplyItem.getId()) == null)
                 throw new InvalidInputException("Lack of Required Allowed Suppy Item of key: " + allowedSupplyItem.getKey());
         }
         validate();
     }
 
-    private SupplyItem findSupplyItemByAllowedSupplyItemIndex(int index) {
+    private Supply() {
+    }
+
+    private SupplyItem findSupplyItemByAllowedSupplyItemId(Id allowedSupplyItemId) {
         for (SupplyItem item : supplyItems)
-            if (item.getAllowedSupplyItemIndex() == index)
+            if (item.getAllowedSupplyItemId() == allowedSupplyItemId)
                 return item;
         return null;
     }

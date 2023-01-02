@@ -24,6 +24,10 @@ public class AllowedSupply extends IdentifiedVersioningAggregateRoot {
         validate();
     }
 
+    private AllowedSupply() {
+        super();
+    }
+
     private void validate() throws InvalidInputException {
         if (subjectName == null)
             throw new InvalidInputException("AllowedSupplyItem.subjectName must not be null");
@@ -38,11 +42,17 @@ public class AllowedSupply extends IdentifiedVersioningAggregateRoot {
         return null;
     }
 
-    public int findItemIndexByKey(String key) {
-        for (int i = 0; i < allowedSupplyItems.size(); i++)
-            if (allowedSupplyItems.get(i).getKey().equals(key))
-                return i;
-        return -1;
+    public Id findItemIdByKey(String key) {
+        for(AllowedSupplyItem item : allowedSupplyItems)
+            if(item.getKey().equals(key))
+                return item.getId();
+        return null;
     }
 
+    public AllowedSupplyItem findItemById(Id allowedSupplyItemId) {
+        for(AllowedSupplyItem item : allowedSupplyItems)
+            if(item.getId().equals(allowedSupplyItemId))
+                return item;
+        return null;
+    }
 }

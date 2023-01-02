@@ -1,5 +1,6 @@
 package com.gdsc.studiex.infrastructure.supply_and_demand.repositories;
 
+import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.Supplies;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.SuppliesRepository;
 import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Repository;
 public class SuppliesMongoRepository implements SuppliesRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    private final String COLLECTION = "supplies";
     @Override
     public void save(Supplies supplies) {
         final Query query = Query.query(
@@ -34,5 +37,14 @@ public class SuppliesMongoRepository implements SuppliesRepository {
                 update,
                 Supplies.class
         );
+    }
+
+    public Supplies findByStudierId(Id studierId) {
+        final Query query = new Query(
+                Criteria.where("studierId")
+                        .is(studierId.toObjectId())
+        );
+        final String supplies = mongoTemplate.findOne(query, String.class, COLLECTION);
+        return CustomObjectMapper.deserialize(supplies, Supplies.class);
     }
 }

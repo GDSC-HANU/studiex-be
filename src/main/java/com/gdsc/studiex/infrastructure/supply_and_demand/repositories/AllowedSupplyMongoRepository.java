@@ -1,5 +1,6 @@
 package com.gdsc.studiex.infrastructure.supply_and_demand.repositories;
 
+import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.AllowedSupplyRepository;
 import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
@@ -63,6 +64,20 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
         final Query query = new Query();
         query.skip(perPage * (page - 1));
         query.limit(perPage);
+        final List<String> result = mongoTemplate.find(query, String.class, COLLECTION);
+        return result.stream()
+                .map(str -> CustomObjectMapper.deserialize(str, AllowedSupply.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AllowedSupply> findByIds(List<Id> allowedSupplyIds) {
+        final Query query = new Query(
+                Criteria.where("_id")
+                        .in(allowedSupplyIds.stream()
+                                .map(Id::toObjectId)
+                                .collect(Collectors.toList()))
+        );
         final List<String> result = mongoTemplate.find(query, String.class, COLLECTION);
         return result.stream()
                 .map(str -> CustomObjectMapper.deserialize(str, AllowedSupply.class))

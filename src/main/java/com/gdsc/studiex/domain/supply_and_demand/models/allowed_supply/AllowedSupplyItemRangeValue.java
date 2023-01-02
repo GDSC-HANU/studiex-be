@@ -25,6 +25,10 @@ public class AllowedSupplyItemRangeValue implements AllowedSupplyItemValue {
         this.difference = difference;
     }
 
+    private AllowedSupplyItemRangeValue() {
+
+    }
+
     @Override
     public SupplyItemValue toSupplyItemValue(SupplyItemOperator supplyItemOperator, SuppliesDTO.SupplyItemValueDTO supplyItemValue) throws InvalidInputException {
         if (!supplyItemOperator.equals(SupplyItemOperator.BETWEEN)) {
