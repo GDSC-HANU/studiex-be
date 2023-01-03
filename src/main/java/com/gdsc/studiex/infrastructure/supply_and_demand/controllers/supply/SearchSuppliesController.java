@@ -17,10 +17,9 @@ public class SearchSuppliesController {
     private final AuthorizeStudierService authorizeStudierService;
 
     @GetMapping("/supplies")
-    public ResponseEntity<?> getSupplies() {
+    public ResponseEntity<?> getSupplies(@RequestHeader("access-token") String accessToken) {
         return ControllerHandler.handle(() -> {
-//            final Id studierId = authorizeStudierService.authorize(accessToken);
-            final Id studierId = new Id("63adbb676d4e597849cc2088");
+            final Id studierId = authorizeStudierService.authorize(accessToken);
             return new ControllerHandler.Result(
                     "success",
                     searchSuppliesService.getSupplies(studierId)

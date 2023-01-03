@@ -32,12 +32,16 @@ public class SearchSuppliesService {
     }
 
     private SuppliesDTO buildSuppliesDTO(Id studierId, Supplies supplies, List<AllowedSupply> allowedSupplies) {
-        Map<Id, AllowedSupply> allowedSupplyMap = allowedSupplies.stream()
-                .collect(Collectors.toMap(AllowedSupply::getId, allowedSupply -> allowedSupply));
+        Map<String, AllowedSupply> allowedSupplyMap = allowedSupplies.stream()
+                .collect(Collectors.toMap(allowedSupply -> allowedSupply.getId().toString(), allowedSupply -> allowedSupply));
         Map<Supply, AllowedSupply> supplyMap = supplies.getSupplies().stream()
                         .collect(Collectors.toMap(
                                 supply -> supply,
-                                supply -> allowedSupplyMap.get(supply.getAllowedSupplyId())
+                                supply -> {
+                                    Id allowedSupplyId = supply.getAllowedSupplyId();
+                                    AllowedSupply allowedSupply = allowedSupplyMap.get(allowedSupplyId.toString());
+                                    return allowedSupply;
+                                }
                         ));
         List<SuppliesDTO.SupplyDTO> supplyDTOs = new LinkedList<>();
         for(Map.Entry<Supply, AllowedSupply> entry : supplyMap.entrySet()) {
@@ -70,7 +74,7 @@ public class SearchSuppliesService {
     private SuppliesDTO.SupplyItemDTO buildSupplyItemDTO(SupplyItem supplyItem, AllowedSupplyItem allowedSupplyItem) {
         return SuppliesDTO.SupplyItemDTO.builder()
                 .key(allowedSupplyItem.getKey())
-                .value(SuppliesDTO.SupplyItemDTO.buildSupplyItemValueDTO(supplyItem.getOperator(), supplyItem.getValue(), allowedSupplyItem.getValue()))
+                .value(supplyItem.getValue().buildSupplyItemValueDTO(allowedSupplyItem.getValue()))
                 .operator(supplyItem.getOperator())
                 .description(supplyItem.getDescription())
                 .build();

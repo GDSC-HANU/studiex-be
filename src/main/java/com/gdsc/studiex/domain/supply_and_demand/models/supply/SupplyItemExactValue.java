@@ -1,9 +1,12 @@
 package com.gdsc.studiex.domain.supply_and_demand.models.supply;
 
 import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemArrayValue;
+import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemArrayValueElement;
+import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValue;
+import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class SupplyItemExactValue implements SupplyItemValue {
@@ -15,6 +18,18 @@ public class SupplyItemExactValue implements SupplyItemValue {
     }
 
     private SupplyItemExactValue() {
+    }
 
+    @Override
+    public SuppliesDTO.SupplyItemValueDTO buildSupplyItemValueDTO(AllowedSupplyItemValue allowedSupplyItemValue) {
+        final AllowedSupplyItemArrayValue allowedSupplyItemArrayValue = CustomObjectMapper.convertObjectClass(allowedSupplyItemValue, AllowedSupplyItemArrayValue.class);
+        for (AllowedSupplyItemArrayValueElement element : allowedSupplyItemArrayValue.getElements()) {
+            if (allowedSupplyItemArrayValueId.equals(element.getId())) {
+                return SuppliesDTO.SupplyItemExactValueDTO.newSupplyItemExactValueDTO()
+                        .value(element.getValue())
+                        .build();
+            }
+        }
+        return null;
     }
 }
