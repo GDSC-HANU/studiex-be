@@ -36,7 +36,7 @@ public class SupplyItemRangeValue implements SupplyItemValue {
 
     @Override
     public SuppliesDTO.SupplyItemValueDTO buildSupplyItemValueDTO(AllowedSupplyItemValue allowedSupplyItemValue) {
-        return SuppliesDTO.SupplyItemRangeValueDTO.newSupplyItemRangeValueDTO()
+        return SuppliesDTO.SupplyItemRangeValueDTO.builder()
                 .minValue(minValue)
                 .maxValue(maxValue)
                 .build();

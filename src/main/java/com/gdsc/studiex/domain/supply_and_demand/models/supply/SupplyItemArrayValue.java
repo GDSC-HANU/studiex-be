@@ -7,7 +7,6 @@ import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSu
 import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
@@ -33,10 +32,8 @@ public class SupplyItemArrayValue implements SupplyItemValue {
                 .collect(Collectors.toMap(
                         AllowedSupplyItemArrayValueElement::getId,
                         AllowedSupplyItemArrayValueElement::getValue));
-        return SuppliesDTO.SupplyItemArrayValueDTO.newSupplyItemArrayValueDTO()
-                .value(allowedSupplyItemArrayValueIds.stream()
-                        .map(allowedSupplyItemValueElementMap::get)
-                        .collect(Collectors.toList()))
-                .build();
+        return new SuppliesDTO.SupplyItemArrayValueDTO(allowedSupplyItemArrayValueIds.stream()
+                .map(allowedSupplyItemValueElementMap::get)
+                .collect(Collectors.toList()));
     }
 }

@@ -2,6 +2,7 @@ package com.gdsc.studiex.domain.supply_and_demand.models.demand;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemRangeValue;
+import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValue;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -26,5 +27,13 @@ public class DemandItemRangeValue implements DemandItemValue {
         if ((allowedSupplyItemRangeValue.getMaxValue() - getMaxValue()) % allowedSupplyItemRangeValue.getDifference() != 0)
             throw new InvalidInputException("Invalid Demand Item Value Max Value, require different to be power of "
                     + allowedSupplyItemRangeValue.getDifference() + ": " + getMaxValue());
+    }
+
+    @Override
+    public DemandsDTO.DemandItemValueDTO buildeDemandItemValueDto(AllowedSupplyItemValue allowedSupplyItemValue) {
+        return DemandsDTO.DemandItemRangeValueDTO.builder()
+                .minValue(minValue)
+                .maxValue(maxValue)
+                .build();
     }
 }

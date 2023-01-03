@@ -4,10 +4,13 @@ import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply_and_demand_quota.SupplyAndDemandQuota;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+@Getter
 public class Demands {
     private Id studierId;
     private List<Demand> demands;
@@ -34,5 +37,9 @@ public class Demands {
             if (demand.isActive())
                 result++;
         return result;
+    }
+
+    public List<Demand> getDemands() {
+        return Collections.unmodifiableList(demands);
     }
 }

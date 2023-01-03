@@ -1,9 +1,9 @@
-package com.gdsc.studiex.infrastructure.supply_and_demand.controllers.supply;
+package com.gdsc.studiex.infrastructure.supply_and_demand.controllers.demand;
 
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.studier_auth.services.AuthorizeStudierService;
-import com.gdsc.studiex.domain.supply_and_demand.models.supply.SuppliesDTO;
-import com.gdsc.studiex.domain.supply_and_demand.services.supply.SaveSuppliesService;
+import com.gdsc.studiex.domain.supply_and_demand.models.demand.DemandsDTO;
+import com.gdsc.studiex.domain.supply_and_demand.services.demand.SaveDemandsService;
 import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class SaveSuppliesController {
+public class SaveDemandsController {
     @Autowired
-    private SaveSuppliesService saveSuppliesService;
+    private SaveDemandsService saveDemandsService;
     @Autowired
     private AuthorizeStudierService authorizeStudierService;
 
-    @PostMapping("/supply")
+    @PostMapping("/demand")
     public ResponseEntity<?> saveSupplies(@RequestHeader(name = "access-token") String accessToken,
-                                          @RequestBody List<SuppliesDTO.SupplyDTO> body) {
+                                          @RequestBody List<DemandsDTO.DemandDTO> body) {
         return ControllerHandler.handle(() -> {
             final Id studierId = authorizeStudierService.authorize(accessToken);
-            saveSuppliesService.saveSupplies(studierId, body);
+            saveDemandsService.saveDemands(studierId, body);
             return new ControllerHandler.Result(
                     "Success",
                     null

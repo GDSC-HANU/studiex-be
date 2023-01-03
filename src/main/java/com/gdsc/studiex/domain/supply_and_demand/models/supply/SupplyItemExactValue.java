@@ -23,13 +23,9 @@ public class SupplyItemExactValue implements SupplyItemValue {
     @Override
     public SuppliesDTO.SupplyItemValueDTO buildSupplyItemValueDTO(AllowedSupplyItemValue allowedSupplyItemValue) {
         final AllowedSupplyItemArrayValue allowedSupplyItemArrayValue = CustomObjectMapper.convertObjectClass(allowedSupplyItemValue, AllowedSupplyItemArrayValue.class);
-        for (AllowedSupplyItemArrayValueElement element : allowedSupplyItemArrayValue.getElements()) {
-            if (allowedSupplyItemArrayValueId.equals(element.getId())) {
-                return SuppliesDTO.SupplyItemExactValueDTO.newSupplyItemExactValueDTO()
-                        .value(element.getValue())
-                        .build();
-            }
-        }
+        for (AllowedSupplyItemArrayValueElement element : allowedSupplyItemArrayValue.getElements())
+            if (allowedSupplyItemArrayValueId.equals(element.getId()))
+                return new SuppliesDTO.SupplyItemExactValueDTO(element.getValue());
         return null;
     }
 }

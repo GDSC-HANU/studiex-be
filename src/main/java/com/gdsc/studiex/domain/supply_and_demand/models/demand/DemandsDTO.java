@@ -3,14 +3,18 @@ package com.gdsc.studiex.domain.supply_and_demand.models.demand;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.share.models.StringValueObject;
+import lombok.Builder;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+@Builder
 public class DemandsDTO {
     public Id studierId;
     public List<DemandDTO> demands;
 
+    @Builder
     public static class DemandDTO {
         public String subjectName;
         public List<DemandItemDTO> demandItems;
@@ -19,6 +23,7 @@ public class DemandsDTO {
         public List<CustomDemandItem> customDemandItems;
     }
 
+    @Builder
     public static class DemandItemDTO {
         public String key;
         public DemandItemOperator operator;
@@ -30,6 +35,9 @@ public class DemandsDTO {
     }
 
     public static class DemandItemArrayValueDTO extends ArrayList<String> implements DemandItemValueDTO {
+        public DemandItemArrayValueDTO(Collection<? extends String> c) {
+            super(c);
+        }
     }
 
     public static class DemandItemExactValueDTO extends StringValueObject implements DemandItemValueDTO {
@@ -38,6 +46,7 @@ public class DemandsDTO {
         }
     }
 
+    @Builder
     public static class DemandItemRangeValueDTO implements DemandItemValueDTO {
         public double minValue;
         public double maxValue;

@@ -13,6 +13,8 @@ public class SuppliesDTO {
     public Id studierId;
     public List<SupplyDTO> supplies;
 
+
+
     @Builder
     public static class SupplyDTO {
         public String subjectName;
@@ -34,27 +36,20 @@ public class SuppliesDTO {
     }
 
     public static class SupplyItemArrayValueDTO extends ArrayList<String> implements SupplyItemValueDTO {
-        @Builder(builderMethodName = "newSupplyItemArrayValueDTO", builderClassName = "NewSupplyItemArrayValueDTO")
         public SupplyItemArrayValueDTO(List<String> value) {
             super(value);
         }
     }
 
     public static class SupplyItemExactValueDTO extends StringValueObject implements SupplyItemValueDTO {
-        @Builder(builderMethodName = "newSupplyItemExactValueDTO", builderClassName = "NewSupplyItemExactValueDTO")
         public SupplyItemExactValueDTO(String value) throws InvalidInputException {
             super(value);
         }
     }
 
+    @Builder
     public static class SupplyItemRangeValueDTO  implements SupplyItemValueDTO {
         public double minValue;
         public double maxValue;
-
-        @Builder(builderMethodName = "newSupplyItemRangeValueDTO", builderClassName = "NewSupplyItemRangeValueDTO")
-        public SupplyItemRangeValueDTO(double minValue, double maxValue) {
-            this.minValue = minValue;
-            this.maxValue = maxValue;
-        }
     }
 }
