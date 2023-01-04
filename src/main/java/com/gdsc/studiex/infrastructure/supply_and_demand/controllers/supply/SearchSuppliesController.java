@@ -17,7 +17,7 @@ import java.util.List;
 public class SearchSuppliesController {
     private final SearchSuppliesService searchSuppliesService;
 
-    @GetMapping("/supplies")
+    @GetMapping("/supply")
     public ResponseEntity<?> getSupplies(@RequestParam("studierId") String studierId) {
         return ControllerHandler.handle(() -> {
             final List<SuppliesDTO.SupplyDTO> supplyDTOS = searchSuppliesService.getSupplies(new Id(studierId)).supplies;

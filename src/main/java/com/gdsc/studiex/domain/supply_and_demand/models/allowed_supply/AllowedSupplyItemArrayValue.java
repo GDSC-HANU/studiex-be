@@ -9,7 +9,9 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -20,7 +22,19 @@ public class AllowedSupplyItemArrayValue implements AllowedSupplyItemValue {
     public AllowedSupplyItemArrayValue(List<AllowedSupplyItemArrayValueElement> elements) {
         if (elements == null)
             elements = new ArrayList<>();
+        if (containsDuplicated(elements))
+            throw new InvalidInputException("AllowedSupplyItemArrayValue.elements must not be duplicated");
         this.elements = elements;
+    }
+
+    private boolean containsDuplicated(List<AllowedSupplyItemArrayValueElement> elements) {
+        final Set<String> existed = new HashSet<>();
+        for (AllowedSupplyItemArrayValueElement element : elements) {
+            if (existed.contains(element.getValue()))
+                return true;
+            existed.add(element.getValue());
+        }
+        return false;
     }
 
     private AllowedSupplyItemArrayValue() {

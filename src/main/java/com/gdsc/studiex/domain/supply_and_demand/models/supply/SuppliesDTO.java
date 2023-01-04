@@ -3,7 +3,9 @@ package com.gdsc.studiex.domain.supply_and_demand.models.supply;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.share.models.StringValueObject;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,9 @@ public class SuppliesDTO {
     public static class SupplyItemArrayValueDTO extends ArrayList<String> implements SupplyItemValueDTO {
         public SupplyItemArrayValueDTO(List<String> value) {
             super(value);
+        }
+
+        public SupplyItemArrayValueDTO() {
         }
     }
 

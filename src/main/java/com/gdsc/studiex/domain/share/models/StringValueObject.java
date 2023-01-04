@@ -1,15 +1,11 @@
 package com.gdsc.studiex.domain.share.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 
 import java.util.Objects;
 
 public class StringValueObject {
-    @JsonProperty("value")
     protected String value;
-
-    public StringValueObject() {}
 
     public StringValueObject(String value) throws InvalidInputException {
         this.value = value;
@@ -37,7 +33,7 @@ public class StringValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StringValueObject that = (StringValueObject) o;
-        return value == that.value;
+        return value.equals(that.value);
     }
 
     @Override

@@ -7,11 +7,6 @@ import org.bson.types.ObjectId;
 import java.util.Objects;
 
 public class Id extends StringValueObject {
-
-    public Id() {
-        super();
-    }
-
     public Id(String value) throws InvalidInputException {
         super(value);
     }
@@ -31,7 +26,18 @@ public class Id extends StringValueObject {
         return new ObjectId(value);
     }
 
-    public boolean equals(Id other) {
-        return Objects.equals(this.value, other.value);
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

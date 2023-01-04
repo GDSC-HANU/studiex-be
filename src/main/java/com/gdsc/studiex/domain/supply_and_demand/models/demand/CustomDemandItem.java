@@ -7,6 +7,8 @@ public class CustomDemandItem {
     private String value;
     private String description;
 
+    private CustomDemandItem() {}
+
     @Builder(builderMethodName = "newCustomDemandItemBuilder", builderClassName = "NewCustomDemandItemBuilder")
     public CustomDemandItem(String key, String value, String description) {
         this.key = key;

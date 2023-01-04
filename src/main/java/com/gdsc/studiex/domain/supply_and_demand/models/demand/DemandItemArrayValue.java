@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 public class DemandItemArrayValue implements DemandItemValue {
     private List<Id> allowedSupplyItemArrayValueIds;
 
+    private DemandItemArrayValue() {}
+
     @Builder(builderMethodName = "newDemandItemArrayValueBuilder", builderClassName = "NewDemandItemArrayValueBuilder")
     public DemandItemArrayValue(List<Id> allowedSupplyItemArrayValueIds) {
         this.allowedSupplyItemArrayValueIds = allowedSupplyItemArrayValueIds;

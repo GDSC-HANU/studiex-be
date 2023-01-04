@@ -10,6 +10,8 @@ import lombok.Builder;
 public class DemandItemExactValue implements DemandItemValue {
     private Id allowedSupplyItemArrayValueId;
 
+    private DemandItemExactValue() {}
+
     @Builder(builderMethodName = "newDemandItemExactValueBuilder", builderClassName = "newDemandItemExactValueBuilder")
     public DemandItemExactValue(Id allowedSupplyItemArrayValueId) {
         this.allowedSupplyItemArrayValueId = allowedSupplyItemArrayValueId;

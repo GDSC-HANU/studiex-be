@@ -15,6 +15,8 @@ public class Demands {
     private Id studierId;
     private List<Demand> demands;
 
+    private Demands() {}
+
     @Builder(builderMethodName = "newDemandsBuilder", builderClassName = "NewDemandsBuilder")
     public Demands(Id studierId, List<Demand> demands, SupplyAndDemandQuota supplyAndDemandQuota) {
         this.studierId = studierId;

@@ -16,6 +16,8 @@ public class DemandItemRangeValue implements DemandItemValue {
         this.maxValue = maxValue;
     }
 
+    private DemandItemRangeValue() {}
+
     public void validate(AllowedSupplyItemRangeValue allowedSupplyItemRangeValue) throws InvalidInputException {
         if (getMinValue() < allowedSupplyItemRangeValue.getMinValue())
             throw new InvalidInputException("Invalid Demand Item Value Min Value, require smaller than " + minValue + ": " + getMinValue());

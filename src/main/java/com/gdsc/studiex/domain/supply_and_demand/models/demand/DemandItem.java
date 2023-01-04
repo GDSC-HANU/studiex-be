@@ -14,6 +14,8 @@ public class DemandItem {
     private DemandItemValue value;
     private String description;
 
+    private DemandItem() {}
+
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public DemandItem(String key,
                       DemandItemOperator operator,

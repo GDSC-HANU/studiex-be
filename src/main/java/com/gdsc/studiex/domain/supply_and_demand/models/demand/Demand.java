@@ -18,6 +18,8 @@ public class Demand {
     private DemandItemPriority priority;
     private List<CustomDemandItem> customDemandItems;
 
+    private Demand() {}
+
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public Demand(List<DemandItem> demandItems,
                   boolean active,

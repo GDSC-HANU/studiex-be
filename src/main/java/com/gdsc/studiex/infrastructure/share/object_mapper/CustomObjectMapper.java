@@ -15,12 +15,11 @@ import com.gdsc.studiex.domain.share.models.LongValueObject;
 import com.gdsc.studiex.domain.share.models.StringValueObject;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyDTO;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValue;
+import com.gdsc.studiex.domain.supply_and_demand.models.demand.DemandItemValue;
+import com.gdsc.studiex.domain.supply_and_demand.models.demand.DemandsDTO;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SuppliesDTO;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemValue;
-import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.AllowedSupplyItemValueDTOObjectMapper;
-import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.AllowedSupplyItemValueObjectMapper;
-import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.SupplyItemValueDTOObjectMapper;
-import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.SupplyItemValueObjectMapper;
+import com.gdsc.studiex.infrastructure.supply_and_demand.object_mapper.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -50,6 +49,8 @@ public class CustomObjectMapper {
         addDeserializer(SupplyItemValue.class, new SupplyItemValueObjectMapper.Deserializer());
         addDeserializer(SuppliesDTO.SupplyItemValueDTO.class, new SupplyItemValueDTOObjectMapper.Deserializer());
 
+        addDeserializer(DemandItemValue.class, new DemandItemValueObjectMapper.Deserializer());
+        addDeserializer(DemandsDTO.DemandItemValueDTO.class, new DemandItemValueDTOObjectMapper.Deserializer());
     }
 
     private static void reset() {
