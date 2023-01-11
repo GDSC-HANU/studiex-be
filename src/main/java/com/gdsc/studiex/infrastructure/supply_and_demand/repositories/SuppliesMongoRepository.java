@@ -45,6 +45,8 @@ public class SuppliesMongoRepository implements SuppliesRepository {
                         .is(studierId.toString())
         );
         final String supplies = mongoTemplate.findOne(query, String.class, COLLECTION);
+        if (supplies == null)
+            return Supplies.emptySupplies(studierId);
         return CustomObjectMapper.deserialize(supplies, Supplies.class);
     }
 }

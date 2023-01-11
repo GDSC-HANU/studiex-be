@@ -5,7 +5,6 @@ import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply_and_demand_quota.SupplyAndDemandQuota;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +22,13 @@ public class Supplies {
         if (countActiveSupplies() > supplyAndDemandQuota.getMaxActiveSupply())
             throw new InvalidInputException("Active Supplies exceed max active quota: " + supplyAndDemandQuota.getMaxActiveSupply());
         validate();
+    }
+
+    public static Supplies emptySupplies(Id studierId) {
+        final Supplies supplies = new Supplies();
+        supplies.studierId = studierId;
+        supplies.supplies = new ArrayList<>();
+        return supplies;
     }
 
     private Supplies() {
