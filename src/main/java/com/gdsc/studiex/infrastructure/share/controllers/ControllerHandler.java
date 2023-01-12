@@ -3,6 +3,7 @@ package com.gdsc.studiex.infrastructure.share.controllers;
 import com.gdsc.studiex.domain.share.exceptions.BusinessLogicException;
 import com.gdsc.studiex.domain.share.exceptions.RuntimeBusinessLogicException;
 import com.gdsc.studiex.domain.share.exceptions.UnauthorizedException;
+import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -28,9 +29,11 @@ public class ControllerHandler {
 
     public static ResponseEntity<?> handle(Runnable runner) {
         try {
-            Result result = runner.run();
+            final Result result = runner.run();
+            final ResponseBody responseBody = new ResponseBody(result.message, result.data);
+            final Object body = CustomObjectMapper.convertObjectClass(responseBody, Object.class);
             return new ResponseEntity<>(
-                    new ResponseBody(result.message, result.data),
+                    body,
                     HttpStatus.OK
             );
         } catch (Throwable e) {
