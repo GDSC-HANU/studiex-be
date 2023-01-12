@@ -79,6 +79,7 @@ public class SearchDemandsService {
                 .value(demandItem.getValue().buildeDemandItemValueDto(allowedSupplyItem.getValue()))
                 .operator(demandItem.getOperator())
                 .description(demandItem.getDescription())
+                .required(demandItem.isRequired())
                 .build();
     }
 }

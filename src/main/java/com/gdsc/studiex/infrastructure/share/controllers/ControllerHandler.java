@@ -23,7 +23,7 @@ public class ControllerHandler {
 
     @FunctionalInterface
     public static interface Runnable {
-        public Result run() throws BusinessLogicException;
+        public Result run() throws Throwable;
     }
 
     public static ResponseEntity<?> handle(Runnable runner) {

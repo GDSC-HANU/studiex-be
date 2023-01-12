@@ -5,6 +5,7 @@ import com.gdsc.studiex.domain.studier_auth.services.AuthorizeStudierService;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SuppliesDTO;
 import com.gdsc.studiex.domain.supply_and_demand.services.supply.SaveSuppliesService;
 import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;
+import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +24,13 @@ public class SaveSuppliesController {
 
     @PostMapping("/supply")
     public ResponseEntity<?> saveSupplies(@RequestHeader(name = "access-token") String accessToken,
-                                          @RequestBody List<SuppliesDTO.SupplyDTO> body) {
+                                          @RequestBody String json) {
         return ControllerHandler.handle(() -> {
+            final List<SuppliesDTO.SupplyDTO> body = CustomObjectMapper.instance().readValue(
+                    json,
+                    new com.fasterxml.jackson.core.type.TypeReference<List<SuppliesDTO.SupplyDTO>>() {
+                    }
+            );
             final Id studierId = authorizeStudierService.authorize(accessToken);
             saveSuppliesService.saveSupplies(studierId, body);
             return new ControllerHandler.Result(

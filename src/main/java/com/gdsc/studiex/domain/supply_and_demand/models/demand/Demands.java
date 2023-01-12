@@ -44,4 +44,12 @@ public class Demands {
     public List<Demand> getDemands() {
         return Collections.unmodifiableList(demands);
     }
+
+    public List<Demand> getDemandsSortedByPriority() {
+        final List<Demand> result = new ArrayList<>(demands);
+        result.sort((first, second) -> {
+            return DemandItemPriority.compare(first.getPriority(), second.getPriority());
+        });
+        return result;
+    }
 }

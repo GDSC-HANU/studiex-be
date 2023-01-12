@@ -54,6 +54,7 @@ public class SaveDemandsService {
                     .value(inputDemandItem.value)
                     .description(inputDemandItem.description)
                     .allowedSupply(allowedSupply)
+                    .required(inputDemandItem.required)
                     .build());
         final Demand demand = Demand.fromAllowedSupplyBuilder()
                 .demandItems(demandItems)

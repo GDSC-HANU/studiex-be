@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class SuppliesMongoRepository implements SuppliesRepository {
     @Autowired
@@ -48,5 +50,10 @@ public class SuppliesMongoRepository implements SuppliesRepository {
         if (supplies == null)
             return Supplies.emptySupplies(studierId);
         return CustomObjectMapper.deserialize(supplies, Supplies.class);
+    }
+
+    @Override
+    public List<Supplies> findSuppliesContains(Id allowedSupplyId) {
+        return null;
     }
 }

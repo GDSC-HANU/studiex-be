@@ -31,6 +31,7 @@ public class DemandsDTO {
         public DemandItemOperator operator;
         public DemandItemValueDTO value;
         public String description;
+        public boolean required;
     }
 
     public static interface DemandItemValueDTO {

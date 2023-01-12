@@ -13,6 +13,7 @@ public class DemandItem {
     private DemandItemOperator operator;
     private DemandItemValue value;
     private String description;
+    private boolean required;
 
     private DemandItem() {}
 
@@ -21,7 +22,8 @@ public class DemandItem {
                       DemandItemOperator operator,
                       DemandsDTO.DemandItemValueDTO value,
                       String description,
-                      AllowedSupply allowedSupply) throws InvalidInputException {
+                      AllowedSupply allowedSupply,
+                      boolean required) throws InvalidInputException {
         final AllowedSupplyItem allowedSupplyItem = allowedSupply.findItemByKey(key);
         if (allowedSupplyItem == null)
             throw new InvalidInputException("There are no Allowed Supply Item with key: " + key);
@@ -31,6 +33,7 @@ public class DemandItem {
         this.operator = operator;
         this.value = allowedSupplyItem.getValue().toDemandItemValue(allowedSupplyItem.getOperator(), operator, value);
         this.description = description;
+        this.required = required;
         validate();
     }
 

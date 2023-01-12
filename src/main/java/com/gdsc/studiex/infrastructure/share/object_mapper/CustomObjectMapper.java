@@ -25,11 +25,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CustomObjectMapper {
-    @Bean
-    public ObjectMapper objectMapper() {
-        return instance();
-    }
-
     private static ObjectMapper instance = new ObjectMapper();
     private static final SimpleModule module = new SimpleModule();
 
@@ -101,5 +96,10 @@ public class CustomObjectMapper {
 
     public static <T> T convertObjectClass(Object baseObject, Class<T> destinationClass) {
         return (T) deserialize(serialize(baseObject), destinationClass);
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return instance();
     }
 }

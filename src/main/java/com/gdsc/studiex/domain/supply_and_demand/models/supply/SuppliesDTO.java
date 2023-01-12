@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SuppliesDTO {
     public Id studierId;
     public List<SupplyDTO> supplies;
@@ -18,6 +20,8 @@ public class SuppliesDTO {
 
 
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class SupplyDTO {
         public String subjectName;
         public List<SupplyItemDTO> supplyItems;
@@ -27,6 +31,8 @@ public class SuppliesDTO {
     }
 
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class SupplyItemDTO {
         public String key;
         public SupplyItemOperator operator;
@@ -53,6 +59,8 @@ public class SuppliesDTO {
     }
 
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class SupplyItemRangeValueDTO  implements SupplyItemValueDTO {
         public double minValue;
         public double maxValue;
