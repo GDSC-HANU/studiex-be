@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 public class SystemController {
     @PostMapping("/system/update")
     public void updateSystem() throws IOException, InterruptedException {
-        run("git config --global credential.helper store", true);
         run("git pull", true);
         org.springframework.boot.devtools.restart.Restarter.getInstance().restart();
     }
