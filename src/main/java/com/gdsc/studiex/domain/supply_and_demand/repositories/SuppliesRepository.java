@@ -10,5 +10,5 @@ public interface SuppliesRepository {
 
     public Supplies findByStudierId(Id studierId);
 
-    public List<Supplies> findSuppliesContains(Id allowedSupplyId);
+    public List<Supplies> findSuppliesContains(List<Id> allowedSupplyIds, List<Id> studierIds);
 }

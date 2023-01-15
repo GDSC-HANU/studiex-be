@@ -3,12 +3,9 @@ package com.gdsc.studiex.domain.supply_and_demand.models.demand;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.share.models.StringValueObject;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Builder
@@ -21,7 +18,7 @@ public class DemandsDTO {
         public String subjectName;
         public List<DemandItemDTO> demandItems;
         public boolean active;
-        public DemandItemPriority priority;
+        public DemandPriority priority;
         public List<CustomDemandItem> customDemandItems;
     }
 

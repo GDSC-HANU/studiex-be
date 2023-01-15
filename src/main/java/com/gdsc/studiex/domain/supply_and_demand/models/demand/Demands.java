@@ -9,13 +9,15 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class Demands {
     private Id studierId;
     private List<Demand> demands;
 
-    private Demands() {}
+    private Demands() {
+    }
 
     @Builder(builderMethodName = "newDemandsBuilder", builderClassName = "NewDemandsBuilder")
     public Demands(Id studierId, List<Demand> demands, SupplyAndDemandQuota supplyAndDemandQuota) {
@@ -24,6 +26,18 @@ public class Demands {
         if (countActiveDemands() > supplyAndDemandQuota.getMaxActiveDemand())
             throw new InvalidInputException("Active Supplies exceed max active quota: " + supplyAndDemandQuota.getMaxActiveSupply());
         validate();
+    }
+
+    public static List<Id> extractStudierIdsOf(List<Demands> demandsList) {
+        return demandsList.stream()
+                .map(Demands::getStudierId)
+                .collect(Collectors.toList());
+    }
+
+    public List<Id> getAllowedSupplyIds() {
+        return demands.stream()
+                .map(Demand::getAllowedSupplyId)
+                .collect(Collectors.toList());
     }
 
     private void validate() throws InvalidInputException {
@@ -48,7 +62,7 @@ public class Demands {
     public List<Demand> getDemandsSortedByPriority() {
         final List<Demand> result = new ArrayList<>(demands);
         result.sort((first, second) -> {
-            return DemandItemPriority.compare(first.getPriority(), second.getPriority());
+            return DemandPriority.compare(first.getPriority(), second.getPriority());
         });
         return result;
     }

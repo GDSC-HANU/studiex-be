@@ -53,7 +53,8 @@ public class SuppliesMongoRepository implements SuppliesRepository {
     }
 
     @Override
-    public List<Supplies> findSuppliesContains(Id allowedSupplyId) {
+    public List<Supplies> findSuppliesContains(List<Id> allowedSupplyIds, List<Id> studierIds) {
+        // TODO
         return null;
     }
 }

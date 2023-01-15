@@ -1,9 +1,12 @@
 package com.gdsc.studiex.domain.supply_and_demand.models.demand;
 
+import com.gdsc.studiex.domain.share.exceptions.InvalidDataException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemArrayValue;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemArrayValueElement;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValue;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItem;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemArrayValue;
 import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import lombok.Builder;
 
@@ -31,5 +34,57 @@ public class DemandItemArrayValue implements DemandItemValue {
         return new DemandsDTO.DemandItemArrayValueDTO(allowedSupplyItemArrayValueIds.stream()
                 .map(allowedSupplyItemValueElementMap::get)
                 .collect(Collectors.toList()));
+    }
+
+    @Override
+    public boolean match(DemandItemOperator operator, SupplyItem supplyItem) {
+        final SupplyItemArrayValue supplyItemArrayValue = (SupplyItemArrayValue) supplyItem.getValue();
+        switch (operator) {
+            case INCLUDES_ALL:
+                for (Id allowedSupplyItemArrayValueId : allowedSupplyItemArrayValueIds)
+                    if (!supplyItemArrayValue.getAllowedSupplyItemArrayValueIds().contains(allowedSupplyItemArrayValueId))
+                        return false;
+                return true;
+            case INCLUDES_ANY:
+                int cnt = 0;
+                for (Id allowedSupplyItemArrayValueId : allowedSupplyItemArrayValueIds)
+                    if (supplyItemArrayValue.getAllowedSupplyItemArrayValueIds().contains(allowedSupplyItemArrayValueId))
+                        cnt++;
+                return cnt >= 1;
+            default:
+                throw new InvalidDataException("Invalid operator for demand item value");
+        }
+    }
+
+    @Override
+    public int totalCriteria(DemandItemOperator operator) {
+        switch (operator) {
+            case INCLUDES_ALL:
+                return 1;
+            case INCLUDES_ANY:
+                return allowedSupplyItemArrayValueIds.size();
+            default:
+                throw new InvalidDataException("Invalid operator for demand item value");
+        }
+    }
+
+    @Override
+    public int matchCriteria(DemandItemOperator operator, SupplyItem supplyItem) {
+        final SupplyItemArrayValue supplyItemArrayValue = (SupplyItemArrayValue) supplyItem.getValue();
+        switch (operator) {
+            case INCLUDES_ALL:
+                for (Id allowedSupplyItemArrayValueId : allowedSupplyItemArrayValueIds)
+                    if (!supplyItemArrayValue.getAllowedSupplyItemArrayValueIds().contains(allowedSupplyItemArrayValueId))
+                        return 0;
+                return 1;
+            case INCLUDES_ANY:
+                int cnt = 0;
+                for (Id allowedSupplyItemArrayValueId : allowedSupplyItemArrayValueIds)
+                    if (supplyItemArrayValue.getAllowedSupplyItemArrayValueIds().contains(allowedSupplyItemArrayValueId))
+                        cnt++;
+                return cnt;
+            default:
+                throw new InvalidDataException("Invalid operator for demand item value");
+        }
     }
 }

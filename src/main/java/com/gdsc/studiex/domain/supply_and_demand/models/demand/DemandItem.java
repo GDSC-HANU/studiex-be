@@ -4,6 +4,7 @@ import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItem;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -35,6 +36,20 @@ public class DemandItem {
         this.description = description;
         this.required = required;
         validate();
+    }
+
+    public boolean match(SupplyItem supplyItem) {
+        if (!allowedSupplyItemId.equals(supplyItem.getAllowedSupplyItemId()))
+            return false;
+        return value.match(operator, supplyItem);
+    }
+
+    public int matchCriteria(SupplyItem supplyItem) {
+        return value.matchCriteria(operator, supplyItem);
+    }
+
+    public int totalCriteria() {
+        return value.totalCriteria(operator);
     }
 
     private void validate() throws InvalidInputException {

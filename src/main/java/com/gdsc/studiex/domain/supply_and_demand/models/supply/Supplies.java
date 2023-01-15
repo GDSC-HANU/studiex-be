@@ -9,6 +9,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class Supplies {
@@ -23,6 +24,13 @@ public class Supplies {
             throw new InvalidInputException("Active Supplies exceed max active quota: " + supplyAndDemandQuota.getMaxActiveSupply());
         validate();
     }
+
+    public List<Id> getAllowedSupplyIds() {
+        return supplies.stream()
+                .map(Supply::getAllowedSupplyId)
+                .collect(Collectors.toList());
+    }
+
 
     public static Supplies emptySupplies(Id studierId) {
         final Supplies supplies = new Supplies();

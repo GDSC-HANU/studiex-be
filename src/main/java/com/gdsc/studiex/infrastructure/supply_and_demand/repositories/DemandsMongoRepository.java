@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class DemandsMongoRepository implements DemandsRepository {
     @Autowired
@@ -48,5 +50,11 @@ public class DemandsMongoRepository implements DemandsRepository {
         );
         final String demands = mongoTemplate.findOne(query, String.class, COLLECTION);
         return CustomObjectMapper.deserialize(demands, Demands.class);
+    }
+
+    @Override
+    public List<Demands> findDemandsContains(List<Id> allowedSupplyIds) {
+        // TODO
+        return null;
     }
 }

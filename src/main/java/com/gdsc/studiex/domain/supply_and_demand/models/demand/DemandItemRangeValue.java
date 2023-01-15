@@ -3,6 +3,8 @@ package com.gdsc.studiex.domain.supply_and_demand.models.demand;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemRangeValue;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItemValue;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItem;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItemRangeValue;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -37,5 +39,24 @@ public class DemandItemRangeValue implements DemandItemValue {
                 .minValue(minValue)
                 .maxValue(maxValue)
                 .build();
+    }
+
+    @Override
+    public boolean match(DemandItemOperator operator, SupplyItem supplyItem) {
+        final SupplyItemRangeValue supplyItemArrayValue = (SupplyItemRangeValue) supplyItem.getValue();
+        return minValue <= supplyItemArrayValue.getMinValue()
+                && supplyItemArrayValue.getMaxValue() <= maxValue;
+    }
+
+    @Override
+    public int totalCriteria(DemandItemOperator operator) {
+        return 1;
+    }
+
+    @Override
+    public int matchCriteria(DemandItemOperator operator, SupplyItem supplyItem) {
+        if (!match(operator, supplyItem))
+            return 0;
+        return 1;
     }
 }

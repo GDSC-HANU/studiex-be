@@ -3,6 +3,8 @@ package com.gdsc.studiex.domain.supply_and_demand.models.demand;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.Supply;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItem;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,7 +17,7 @@ public class Demand {
     private Id allowedSupplyId;
     private List<DemandItem> demandItems;
     private boolean active;
-    private DemandItemPriority priority;
+    private DemandPriority priority;
     private List<CustomDemandItem> customDemandItems;
 
     private Demand() {}
@@ -23,7 +25,7 @@ public class Demand {
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public Demand(List<DemandItem> demandItems,
                   boolean active,
-                  DemandItemPriority priority,
+                  DemandPriority priority,
                   List<CustomDemandItem> customDemandItems,
                   AllowedSupply allowedSupply) throws InvalidInputException {
         this.allowedSupplyId = allowedSupply.getId();
@@ -32,6 +34,26 @@ public class Demand {
         this.priority = priority;
         this.customDemandItems = customDemandItems;
         validate();
+    }
+
+    public boolean matchAllRequiredDemandItems(Supply supply) {
+        for (DemandItem demandItem : demandItems)
+            if (demandItem.isRequired()) {
+                boolean match = false;
+                for (SupplyItem supplyItem : supply.getSupplyItems())
+                    if (demandItem.match(supplyItem))
+                        match = true;
+                if (!match)
+                    return false;
+            }
+        return true;
+    }
+
+    public int totalCriteria() {
+        int result = 0;
+        for (DemandItem demandItem : demandItems)
+            result += demandItem.totalCriteria();
+        return result;
     }
 
     private void validate() throws InvalidInputException {
