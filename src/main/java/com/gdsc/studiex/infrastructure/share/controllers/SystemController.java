@@ -1,8 +1,8 @@
 package com.gdsc.studiex.infrastructure.share.controllers;
 
 
-import com.gdsc.studiex.StudiexApplication;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +17,7 @@ public class SystemController {
     public void updateSystem() throws IOException, InterruptedException {
         run("git config --global credential.helper store", true);
         run("git pull", true);
-        StudiexApplication.restart();
+        org.springframework.boot.devtools.restart.Restarter.getInstance().restart();
     }
 
     public void run(String command) throws IOException, InterruptedException {
