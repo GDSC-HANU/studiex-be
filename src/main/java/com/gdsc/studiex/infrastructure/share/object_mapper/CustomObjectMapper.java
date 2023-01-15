@@ -103,6 +103,8 @@ public class CustomObjectMapper {
         System.out.println("Hello object mapper");
         System.out.println("Hello object mapper 22");
         System.out.println("Hello object mapper 333");
+        System.out.println("Hello object mapper 444");
+
         return instance();
     }
 }
