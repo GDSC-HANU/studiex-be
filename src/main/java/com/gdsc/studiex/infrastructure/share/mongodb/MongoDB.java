@@ -18,7 +18,6 @@ public class MongoDB {
 
     @Bean
     public MongoClient mongo() {
-        System.out.println("Hello mongo");
         final ConnectionString connectionString = new ConnectionString(connection);
         final MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
