@@ -100,7 +100,8 @@ public class CustomObjectMapper {
 
     @Bean
     public ObjectMapper objectMapper() {
-         System.out.println("Hello object mapper");
+        System.out.println("Hello object mapper");
+        System.out.println("Hello object mapper 22");
         return instance();
     }
 }
