@@ -3,6 +3,7 @@ package com.gdsc.studiex.domain.share.models;
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 public class DateTime extends StringValueObject {
     private ZonedDateTime zonedDateTime;
@@ -33,5 +34,17 @@ public class DateTime extends StringValueObject {
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    public boolean isBefore(DateTime that) {
+        return this.zonedDateTime.isBefore(that.zonedDateTime);
+    }
+
+    public ZonedDateTime toZonedDateTime() {
+        return zonedDateTime;
+    }
+
+    public DateTime plusMinutes(int minutes) {
+        return new DateTime(zonedDateTime.plusMinutes(minutes).toString());
     }
 }
