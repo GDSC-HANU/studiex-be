@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class SuppliesMongoRepository implements SuppliesRepository {
@@ -54,7 +55,18 @@ public class SuppliesMongoRepository implements SuppliesRepository {
 
     @Override
     public List<Supplies> findSuppliesContains(List<Id> allowedSupplyIds, List<Id> studierIds) {
-        // TODO
-        return null;
+        final Query query = new Query(
+                Criteria.where("studierId")
+                        .in(Id.toListString(studierIds))
+                        .and("supplies")
+                        .elemMatch(
+                                Criteria.where("allowedSupplyId")
+                                        .in(Id.toListString(allowedSupplyIds))
+                        )
+        );
+        final List<String> result = mongoTemplate.find(query, String.class, COLLECTION);
+        return result.stream()
+                .map(str -> CustomObjectMapper.deserialize(str, Supplies.class))
+                .collect(Collectors.toList());
     }
 }
