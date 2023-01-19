@@ -14,7 +14,7 @@ public class LogInController {
     private final LogInService logInService;
 
     @PostMapping("/studierAuth/logIn")
-    public ResponseEntity<?> logIn(@RequestHeader("fb-access-token") String fbAccessToken) {
+    public ResponseEntity<?> logIn(@RequestHeader(value = "fb-access-token", required = true) String fbAccessToken) {
         return ControllerHandler.handle(() -> {
             final String token = logInService.logIn(fbAccessToken);
             return new ControllerHandler.Result("Success", token);

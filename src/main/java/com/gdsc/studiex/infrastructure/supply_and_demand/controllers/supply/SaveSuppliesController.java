@@ -23,7 +23,7 @@ public class SaveSuppliesController {
     private AuthorizeStudierService authorizeStudierService;
 
     @PostMapping("/supply")
-    public ResponseEntity<?> saveSupplies(@RequestHeader(name = "access-token") String accessToken,
+    public ResponseEntity<?> saveSupplies(@RequestHeader(name = "access-token", required = true) String accessToken,
                                           @RequestBody String json) {
         return ControllerHandler.handle(() -> {
             final List<SuppliesDTO.SupplyDTO> body = CustomObjectMapper.instance().readValue(

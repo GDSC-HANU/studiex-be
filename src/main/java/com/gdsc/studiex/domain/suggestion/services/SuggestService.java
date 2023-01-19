@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -21,7 +20,7 @@ public class SuggestService {
     private final DemandsRepository demandsRepository;
     private final SuppliesRepository suppliesRepository;
 
-    public List<SuppliesDemands> suggest(Id studierId, int limit) {
+    public List<SuggestorResult> suggest(Id studierId, int limit) {
         if (limit <= 0)
             throw new InvalidInputException("limit must be greater than 0");
         final Supplies suppliesOfStudier = suppliesRepository.findByStudierId(studierId);
@@ -49,15 +48,8 @@ public class SuggestService {
                 potentialSuppliesDemandsList
         );
         if (suggestedSuppliesDemandsList.size() <= limit)
-            return suggestedSuppliesDemandsList
-                    .stream()
-                    .map(SuggestorResult::getSuggestedSuppliesDemands)
-                    .collect(Collectors.toList());
+            return suggestedSuppliesDemandsList;
         else
-            return suggestedSuppliesDemandsList
-                    .subList(0, limit - 1)
-                    .stream()
-                    .map(SuggestorResult::getSuggestedSuppliesDemands)
-                    .collect(Collectors.toList());
+            return suggestedSuppliesDemandsList.subList(0, limit - 1);
     }
 }
