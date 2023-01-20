@@ -37,6 +37,7 @@ public class ControllerHandler {
                     HttpStatus.OK
             );
         } catch (Throwable e) {
+            e.printStackTrace();
             if (e instanceof BusinessLogicException) {
                 HttpStatus status = HttpStatus.BAD_REQUEST;
                 if (e instanceof UnauthorizedException)

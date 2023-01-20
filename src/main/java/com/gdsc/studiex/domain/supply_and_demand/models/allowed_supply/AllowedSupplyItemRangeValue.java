@@ -21,9 +21,6 @@ public class AllowedSupplyItemRangeValue implements AllowedSupplyItemValue {
 
     @Builder(builderMethodName = "newAllowedSupplyItemRangeValue", builderClassName = "NewAllowedSupplyItemRangeValue")
     public AllowedSupplyItemRangeValue(double minValue, double maxValue, double difference) throws InvalidInputException {
-        if (minValue % difference != 0 || maxValue % difference != 0) {
-            throw new InvalidInputException("Invalid difference");
-        }
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.difference = difference;

@@ -1,10 +1,12 @@
 package com.gdsc.studiex.infrastructure.supply_and_demand.repositories;
 
+import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.AllowedSupplyRepository;
 import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -21,29 +23,33 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
     private final String COLLECTION = "allowedSupplies";
     @Override
     public void save(AllowedSupply allowedSupply) {
-        final Query query = Query.query(
-                Criteria
-                        .where("_id")
-                        .is(allowedSupply.getId().toString())
-                        .and("version")
-                        .is(allowedSupply.getVersion())
-        );
-        allowedSupply.increaseVersion();
-        final Update update = new Update();
-        update.set("_id", allowedSupply.getId().toObjectId());
-        update.set("id", allowedSupply.getId().toString());
-        update.set("subjectName", allowedSupply.getSubjectName());
-        final Object allowedSupplyItems = CustomObjectMapper.convertObjectClass(
-                allowedSupply.getAllowedSupplyItems(),
-                Object.class
-        );
-        update.set("allowedSupplyItems", allowedSupplyItems);
-        update.set("version", allowedSupply.getVersion());
-        mongoTemplate.upsert(
-                query,
-                update,
-                COLLECTION
-        );
+        try {
+            final Query query = Query.query(
+                    Criteria
+                            .where("_id")
+                            .is(allowedSupply.getId().toString())
+                            .and("version")
+                            .is(allowedSupply.getVersion())
+            );
+            allowedSupply.increaseVersion();
+            final Update update = new Update();
+            update.set("_id", allowedSupply.getId().toObjectId());
+            update.set("id", allowedSupply.getId().toString());
+            update.set("subjectName", allowedSupply.getSubjectName());
+            final Object allowedSupplyItems = CustomObjectMapper.convertObjectClass(
+                    allowedSupply.getAllowedSupplyItems(),
+                    Object.class
+            );
+            update.set("allowedSupplyItems", allowedSupplyItems);
+            update.set("version", allowedSupply.getVersion());
+            mongoTemplate.upsert(
+                    query,
+                    update,
+                    COLLECTION
+            );
+        } catch (DuplicateKeyException e) {
+            throw new InvalidInputException("subjectName already exists: " + allowedSupply.getSubjectName());
+        }
     }
 
     @Override

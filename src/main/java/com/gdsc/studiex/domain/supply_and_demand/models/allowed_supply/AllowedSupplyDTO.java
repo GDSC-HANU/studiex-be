@@ -31,6 +31,7 @@ public class AllowedSupplyDTO {
         public AllowedSupplyOperator operator;
         public AllowedSupplyItemValueDTO value;
         public String description;
+        public boolean required;
 
         public static AllowedSupplyItemDTO fromAllowedSupplyItem(AllowedSupplyItem allowedSupplyItem) {
             return AllowedSupplyItemDTO.builder()
@@ -38,6 +39,7 @@ public class AllowedSupplyDTO {
                     .operator(allowedSupplyItem.getOperator())
                     .value(allowedSupplyItem.getValue().toAllowedSupplyItemValueDTO())
                     .description(allowedSupplyItem.getDescription())
+                    .required(allowedSupplyItem.isRequired())
                     .build();
         }
     }
