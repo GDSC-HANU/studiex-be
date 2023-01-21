@@ -10,6 +10,7 @@ import com.gdsc.studiex.domain.supply_and_demand.models.supply.Supply;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItem;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyPriority;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.*;
 
@@ -63,7 +64,8 @@ public class Suggestor {
     );
 
     @Builder
-    private static class MatchScore {
+    @Getter
+    public static class MatchScore {
         private Supply supply;
         private Demand demand;
         private double score;
