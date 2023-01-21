@@ -59,4 +59,9 @@ public class DemandItemRangeValue implements DemandItemValue {
             return 0;
         return 1;
     }
+
+    @Override
+    public boolean canBeUsedWith(DemandItemOperator operator) {
+        return operator.equals(DemandItemOperator.BETWEEN);
+    }
 }

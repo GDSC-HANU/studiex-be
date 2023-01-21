@@ -16,7 +16,18 @@ public class DemandItem {
     private String description;
     private boolean required;
 
-    private DemandItem() {}
+    private DemandItem() {
+    }
+
+    @Builder(builderMethodName = "allArgsBuilder", builderClassName = "AllArgsBuilder")
+    public DemandItem(Id allowedSupplyItemId, DemandItemOperator operator, DemandItemValue value, String description, boolean required) {
+        this.allowedSupplyItemId = allowedSupplyItemId;
+        this.operator = operator;
+        this.value = value;
+        this.description = description;
+        this.required = required;
+        validate();
+    }
 
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public DemandItem(String key,
@@ -59,5 +70,7 @@ public class DemandItem {
             throw new InvalidInputException("DemandItem.value must not be null");
         if (description == null)
             throw new InvalidInputException("DemandItem.description must not be null");
+        if (!value.canBeUsedWith(operator))
+            throw new InvalidInputException("invalid DemandItem.value for operator: " + operator);
     }
 }

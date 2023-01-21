@@ -46,15 +46,15 @@ public class Suggestor {
     }
 
     private static Map<Pair<DemandPriority, SupplyPriority>, Integer> priorityPairWeights = Map.of(
-            new Pair<DemandPriority, SupplyPriority>(DemandPriority.HIGH, SupplyPriority.HIGH), 10,
+            new Pair<DemandPriority, SupplyPriority>(DemandPriority.HIGH, SupplyPriority.HIGH), 17,
 
-            new Pair<DemandPriority, SupplyPriority>(DemandPriority.HIGH, SupplyPriority.MEDIUM), 8,
-            new Pair<DemandPriority, SupplyPriority>(DemandPriority.MEDIUM, SupplyPriority.HIGH), 8,
+            new Pair<DemandPriority, SupplyPriority>(DemandPriority.HIGH, SupplyPriority.MEDIUM), 13,
+            new Pair<DemandPriority, SupplyPriority>(DemandPriority.MEDIUM, SupplyPriority.HIGH), 13,
 
-            new Pair<DemandPriority, SupplyPriority>(DemandPriority.MEDIUM, SupplyPriority.MEDIUM), 6,
+            new Pair<DemandPriority, SupplyPriority>(DemandPriority.MEDIUM, SupplyPriority.MEDIUM), 8,
 
-            new Pair<DemandPriority, SupplyPriority>(DemandPriority.HIGH, SupplyPriority.LOW), 4,
-            new Pair<DemandPriority, SupplyPriority>(DemandPriority.LOW, SupplyPriority.HIGH), 4,
+            new Pair<DemandPriority, SupplyPriority>(DemandPriority.HIGH, SupplyPriority.LOW), 5,
+            new Pair<DemandPriority, SupplyPriority>(DemandPriority.LOW, SupplyPriority.HIGH), 5,
 
             new Pair<DemandPriority, SupplyPriority>(DemandPriority.MEDIUM, SupplyPriority.LOW), 2,
             new Pair<DemandPriority, SupplyPriority>(DemandPriority.LOW, SupplyPriority.MEDIUM), 2,
@@ -69,7 +69,7 @@ public class Suggestor {
         private double score;
     }
 
-    private static MatchScore suggestSupplyDemand(Supplies supplies, Demands demands) {
+    public static MatchScore suggestSupplyDemand(Supplies supplies, Demands demands) {
         final List<MatchScore> matchScores = new ArrayList<>();
         for (Map.Entry<Pair<DemandPriority, SupplyPriority>, Integer> priorityPairWeight : priorityPairWeights.entrySet()) {
             final Pair<DemandPriority, SupplyPriority> priorityPair = priorityPairWeight.getKey();
@@ -88,7 +88,7 @@ public class Suggestor {
         return maxSupplyDemandScore(matchScores);
     }
 
-    private static double calculateSupplyDemandScore(Supply supply, Demand demand, int weight) {
+    public static double calculateSupplyDemandScore(Supply supply, Demand demand, int weight) {
         if (!demand.matchAllRequiredDemandItems(supply))
             return 0;
         final int totalCriteria = demand.totalCriteria();
@@ -97,10 +97,10 @@ public class Suggestor {
             for (SupplyItem supplyItem : supply.getSupplyItems())
                 if (demandItem.match(supplyItem))
                     matchCriteria += demandItem.matchCriteria(supplyItem);
-        return (double) weight * (double) matchCriteria / (double) totalCriteria;
+        return (double) weight * 100 * (double) matchCriteria / (double) totalCriteria;
     }
 
-    private static MatchScore maxSupplyDemandScore(List<MatchScore> supplyDemandScores) {
+    public static MatchScore maxSupplyDemandScore(List<MatchScore> supplyDemandScores) {
         MatchScore result = null;
         for (MatchScore matchScore : supplyDemandScores)
             if (result == null || matchScore.score > result.score)

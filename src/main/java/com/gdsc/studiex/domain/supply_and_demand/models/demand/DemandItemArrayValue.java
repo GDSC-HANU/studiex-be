@@ -87,4 +87,10 @@ public class DemandItemArrayValue implements DemandItemValue {
                 throw new InvalidDataException("Invalid operator for demand item value");
         }
     }
+
+    @Override
+    public boolean canBeUsedWith(DemandItemOperator operator) {
+        return operator.equals(DemandItemOperator.INCLUDES_ALL)
+                || operator.equals(DemandItemOperator.INCLUDES_ANY);
+    }
 }

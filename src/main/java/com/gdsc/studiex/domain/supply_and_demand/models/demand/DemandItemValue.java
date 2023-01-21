@@ -11,4 +11,6 @@ public interface DemandItemValue {
     int totalCriteria(DemandItemOperator operator);
 
     int matchCriteria(DemandItemOperator operator, SupplyItem supplyItem);
+
+    public boolean canBeUsedWith(DemandItemOperator operator);
 }

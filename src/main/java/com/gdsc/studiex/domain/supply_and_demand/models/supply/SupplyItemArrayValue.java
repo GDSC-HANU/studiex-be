@@ -36,4 +36,9 @@ public class SupplyItemArrayValue implements SupplyItemValue {
                 .map(allowedSupplyItemValueElementMap::get)
                 .collect(Collectors.toList()));
     }
+
+    @Override
+    public boolean canBeUsedWith(SupplyItemOperator supplyItemOperator) {
+        return supplyItemOperator.equals(SupplyItemOperator.ARE);
+    }
 }

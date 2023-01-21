@@ -28,4 +28,9 @@ public class SupplyItemExactValue implements SupplyItemValue {
                 return new SuppliesDTO.SupplyItemExactValueDTO(element.getValue());
         return null;
     }
+
+    @Override
+    public boolean canBeUsedWith(SupplyItemOperator supplyItemOperator) {
+        return supplyItemOperator.equals(SupplyItemOperator.IS);
+    }
 }

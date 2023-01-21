@@ -19,6 +19,17 @@ public class Supply {
     private SupplyPriority priority;
     private List<CustomSupplyItem> customSupplyItems;
 
+    // Only used for converting from repository / testing purpose
+    @Builder(builderMethodName = "allArgsBuilder", builderClassName = "AllArgsBuilder")
+    public Supply(Id allowedSupplyId, List<SupplyItem> supplyItems, boolean active, SupplyPriority priority, List<CustomSupplyItem> customSupplyItems) {
+        this.allowedSupplyId = allowedSupplyId;
+        this.supplyItems = supplyItems;
+        this.active = active;
+        this.priority = priority;
+        this.customSupplyItems = customSupplyItems;
+        validate();
+    }
+
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public Supply(List<SupplyItem> supplyItems,
                   boolean active,

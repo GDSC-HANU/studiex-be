@@ -22,6 +22,16 @@ public class Demand {
 
     private Demand() {}
 
+    @Builder(builderMethodName = "allArgsBuilder", builderClassName = "AllArgsBuilder")
+    public Demand(Id allowedSupplyId, List<DemandItem> demandItems, boolean active, DemandPriority priority, List<CustomDemandItem> customDemandItems) {
+        this.allowedSupplyId = allowedSupplyId;
+        this.demandItems = demandItems;
+        this.active = active;
+        this.priority = priority;
+        this.customDemandItems = customDemandItems;
+        validate();
+    }
+
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public Demand(List<DemandItem> demandItems,
                   boolean active,

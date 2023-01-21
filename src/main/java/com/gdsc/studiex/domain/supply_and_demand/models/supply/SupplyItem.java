@@ -14,6 +14,15 @@ public class SupplyItem {
     private SupplyItemValue value;
     private String description;
 
+    @Builder(builderMethodName = "allArgsBuilder", builderClassName = "AllArgsBuilder")
+    public SupplyItem(Id allowedSupplyItemId, SupplyItemOperator operator, SupplyItemValue value, String description) {
+        this.allowedSupplyItemId = allowedSupplyItemId;
+        this.operator = operator;
+        this.value = value;
+        this.description = description;
+        validate();
+    }
+
     @Builder(builderMethodName = "fromAllowedSupplyBuilder", builderClassName = "FromAllowedSupplyBuilder")
     public SupplyItem(String key,
                       SupplyItemOperator operator,
@@ -42,5 +51,7 @@ public class SupplyItem {
             throw new InvalidInputException("SupplyItem.value must not be null");
         if (description == null)
             throw new InvalidInputException("SupplyItem.description must not be null");
+        if (!value.canBeUsedWith(operator))
+            throw new InvalidInputException("invalid SupplyItem.value for operator: " + operator);
     }
 }

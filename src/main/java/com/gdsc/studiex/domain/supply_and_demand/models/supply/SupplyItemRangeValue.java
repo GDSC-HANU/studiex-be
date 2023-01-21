@@ -41,4 +41,9 @@ public class SupplyItemRangeValue implements SupplyItemValue {
                 .maxValue(maxValue)
                 .build();
     }
+
+    @Override
+    public boolean canBeUsedWith(SupplyItemOperator supplyItemOperator) {
+        return supplyItemOperator.equals(SupplyItemOperator.BETWEEN);
+    }
 }
