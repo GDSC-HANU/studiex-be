@@ -19,6 +19,7 @@ public class DemandItem {
     private DemandItem() {
     }
 
+    // Only used for converting from repository / testing purpose
     @Builder(builderMethodName = "allArgsBuilder", builderClassName = "AllArgsBuilder")
     public DemandItem(Id allowedSupplyItemId, DemandItemOperator operator, DemandItemValue value, String description, boolean required) {
         this.allowedSupplyItemId = allowedSupplyItemId;

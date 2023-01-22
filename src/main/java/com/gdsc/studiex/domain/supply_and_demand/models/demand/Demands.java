@@ -2,6 +2,7 @@ package com.gdsc.studiex.domain.supply_and_demand.models.demand;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.Supply;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply_and_demand_quota.SupplyAndDemandQuota;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,12 @@ public class Demands {
     private Demands() {
     }
 
+    @Builder(builderMethodName = "allArgsBuilder", builderClassName = "AllArgsBuilder")
+    public Demands(Id studierId, List<Demand> demands) {
+        this.studierId = studierId;
+        this.demands = demands;
+    }
+
     @Builder(builderMethodName = "newDemandsBuilder", builderClassName = "NewDemandsBuilder")
     public Demands(Id studierId, List<Demand> demands, SupplyAndDemandQuota supplyAndDemandQuota) {
         this.studierId = studierId;
@@ -26,6 +33,13 @@ public class Demands {
         if (countActiveDemands() > supplyAndDemandQuota.getMaxActiveDemand())
             throw new InvalidInputException("Active Supplies exceed max active quota: " + supplyAndDemandQuota.getMaxActiveSupply());
         validate();
+    }
+
+    public Demand getDemandByAllowedSupplyId(Id allowedSupplyId) {
+        for (Demand demand : demands)
+            if (demand.getAllowedSupplyId().equals(allowedSupplyId))
+                return demand;
+        return null;
     }
 
     public static List<Id> extractStudierIdsOf(List<Demands> demandsList) {

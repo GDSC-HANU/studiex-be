@@ -22,6 +22,7 @@ public class Demand {
 
     private Demand() {}
 
+    // Only used for converting from repository / testing purpose
     @Builder(builderMethodName = "allArgsBuilder", builderClassName = "AllArgsBuilder")
     public Demand(Id allowedSupplyId, List<DemandItem> demandItems, boolean active, DemandPriority priority, List<CustomDemandItem> customDemandItems) {
         this.allowedSupplyId = allowedSupplyId;

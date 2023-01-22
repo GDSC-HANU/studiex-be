@@ -6,26 +6,26 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class MaxSupplyDemandScoreTest {
+public class MaxMatchScoreTest {
     @Test
     public void hasMaxValue() {
-        final List<Suggestor.MatchScore> matchScores = List.of(
-                Suggestor.MatchScore.builder()
+        final List<Suggestor.OptimalSupplyDemandPair> optimalSupplyDemandPairs = List.of(
+                Suggestor.OptimalSupplyDemandPair.builder()
                         .supply(null)
                         .demand(null)
-                        .score(10)
+                        .matchScore(10)
                         .build(),
-                Suggestor.MatchScore.builder()
+                Suggestor.OptimalSupplyDemandPair.builder()
                         .supply(null)
                         .demand(null)
-                        .score(50)
+                        .matchScore(50)
                         .build(),
-                Suggestor.MatchScore.builder()
+                Suggestor.OptimalSupplyDemandPair.builder()
                         .supply(null)
                         .demand(null)
-                        .score(30)
+                        .matchScore(30)
                         .build()
         );
-        Assertions.assertEquals(50, Suggestor.maxSupplyDemandScore(matchScores).getScore());
+        Assertions.assertEquals(50, Suggestor.maxMatchScore(optimalSupplyDemandPairs).getMatchScore());
     }
 }

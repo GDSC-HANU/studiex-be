@@ -19,25 +19,25 @@ public class Suggestor {
                                                             List<SuppliesDemands> potentialSuppliesDemandsList) {
         final List<SuggestorResult> result = new ArrayList<>();
         for (SuppliesDemands potentialSuppliesDemands : potentialSuppliesDemandsList) {
-            final MatchScore SDMatchScore = suggestSupplyDemand(
+            final OptimalSupplyDemandPair optimalDemandForStudier = findOptimalSupplyDemandPair(
                     suppliesDemandsOfStudier.getSupplies(),
                     potentialSuppliesDemands.getDemands()
             );
-            final MatchScore DSMatchScore = suggestSupplyDemand(
+            final OptimalSupplyDemandPair optimalSupplyForStudier = findOptimalSupplyDemandPair(
                     potentialSuppliesDemands.getSupplies(),
                     suppliesDemandsOfStudier.getDemands()
             );
-            final double matchScore = (SDMatchScore.score + DSMatchScore.score) / Math.abs(SDMatchScore.score - DSMatchScore.score);
+            final double matchScore = (optimalDemandForStudier.matchScore + optimalSupplyForStudier.matchScore) / Math.abs(optimalDemandForStudier.matchScore - optimalSupplyForStudier.matchScore);
             result.add(SuggestorResult.builder()
                     .suggestedSuppliesDemands(potentialSuppliesDemands)
                     .matchScore(matchScore)
                     .suggestedDemand(SuggestorResult.SuggestedDemand.builder()
-                            .suggestedDemand(SDMatchScore.demand)
-                            .supplyOfStudier(SDMatchScore.supply)
+                            .suggestedDemand(optimalDemandForStudier.demand)
+                            .supplyOfStudier(optimalDemandForStudier.supply)
                             .build())
                     .suggestedSupply(SuggestorResult.SuggestedSupply.builder()
-                            .suggestedSupply(DSMatchScore.supply)
-                            .demandOfStudier(DSMatchScore.demand)
+                            .suggestedSupply(optimalSupplyForStudier.supply)
+                            .demandOfStudier(optimalSupplyForStudier.demand)
                             .build())
                     .build());
         }
@@ -46,7 +46,7 @@ public class Suggestor {
         return Collections.unmodifiableList(result);
     }
 
-    private static Map<Pair<DemandPriority, SupplyPriority>, Integer> priorityPairWeights = Map.of(
+    private static final Map<Pair<DemandPriority, SupplyPriority>, Integer> priorityPairWeights = Map.of(
             new Pair<DemandPriority, SupplyPriority>(DemandPriority.HIGH, SupplyPriority.HIGH), 17,
 
             new Pair<DemandPriority, SupplyPriority>(DemandPriority.HIGH, SupplyPriority.MEDIUM), 13,
@@ -63,34 +63,38 @@ public class Suggestor {
             new Pair<DemandPriority, SupplyPriority>(DemandPriority.LOW, SupplyPriority.LOW), 1
     );
 
+    public static int getWeight(Pair<DemandPriority, SupplyPriority> priorityPair) {
+        return priorityPairWeights.get(priorityPair);
+    }
+
     @Builder
     @Getter
-    public static class MatchScore {
+    public static class OptimalSupplyDemandPair {
         private Supply supply;
         private Demand demand;
-        private double score;
+        private double matchScore;
     }
 
-    public static MatchScore suggestSupplyDemand(Supplies supplies, Demands demands) {
-        final List<MatchScore> matchScores = new ArrayList<>();
-        for (Map.Entry<Pair<DemandPriority, SupplyPriority>, Integer> priorityPairWeight : priorityPairWeights.entrySet()) {
-            final Pair<DemandPriority, SupplyPriority> priorityPair = priorityPairWeight.getKey();
-            final int weight = priorityPairWeight.getValue();
-            for (Supply supply : supplies.getSupplies())
-                for (Demand demand : demands.getDemands())
-                    if (supply.getPriority().equals(priorityPair.getSecond()) && demand.getPriority().equals(priorityPair.getFirst())) {
-                        final double score = calculateSupplyDemandScore(supply, demand, weight);
-                        matchScores.add(MatchScore.builder()
-                                .score(score)
-                                .demand(demand)
-                                .supply(supply)
-                                .build());
-                    }
-        }
-        return maxSupplyDemandScore(matchScores);
+    public static OptimalSupplyDemandPair findOptimalSupplyDemandPair(Supplies supplies, Demands demands) {
+        final List<OptimalSupplyDemandPair> optimalSupplyDemandPairs = new ArrayList<>();
+        for (Supply supply : supplies.getSupplies())
+            for (Demand demand : demands.getDemands())
+                if (supply.getAllowedSupplyId().equals(demand.getAllowedSupplyId())) {
+                    final int weight = priorityPairWeights.get(new Pair<>(
+                            demand.getPriority(),
+                            supply.getPriority()
+                    ));
+                    final double score = calculateMatchScore(supply, demand, weight);
+                    optimalSupplyDemandPairs.add(OptimalSupplyDemandPair.builder()
+                            .matchScore(score)
+                            .demand(demand)
+                            .supply(supply)
+                            .build());
+                }
+        return maxMatchScore(optimalSupplyDemandPairs);
     }
 
-    public static double calculateSupplyDemandScore(Supply supply, Demand demand, int weight) {
+    public static double calculateMatchScore(Supply supply, Demand demand, int weight) {
         if (!demand.matchAllRequiredDemandItems(supply))
             return 0;
         final int totalCriteria = demand.totalCriteria();
@@ -102,11 +106,11 @@ public class Suggestor {
         return (double) weight * 100 * (double) matchCriteria / (double) totalCriteria;
     }
 
-    public static MatchScore maxSupplyDemandScore(List<MatchScore> supplyDemandScores) {
-        MatchScore result = null;
-        for (MatchScore matchScore : supplyDemandScores)
-            if (result == null || matchScore.score > result.score)
-                result = matchScore;
+    public static OptimalSupplyDemandPair maxMatchScore(List<OptimalSupplyDemandPair> supplyDemandScores) {
+        OptimalSupplyDemandPair result = null;
+        for (OptimalSupplyDemandPair optimalSupplyDemandPair : supplyDemandScores)
+            if (result == null || optimalSupplyDemandPair.matchScore > result.matchScore)
+                result = optimalSupplyDemandPair;
         return result;
     }
 }

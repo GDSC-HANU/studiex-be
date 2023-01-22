@@ -14,6 +14,7 @@ public class SupplyItem {
     private SupplyItemValue value;
     private String description;
 
+    // Only used for converting from repository / testing purpose
     @Builder(builderMethodName = "allArgsBuilder", builderClassName = "AllArgsBuilder")
     public SupplyItem(Id allowedSupplyItemId, SupplyItemOperator operator, SupplyItemValue value, String description) {
         this.allowedSupplyItemId = allowedSupplyItemId;

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CalculateSupplyDemandScoreTest {
+public class CalculateMatchScoreTest {
     @Test
     public void completelyMatches() {
         final Id[] idPool = IdPool.generateIdPool(20);
@@ -92,7 +92,7 @@ public class CalculateSupplyDemandScoreTest {
                 .priority(DemandPriority.HIGH)
                 .customDemandItems(new ArrayList<>())
                 .build();
-        Assertions.assertEquals(200, Suggestor.calculateSupplyDemandScore(supply, demand, 2));
+        Assertions.assertEquals(200, Suggestor.calculateMatchScore(supply, demand, 2));
     }
 
     @Test
@@ -174,7 +174,7 @@ public class CalculateSupplyDemandScoreTest {
                 .priority(DemandPriority.HIGH)
                 .customDemandItems(new ArrayList<>())
                 .build();
-        Assertions.assertEquals(0, Suggestor.calculateSupplyDemandScore(supply, demand, 2));
+        Assertions.assertEquals(0, Suggestor.calculateMatchScore(supply, demand, 2));
     }
 
     @Test
@@ -256,6 +256,6 @@ public class CalculateSupplyDemandScoreTest {
                 .priority(DemandPriority.HIGH)
                 .customDemandItems(new ArrayList<>())
                 .build();
-        Assertions.assertEquals((double) 2 * 100 * 2 / 3, Suggestor.calculateSupplyDemandScore(supply, demand, 2));
+        Assertions.assertEquals((double) 2 * 100 * 2 / 3, Suggestor.calculateMatchScore(supply, demand, 2));
     }
 }
