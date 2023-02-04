@@ -43,7 +43,7 @@ public class SuggestService {
                 potentialSuppliesList,
                 potentialDemandsList
         );
-        final List<SuggestorResult> suggestedSuppliesDemandsList = Suggestor.suggestSupplyDemand(
+        final List<SuggestorResult> suggestedSuppliesDemandsList = Suggestor.suggest(
                 suppliesDemandsOfStudier,
                 potentialSuppliesDemandsList
         );
