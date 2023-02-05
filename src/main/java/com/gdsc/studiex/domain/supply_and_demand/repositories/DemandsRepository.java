@@ -10,5 +10,5 @@ public interface DemandsRepository {
 
     public Demands findByStudierId(Id studierId);
 
-    public List<Demands> findDemandsContains(List<Id> allowedSupplyIds);
+    public List<Demands> findDemandsContains(List<Id> allowedSupplyIds, List<Id> studierIds, List<Id> excludesStudierIds);
 }
