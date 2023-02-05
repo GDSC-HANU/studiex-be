@@ -5,7 +5,6 @@ import com.gdsc.studiex.domain.pair.models.PairRequest;
 import com.gdsc.studiex.domain.pair.models.PairRequestDTO;
 import com.gdsc.studiex.domain.pair.repositories.PairRepository;
 import com.gdsc.studiex.domain.pair.repositories.PairRequestRepository;
-import com.gdsc.studiex.domain.share.models.Id;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

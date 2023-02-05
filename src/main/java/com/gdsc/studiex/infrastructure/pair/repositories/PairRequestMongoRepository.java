@@ -43,8 +43,8 @@ public class PairRequestMongoRepository implements PairRequestRepository {
         );
         final Update update = new Update();
         update.set("_id", id);
-        update.set("fromStudierId", pairRequest.getFromStudierId());
-        update.set("toStudierId", pairRequest.getToStudierId());
+        update.set("fromStudierId", pairRequest.getFromStudierId().toString());
+        update.set("toStudierId", pairRequest.getToStudierId().toString());
         update.set("createdAt", pairRequest.getCreatedAt().toString());
         mongoTemplate.upsert(
                 query,

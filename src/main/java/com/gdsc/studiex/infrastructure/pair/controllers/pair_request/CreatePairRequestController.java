@@ -21,12 +21,12 @@ public class CreatePairRequestController {
 
     @PostMapping("/pairRequest")
     public ResponseEntity<?> createPairRequest(@RequestHeader(name = "access-token", required = true) String accessToken,
-            @RequestBody Id toStudierId) {
+            @RequestBody String toStudierId) {
         return ControllerHandler.handle(() -> {
             final Id fromStudierId = authorizeStudierService.authorize(accessToken);
             createPairRequestService.createPairRequest(PairRequestDTO.builder()
                             .fromStudierId(fromStudierId)
-                            .toStudierId(toStudierId)
+                            .toStudierId(new Id(toStudierId))
                             .build());
             return new ControllerHandler.Result(
                     "Success",
