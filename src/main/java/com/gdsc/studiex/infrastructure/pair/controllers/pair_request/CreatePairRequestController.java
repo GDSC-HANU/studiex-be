@@ -2,7 +2,7 @@ package com.gdsc.studiex.infrastructure.pair.controllers.pair_request;
 
 
 import com.gdsc.studiex.domain.pair.models.PairRequestDTO;
-import com.gdsc.studiex.domain.pair.services.CreatePairRequestService;
+import com.gdsc.studiex.domain.pair.services.pair_request.CreatePairRequestService;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.studier_auth.services.AuthorizeStudierService;
 import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;

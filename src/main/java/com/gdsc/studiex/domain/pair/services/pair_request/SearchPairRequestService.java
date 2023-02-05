@@ -1,4 +1,4 @@
-package com.gdsc.studiex.domain.pair.services;
+package com.gdsc.studiex.domain.pair.services.pair_request;
 
 import com.gdsc.studiex.domain.pair.models.PairRequest;
 import com.gdsc.studiex.domain.pair.models.PairRequestDTO;
@@ -15,8 +15,8 @@ import java.util.List;
 public class SearchPairRequestService {
     private final PairRequestRepository pairRequestRepository;
 
-    public List<PairRequestDTO> findPairRequestOfStudier(int pageInt, int limit, Id studier) {
-        Pageable pageable = PageRequest.of(pageInt, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
+    public List<PairRequestDTO> findPairRequestOfStudier(int page, int perPage, Id studier) {
+        Pageable pageable = PageRequest.of(page, perPage, Sort.by(Sort.Direction.DESC, "createdAt"));
         List<PairRequest> pairRequests = pairRequestRepository.findPairRequestOfStudier(pageable, studier);
         return pairRequests.stream()
                 .map(pairRequest -> PairRequestDTO.builder()

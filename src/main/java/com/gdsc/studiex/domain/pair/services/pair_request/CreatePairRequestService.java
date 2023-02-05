@@ -1,4 +1,4 @@
-package com.gdsc.studiex.domain.pair.services;
+package com.gdsc.studiex.domain.pair.services.pair_request;
 
 import com.gdsc.studiex.domain.pair.models.Pair;
 import com.gdsc.studiex.domain.pair.models.PairRequest;
