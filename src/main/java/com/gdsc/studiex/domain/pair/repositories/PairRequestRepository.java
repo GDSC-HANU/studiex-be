@@ -10,4 +10,6 @@ public interface PairRequestRepository {
     public PairRequest findPairRequest(List<Id> studierIds);
     public void save(PairRequest pairRequest);
     public List<PairRequest> findPairRequestOfStudier(Pageable pageable, Id studierId);
+    public PairRequest findOnePairRequestOfStudier(Id fromStudierId, Id toStudierId);
+    public void delete(PairRequest pairRequest);
 }

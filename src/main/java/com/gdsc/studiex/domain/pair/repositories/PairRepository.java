@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PairRepository {
     public Pair findPair(List<Id> studierIds);
+    public void save(Pair pair);
 }

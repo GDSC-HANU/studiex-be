@@ -6,7 +6,6 @@ import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -58,7 +57,7 @@ public class PairRequestMongoRepository implements PairRequestRepository {
     @Override
     public List<PairRequest> findPairRequestOfStudier(Pageable pageable, Id studierId) {
         final Query query = Query.query(
-                Criteria.where("fromStudierId")
+                Criteria.where("toStudierId")
                         .is(studierId.toString())
         );
         query.with(pageable);
@@ -66,5 +65,28 @@ public class PairRequestMongoRepository implements PairRequestRepository {
         return result.stream()
                 .map(s -> CustomObjectMapper.deserialize(s, PairRequest.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PairRequest findOnePairRequestOfStudier(Id fromStudierId, Id toStudierId) {
+        final Query query = Query.query(
+                Criteria.where("fromStudierId")
+                        .is(fromStudierId.toString())
+                        .and("toStudierId")
+                        .is(toStudierId.toString())
+        );
+        String result = mongoTemplate.findOne(query, String.class, COLLECTION);
+        return CustomObjectMapper.deserialize(result, PairRequest.class);
+    }
+
+    @Override
+    public void delete(PairRequest pairRequest) {
+        final Query query = Query.query(
+                Criteria.where("fromStudierId")
+                        .is(pairRequest.getFromStudierId().toString())
+                        .and("toStudierId")
+                        .is(pairRequest.getToStudierId().toString())
+        );
+        mongoTemplate.findAndRemove(query, String.class, COLLECTION);
     }
 }

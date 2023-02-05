@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,5 +32,23 @@ public class PairMongoRepository implements PairRepository {
             return null;
         }
         return CustomObjectMapper.deserialize(pair, Pair.class);
+    }
+
+    @Override
+    public void save(Pair pair) {
+        String id = pair.getFirstStudierId() + "#" + pair.getSecondStudierId();
+        Query query = Query.query(
+                Criteria.where("_id")
+                        .is(id)
+        );
+        final Update update = new Update();
+        update.set("_id", id);
+        update.set("firstStudierId", pair.getFirstStudierId().toString());
+        update.set("secondStudierId", pair.getSecondStudierId().toString());
+        update.set("createdAt", pair.getCreatedAt().toString());
+        mongoTemplate.upsert(
+                query,
+                update,
+                COLLECTION);
     }
 }
