@@ -1,5 +1,6 @@
 package com.gdsc.studiex.domain.suggestion.models;
 
+import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.supply_and_demand.models.demand.Demand;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.Supply;
 import lombok.Builder;
@@ -26,5 +27,8 @@ public class SuggestorResult {
     private SuppliesDemands suppliesDemandsOfStudier;
     private SuggestedSupply suggestedSupply;
     private SuggestedDemand suggestedDemand;
-    private double matchScore;
+    private double score;
+    public Id getStudierId() {
+        return suggestedSuppliesDemands.getStudierId();
+    }
 }

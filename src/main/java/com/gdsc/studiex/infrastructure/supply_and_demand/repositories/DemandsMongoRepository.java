@@ -54,7 +54,7 @@ public class DemandsMongoRepository implements DemandsRepository {
     }
 
     @Override
-    public List<Demands> findDemandsContains(List<Id> allowedSupplyIds) {
+    public List<Demands> findDemandsContains(List<Id> allowedSupplyIds, List<Id> studierIds, List<Id> excludesStudierIds) {
         final Query query = new Query(
                 Criteria.where("demands")
                         .elemMatch(
@@ -66,5 +66,6 @@ public class DemandsMongoRepository implements DemandsRepository {
         return result.stream()
                 .map(str -> CustomObjectMapper.deserialize(str, Demands.class))
                 .collect(Collectors.toList());
+        // TODO
     }
 }

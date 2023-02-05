@@ -175,4 +175,159 @@ public class FindOptimalSupplyDemandPairTest {
                 optimalSupplyDemandPair.getMatchScore()
         );
     }
+
+    @Test
+    public void noOptimalSupplyDemandPair() {
+        final Id[] studierIdPool = IdPool.generateIdPool(100);
+        final Id[] allowedSupplyIdPool = IdPool.generateIdPool(100);
+        final Id[] allowedSupplyItemIdPool = IdPool.generateIdPool(100);
+        final Id[] allowedSupplyItemValueIdPool = IdPool.generateIdPool(100);
+        final Supplies supplies = Supplies.allArgsBuilder()
+                .studierId(studierIdPool[0])
+                .supplies(Arrays.asList(
+                        Supply.allArgsBuilder()
+                                .allowedSupplyId(allowedSupplyIdPool[0])
+                                .supplyItems(Arrays.asList(
+                                        SupplyItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[0])
+                                                .operator(SupplyItemOperator.IS)
+                                                .value(SupplyItemExactValue.newSupplyItemExactValueBuilder()
+                                                        .allowedSupplyItemArrayValueId(allowedSupplyItemValueIdPool[0])
+                                                        .build())
+                                                .description("")
+                                                .build(),
+                                        SupplyItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[1])
+                                                .operator(SupplyItemOperator.ARE)
+                                                .value(SupplyItemArrayValue.newSupplyItemArrayValueBuilder()
+                                                        .allowedSupplyItemArrayValueIds(List.of(
+                                                                allowedSupplyItemValueIdPool[1],
+                                                                allowedSupplyItemValueIdPool[2],
+                                                                allowedSupplyItemValueIdPool[3]
+                                                        ))
+                                                        .build())
+                                                .description("")
+                                                .build(),
+                                        SupplyItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[2])
+                                                .operator(SupplyItemOperator.BETWEEN)
+                                                .value(SupplyItemRangeValue.newSupplyItemRangeValue()
+                                                        .minValue(50)
+                                                        .maxValue(100)
+                                                        .build())
+                                                .description("")
+                                                .build()
+                                ))
+                                .active(true)
+                                .priority(SupplyPriority.HIGH)
+                                .customSupplyItems(new ArrayList<>())
+                                .build(),
+                        Supply.allArgsBuilder()
+                                .allowedSupplyId(allowedSupplyIdPool[1])
+                                .supplyItems(Arrays.asList(
+                                        SupplyItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[3])
+                                                .operator(SupplyItemOperator.IS)
+                                                .value(SupplyItemExactValue.newSupplyItemExactValueBuilder()
+                                                        .allowedSupplyItemArrayValueId(allowedSupplyItemValueIdPool[4])
+                                                        .build())
+                                                .description("")
+                                                .build(),
+                                        SupplyItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[4])
+                                                .operator(SupplyItemOperator.ARE)
+                                                .value(SupplyItemArrayValue.newSupplyItemArrayValueBuilder()
+                                                        .allowedSupplyItemArrayValueIds(List.of(
+                                                                allowedSupplyItemValueIdPool[5],
+                                                                allowedSupplyItemValueIdPool[6],
+                                                                allowedSupplyItemValueIdPool[7]
+                                                        ))
+                                                        .build())
+                                                .description("")
+                                                .build()
+                                ))
+                                .active(true)
+                                .priority(SupplyPriority.MEDIUM)
+                                .customSupplyItems(new ArrayList<>())
+                                .build()
+                ))
+                .build();
+        final Demands demands = Demands.allArgsBuilder()
+                .studierId(studierIdPool[1])
+                .demands(Arrays.asList(
+                        Demand.allArgsBuilder()
+                                .allowedSupplyId(allowedSupplyIdPool[4])
+                                .demandItems(Arrays.asList(
+                                        DemandItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[7])
+                                                .operator(DemandItemOperator.IS)
+                                                .value(DemandItemExactValue.newDemandItemExactValueBuilder()
+                                                        .allowedSupplyItemArrayValueId(allowedSupplyItemValueIdPool[10])
+                                                        .build())
+                                                .description("")
+                                                .required(true)
+                                                .build(),
+                                        DemandItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[8])
+                                                .operator(DemandItemOperator.INCLUDES_ALL)
+                                                .value(DemandItemArrayValue.newDemandItemArrayValueBuilder()
+                                                        .allowedSupplyItemArrayValueIds(List.of(
+                                                                allowedSupplyItemIdPool[11],
+                                                                allowedSupplyItemIdPool[12]
+                                                        ))
+                                                        .build())
+                                                .description("")
+                                                .required(true)
+                                                .build(),
+                                        DemandItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[9])
+                                                .operator(DemandItemOperator.BETWEEN)
+                                                .value(DemandItemRangeValue.newDemandItemRangeValue()
+                                                        .minValue(101)
+                                                        .maxValue(200)
+                                                        .build())
+                                                .description("")
+                                                .required(true)
+                                                .build()
+                                ))
+                                .active(true)
+                                .priority(DemandPriority.MEDIUM)
+                                .customDemandItems(new ArrayList<>())
+                                .build(),
+                        Demand.allArgsBuilder()
+                                .allowedSupplyId(allowedSupplyIdPool[5])
+                                .demandItems(Arrays.asList(
+                                        DemandItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[10])
+                                                .operator(DemandItemOperator.IS)
+                                                .value(DemandItemExactValue.newDemandItemExactValueBuilder()
+                                                        .allowedSupplyItemArrayValueId(allowedSupplyItemValueIdPool[13])
+                                                        .build())
+                                                .description("")
+                                                .required(true)
+                                                .build(),
+                                        DemandItem.allArgsBuilder()
+                                                .allowedSupplyItemId(allowedSupplyItemIdPool[11])
+                                                .operator(DemandItemOperator.INCLUDES_ANY)
+                                                .value(DemandItemArrayValue.newDemandItemArrayValueBuilder()
+                                                        .allowedSupplyItemArrayValueIds(List.of(
+                                                                allowedSupplyItemIdPool[14],
+                                                                allowedSupplyItemIdPool[15]
+                                                        ))
+                                                        .build())
+                                                .description("")
+                                                .required(true)
+                                                .build()
+                                ))
+                                .active(true)
+                                .priority(DemandPriority.LOW)
+                                .customDemandItems(new ArrayList<>())
+                                .build()
+                ))
+                .build();
+        final Suggestor.OptimalSupplyDemandPair optimalSupplyDemandPair = Suggestor.findOptimalSupplyDemandPair(supplies, demands);
+        Assertions.assertEquals(null, optimalSupplyDemandPair.getSupply());
+        Assertions.assertEquals(null, optimalSupplyDemandPair.getDemand());
+        Assertions.assertEquals(0, optimalSupplyDemandPair.getMatchScore());
+    }
 }
