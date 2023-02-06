@@ -8,6 +8,7 @@ import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,9 +21,11 @@ public class SearchPairController {
     private final AuthorizeStudierService authorizeStudierService;
 
     @GetMapping("/pair")
-    public ResponseEntity<?> getPairOfStudier(@RequestParam("page") int page, @RequestParam("perPage") int perPage){
+    public ResponseEntity<?> getPairOfStudier(@RequestParam("page") int page,
+                                              @RequestParam("perPage") int perPage,
+                                              @RequestHeader("access-token") String accessToken){
         return ControllerHandler.handle(() -> {
-            Id studierId = new Id("63c5003781e3051b2615cad2");
+            Id studierId = authorizeStudierService.authorize(accessToken);
             List<PairDTO> result = searchPairService.findPairOfStudier(page, perPage, studierId);
             return new ControllerHandler.Result(
                     "Success",
