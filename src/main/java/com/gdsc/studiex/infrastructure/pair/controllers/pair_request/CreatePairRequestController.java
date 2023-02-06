@@ -2,7 +2,7 @@ package com.gdsc.studiex.infrastructure.pair.controllers.pair_request;
 
 
 import com.gdsc.studiex.domain.pair.models.PairRequestDTO;
-import com.gdsc.studiex.domain.pair.services.CreatePairRequestService;
+import com.gdsc.studiex.domain.pair.services.pair_request.CreatePairRequestService;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.studier_auth.services.AuthorizeStudierService;
 import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;
@@ -21,12 +21,12 @@ public class CreatePairRequestController {
 
     @PostMapping("/pairRequest")
     public ResponseEntity<?> createPairRequest(@RequestHeader(name = "access-token", required = true) String accessToken,
-            @RequestBody Id toStudierId) {
+            @RequestBody String toStudierId) {
         return ControllerHandler.handle(() -> {
             final Id fromStudierId = authorizeStudierService.authorize(accessToken);
             createPairRequestService.createPairRequest(PairRequestDTO.builder()
                             .fromStudierId(fromStudierId)
-                            .toStudierId(toStudierId)
+                            .toStudierId(new Id(toStudierId))
                             .build());
             return new ControllerHandler.Result(
                     "Success",
