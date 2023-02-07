@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -36,7 +37,7 @@ public class SuggestService {
                 .supplies(suppliesOfStudier)
                 .studierId(studierId)
                 .build();
-        final PastSuggestion pastSuggestion = pastSuggestionRepository.getByStudierId(studierId);
+        final PastSuggestion pastSuggestion = pastSuggestionRepository.findByStudierId(studierId);
         final List<Demands> potentialDemandsList = demandsRepository.findDemandsContains(
                 suppliesOfStudier.getAllowedSupplyIds(),
                 new ArrayList<>(),
@@ -54,9 +55,18 @@ public class SuggestService {
                 suppliesDemandsOfStudier,
                 potentialSuppliesDemandsList
         );
-        if (suggestedSuppliesDemandsList.size() <= limit)
-            return suggestedSuppliesDemandsList;
-        else
-            return suggestedSuppliesDemandsList.subList(0, limit - 1);
+        final List<SuggestorResult> result = sublist(limit, suggestedSuppliesDemandsList);
+
+        pastSuggestion.addStudierIds(result.stream()
+                .map(SuggestorResult::getStudierId)
+                .collect(Collectors.toList()));
+        pastSuggestionRepository.save(pastSuggestion);
+
+        return result;
+    }
+
+    private List<SuggestorResult> sublist(int limit, List<SuggestorResult> results) {
+        if (results.size() <= limit) return results;
+        return results.subList(0, limit - 1);
     }
 }
