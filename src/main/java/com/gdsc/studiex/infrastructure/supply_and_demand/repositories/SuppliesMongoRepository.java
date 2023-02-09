@@ -44,7 +44,7 @@ public class SuppliesMongoRepository implements SuppliesRepository {
 
     public Supplies findByStudierId(Id studierId) {
         final Query query = new Query(
-                Criteria.where("studierId")
+                Criteria.where("_id")
                         .is(studierId.toString())
         );
         final String supplies = mongoTemplate.findOne(query, String.class, COLLECTION);
