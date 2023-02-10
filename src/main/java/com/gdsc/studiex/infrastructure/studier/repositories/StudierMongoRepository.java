@@ -40,7 +40,8 @@ public class StudierMongoRepository implements StudierRepository {
         update.set("name", studier.getName());
         update.set("gender", studier.getGender());
         update.set("yob", studier.getYob());
-        update.set("avatar", studier.getAvatar().toString());
+        update.set("avatar", studier.getAvatar() == null ? null : studier.getAvatar().toString());
+        update.set("facebookLink", studier.getFacebookLink() == null ? null : studier.getFacebookLink().toString());
         mongoTemplate.upsert(
                 query,
                 update,

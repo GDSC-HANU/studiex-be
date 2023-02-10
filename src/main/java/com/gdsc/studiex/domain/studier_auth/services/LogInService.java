@@ -27,18 +27,18 @@ public class LogInService {
 
     public String logIn(String fbAccessToken) throws BusinessLogicException {
         RestTemplate restTemplate = new RestTemplate();
-        FacebookUser facebookUser = restTemplate.getForObject("https://graph.facebook.com/me?fields=id,name,email,gender,birthday&access_token="
+        FacebookUser facebookUser = restTemplate.getForObject("https://graph.facebook.com/me?fields=id,name,email,gender,birthday,link&access_token="
                 + fbAccessToken, FacebookUser.class);
         if(facebookUser != null) {
             String facebookId = facebookUser.getId();
             Account account = accountRepository.findByFacebookId(facebookId);
             if(account == null) {
                 String birthday = facebookUser.getBirthday();
-                Studier studier = new Studier(facebookUser.getName(),
+                Studier studier = Studier.createStudierWithoutId(facebookUser.getName(),
                         Gender.valueOf(facebookUser.getGender().toUpperCase()),
                         Integer.parseInt(birthday.substring(birthday.length()-4, birthday.length())),
-                        new Url("http://graph.facebook.com/" + facebookId +
-                                "/picture?type=square&access_token=" + fbAccessToken));
+                        new Url(""),
+                        new Url(facebookUser.getLink()));
                 account = Account.createAccountFromFacebook(studier.getStudierId(),
                         facebookId, new Email(facebookUser.getEmail()));
                 studierRepository.save(studier);
@@ -60,5 +60,6 @@ public class LogInService {
         private String email;
         private String gender;
         private String birthday;
+        private String link;
     }
 }
