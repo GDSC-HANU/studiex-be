@@ -24,7 +24,7 @@ public class UpdateStudierController {
         return ControllerHandler.handle(() -> {
             Id studierId = authorizeStudierService.authorize(accessToken);
             StudierDTO studierDTO = CustomObjectMapper.deserialize(json, StudierDTO.class);
-            updateStudierService.updateStudierProfile(UpdateStudierService.buildStudier(studierId, studierDTO));
+            updateStudierService.updateStudierProfile(studierId, studierDTO);
             return new ControllerHandler.Result("Success", null);
         });
     }

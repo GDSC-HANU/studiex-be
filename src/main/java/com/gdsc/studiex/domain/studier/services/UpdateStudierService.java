@@ -12,16 +12,15 @@ import org.springframework.stereotype.Service;
 public class UpdateStudierService {
     private final StudierRepository studierRepository;
 
-    public void updateStudierProfile(Studier studier) {
+    public void updateStudierProfile(Id studierId, StudierDTO studierDTO) {
+        Studier studier = studierRepository.findByStudierId(studierId);
+        if(studier != null) {
+            studier.setName(studierDTO.getName());
+            studier.setGender(studierDTO.getGender());
+            studier.setYob(studierDTO.getYob());
+            studier.setAvatar(studierDTO.getAvatar());
+        }
         studierRepository.save(studier);
     }
 
-    public static Studier buildStudier(Id studierId, StudierDTO studierDTO) {
-        return Studier.createStudierWithId(studierId,
-                studierDTO.getName(),
-                studierDTO.getGender(),
-                studierDTO.getYob(),
-                studierDTO.getAvatar(),
-                studierDTO.getFacebookLink());
-    }
 }

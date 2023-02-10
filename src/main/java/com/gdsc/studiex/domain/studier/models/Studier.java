@@ -1,6 +1,7 @@
 package com.gdsc.studiex.domain.studier.models;
 
 import com.gdsc.studiex.domain.share.models.Id;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -8,23 +9,36 @@ public class Studier {
     private Id studierId;
     private String name;
     private Gender gender;
-    private int yob;
+    private Integer yob;
     private Url avatar;
     private Url facebookLink;
 
-    private Studier(Id studierId, String name, Gender gender, int yob, Url avatar, Url facebookLink) {
-        this.studierId = studierId;
+    private Studier() {
+    }
+
+    @Builder(builderMethodName = "newStudierBuilder", builderClassName = "NewStudierBuilder")
+    public Studier(String name, Gender gender, Integer yob, Url avatar, Url facebookLink) {
+        this.studierId = Id.generateRandom();
         this.name = name;
         this.gender = gender;
         this.yob = yob;
         this.avatar = avatar;
         this.facebookLink = facebookLink;
     }
-    public static Studier createStudierWithoutId(String name, Gender gender, int yob, Url avatar, Url facebookLink) {
-        return new Studier(Id.generateRandom(), name, gender, yob, avatar, facebookLink);
+
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public static Studier createStudierWithId(Id studierId, String name, Gender gender, int yob, Url avatar, Url facebookLink) {
-        return new Studier(studierId, name, gender, yob, avatar, facebookLink);
+    public void setYob(Integer yob) {
+        this.yob = yob;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public void setAvatar(Url avatar) {
+        this.avatar = avatar;
     }
 }

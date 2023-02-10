@@ -10,7 +10,6 @@ public class StudierDTO {
     private Gender gender;
     private int yob;
     private Url avatar;
-    private Url facebookLink;
 
     public static StudierDTO fromStudier(Studier studier) {
         return StudierDTO.builder()
@@ -18,7 +17,6 @@ public class StudierDTO {
                 .avatar(studier.getAvatar())
                 .gender(studier.getGender())
                 .yob(studier.getYob())
-                .facebookLink(studier.getFacebookLink())
                 .build();
     }
 }

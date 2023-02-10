@@ -27,20 +27,25 @@ public class LogInService {
 
     public String logIn(String fbAccessToken) throws BusinessLogicException {
         RestTemplate restTemplate = new RestTemplate();
-        FacebookUser facebookUser = restTemplate.getForObject("https://graph.facebook.com/me?fields=id,name,email,gender,birthday,link&access_token="
+        FacebookUser facebookUser = restTemplate.getForObject("https://graph.facebook.com/me?fields=id,name,email,gender,birthday&access_token="
                 + fbAccessToken, FacebookUser.class);
         if(facebookUser != null) {
             String facebookId = facebookUser.getId();
             Account account = accountRepository.findByFacebookId(facebookId);
             if(account == null) {
                 String birthday = facebookUser.getBirthday();
-                Studier studier = Studier.createStudierWithoutId(facebookUser.getName(),
-                        Gender.valueOf(facebookUser.getGender().toUpperCase()),
-                        Integer.parseInt(birthday.substring(birthday.length()-4, birthday.length())),
-                        new Url(""),
-                        new Url(facebookUser.getLink()));
-                account = Account.createAccountFromFacebook(studier.getStudierId(),
-                        facebookId, new Email(facebookUser.getEmail()));
+                Studier studier = Studier.newStudierBuilder()
+                        .name(facebookUser.getName())
+                        .gender(Gender.of(facebookUser.getGender()))
+                        .yob(birthday != null ? Integer.parseInt(birthday.substring(birthday.length()-4)) : null)
+                        .avatar(new Url("http://graph.facebook.com/" + facebookId +
+                             "/picture?type=square&access_token=" + fbAccessToken))
+                        .build();
+                account = Account.newAccountBuilder()
+                                .studierId(studier.getStudierId())
+                                .facebookId(facebookId)
+                                .email(new Email(facebookUser.getEmail()))
+                                .build();
                 studierRepository.save(studier);
                 accountRepository.save(account);
             }
@@ -60,6 +65,5 @@ public class LogInService {
         private String email;
         private String gender;
         private String birthday;
-        private String link;
     }
 }
