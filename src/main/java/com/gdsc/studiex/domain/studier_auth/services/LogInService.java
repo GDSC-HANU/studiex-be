@@ -34,13 +34,18 @@ public class LogInService {
             Account account = accountRepository.findByFacebookId(facebookId);
             if(account == null) {
                 String birthday = facebookUser.getBirthday();
-                Studier studier = new Studier(facebookUser.getName(),
-                        Gender.valueOf(facebookUser.getGender().toUpperCase()),
-                        Integer.parseInt(birthday.substring(birthday.length()-4, birthday.length())),
-                        new Url("http://graph.facebook.com/" + facebookId +
-                                "/picture?type=square&access_token=" + fbAccessToken));
-                account = Account.createAccountFromFacebook(studier.getStudierId(),
-                        facebookId, new Email(facebookUser.getEmail()));
+                Studier studier = Studier.newStudierBuilder()
+                        .name(facebookUser.getName())
+                        .gender(Gender.of(facebookUser.getGender()))
+                        .yob(birthday != null ? Integer.parseInt(birthday.substring(birthday.length()-4)) : null)
+                        .avatar(new Url("http://graph.facebook.com/" + facebookId +
+                             "/picture?type=square&access_token=" + fbAccessToken))
+                        .build();
+                account = Account.newAccountBuilder()
+                                .studierId(studier.getStudierId())
+                                .facebookId(facebookId)
+                                .email(new Email(facebookUser.getEmail()))
+                                .build();
                 studierRepository.save(studier);
                 accountRepository.save(account);
             }
