@@ -6,6 +6,8 @@ import com.gdsc.studiex.domain.supply_and_demand.models.supply.Supply;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @Builder
 public class SuggestorResult {
@@ -25,8 +27,8 @@ public class SuggestorResult {
 
     private SuppliesDemands suggestedSuppliesDemands;
     private SuppliesDemands suppliesDemandsOfStudier;
-    private SuggestedSupply suggestedSupply;
-    private SuggestedDemand suggestedDemand;
+    private List<SuggestedSupply> suggestedSupplies;
+    private List<SuggestedDemand> suggestedDemands;
     private double score;
     public Id getStudierId() {
         return suggestedSuppliesDemands.getStudierId();
