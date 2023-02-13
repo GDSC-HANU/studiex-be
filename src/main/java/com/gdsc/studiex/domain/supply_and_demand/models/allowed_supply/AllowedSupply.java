@@ -33,6 +33,13 @@ public class AllowedSupply extends IdentifiedVersioningAggregateRoot {
             allowedSupplyItems = new ArrayList<>();
     }
 
+    public static AllowedSupply findAllowedSupplyById(List<AllowedSupply> allowedSupplies, Id id) {
+        for (AllowedSupply allowedSupply : allowedSupplies)
+            if (allowedSupply.getId().equals(id))
+                return allowedSupply;
+        return null;
+    }
+
     public AllowedSupplyItem findItemByKey(String key) {
         for (AllowedSupplyItem item : allowedSupplyItems)
             if (item.getKey().equals(key))

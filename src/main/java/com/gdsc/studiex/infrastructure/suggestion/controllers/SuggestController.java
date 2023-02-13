@@ -4,6 +4,7 @@ import com.gdsc.studiex.domain.share.exceptions.BusinessLogicException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.studier_auth.services.AuthorizeStudierService;
 import com.gdsc.studiex.domain.suggestion.models.SuggestorResult;
+import com.gdsc.studiex.domain.suggestion.models.SuggestorResultDTO;
 import com.gdsc.studiex.domain.suggestion.services.SuggestService;
 import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class SuggestController {
                                      @RequestParam(name = "limit", required = true) int limit) throws BusinessLogicException {
         return ControllerHandler.handle(() -> {
             final Id id = authorizeStudierService.authorize(accessToken);
-            final List<SuggestorResult> suggestorResults = suggestService.suggest(id, limit);
+            final List<SuggestorResultDTO> suggestorResults = suggestService.suggest(id, limit);
             return new ControllerHandler.Result("Success", suggestorResults);
         });
     }

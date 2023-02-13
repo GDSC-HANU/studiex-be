@@ -2,13 +2,12 @@ package com.gdsc.studiex.domain.suggestion.services;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
-import com.gdsc.studiex.domain.suggestion.models.PastSuggestion;
-import com.gdsc.studiex.domain.suggestion.models.Suggestor;
-import com.gdsc.studiex.domain.suggestion.models.SuggestorResult;
-import com.gdsc.studiex.domain.suggestion.models.SuppliesDemands;
+import com.gdsc.studiex.domain.suggestion.models.*;
 import com.gdsc.studiex.domain.suggestion.repositories.PastSuggestionRepository;
+import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
 import com.gdsc.studiex.domain.supply_and_demand.models.demand.Demands;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.Supplies;
+import com.gdsc.studiex.domain.supply_and_demand.repositories.AllowedSupplyRepository;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.DemandsRepository;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.SuppliesRepository;
 import lombok.AllArgsConstructor;
@@ -24,8 +23,9 @@ public class SuggestService {
     private final DemandsRepository demandsRepository;
     private final SuppliesRepository suppliesRepository;
     private final PastSuggestionRepository pastSuggestionRepository;
+    private final AllowedSupplyRepository allowedSupplyRepository;
 
-    public List<SuggestorResult> suggest(Id studierId, int limit) {
+    public List<SuggestorResultDTO> suggest(Id studierId, int limit) {
         if (limit <= 0)
             throw new InvalidInputException("limit must be greater than 0");
         final Supplies suppliesOfStudier = suppliesRepository.findByStudierId(studierId);
@@ -62,7 +62,12 @@ public class SuggestService {
                 .collect(Collectors.toList()));
         pastSuggestionRepository.save(pastSuggestion);
 
-        return result;
+        final List<Id> allowedSupplyIds = SuggestorResult.extractAllAllowedSupplyId(result);
+        final List<AllowedSupply> allowedSupplies = allowedSupplyRepository.findByIds(allowedSupplyIds);
+
+        return result.stream()
+                .map(suggestorResult -> SuggestorResultDTO.fromSuggestorResult(suggestorResult, allowedSupplies))
+                .collect(Collectors.toList());
     }
 
     private List<SuggestorResult> sublist(int limit, List<SuggestorResult> results) {
