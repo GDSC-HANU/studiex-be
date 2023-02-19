@@ -1,6 +1,7 @@
 package com.gdsc.studiex.domain.studier_auth.services;
 
 import com.gdsc.studiex.domain.share.exceptions.BusinessLogicException;
+import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.studier.models.Gender;
 import com.gdsc.studiex.domain.studier.models.Studier;
 import com.gdsc.studiex.domain.studier.models.Url;
@@ -25,7 +26,7 @@ public class LogInService {
     private final SessionRepository sessionRepository;
     private final SessionConfig sessionConfig;
 
-    public String logIn(String fbAccessToken) throws BusinessLogicException {
+    public OutputLogIn logIn(String fbAccessToken) throws BusinessLogicException {
         RestTemplate restTemplate = new RestTemplate();
         FacebookUser facebookUser = restTemplate.getForObject("https://graph.facebook.com/me?fields=id,name,email,gender,birthday&access_token="
                 + fbAccessToken, FacebookUser.class);
@@ -51,7 +52,8 @@ public class LogInService {
             }
             Session session = Session.createSession(account.getStudierId());
             sessionRepository.save(session);
-            return session.genToken(sessionConfig.getTokenSecret());
+            String accessToken = session.genToken(sessionConfig.getTokenSecret());
+            return new OutputLogIn(accessToken, account.getStudierId());
         } else {
             throw new BusinessLogicException("Cannot login by this facebook", null);
         }
@@ -65,5 +67,11 @@ public class LogInService {
         private String email;
         private String gender;
         private String birthday;
+    }
+
+    @AllArgsConstructor
+    public static class OutputLogIn {
+        private String accessToken;
+        private Id studierId;
     }
 }
