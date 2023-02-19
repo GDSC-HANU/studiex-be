@@ -4,6 +4,8 @@ import com.gdsc.studiex.domain.share.models.Id;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Set;
+
 @Getter
 public class Studier {
     private Id studierId;
@@ -12,6 +14,14 @@ public class Studier {
     private Integer yob;
     private Url avatar;
     private Url facebookLink;
+    private Set<Id> qualificationId;
+    private Set<Id> personalityIds;
+    private Set<Id> likeIds;
+    private Set<Id> dislikeIds;
+    private Coordinates coordinates;
+    private Set<Id> lifeGoalIds;
+    private Set<Id> learningStyleIds;
+    private Set<Id> majorIds;
 
     private Studier() {
     }

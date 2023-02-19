@@ -2,6 +2,9 @@ package com.gdsc.studiex.domain.suggestion.services;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.studier.models.Studier;
+import com.gdsc.studiex.domain.studier.models.StudierSearchCriteriaDTO;
+import com.gdsc.studiex.domain.studier.services.SearchStudierService;
 import com.gdsc.studiex.domain.suggestion.models.*;
 import com.gdsc.studiex.domain.suggestion.repositories.PastSuggestionRepository;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
@@ -11,9 +14,9 @@ import com.gdsc.studiex.domain.supply_and_demand.repositories.AllowedSupplyRepos
 import com.gdsc.studiex.domain.supply_and_demand.repositories.DemandsRepository;
 import com.gdsc.studiex.domain.supply_and_demand.repositories.SuppliesRepository;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,23 +27,27 @@ public class SuggestService {
     private final SuppliesRepository suppliesRepository;
     private final PastSuggestionRepository pastSuggestionRepository;
     private final AllowedSupplyRepository allowedSupplyRepository;
+    private final SearchStudierService searchStudierService;
 
-    public List<SuggestorResultDTO> suggest(Id studierId, int limit) {
-        if (limit <= 0)
+    public List<SuggestorResultDTO> suggest(Input input) {
+        if (input.limit <= 0)
             throw new InvalidInputException("limit must be greater than 0");
-        final Supplies suppliesOfStudier = suppliesRepository.findByStudierId(studierId);
-        final Demands demandsOfStudier = demandsRepository.findByStudierId(studierId);
+        final Supplies suppliesOfStudier = suppliesRepository.findByStudierId(input.studierId);
+        final Demands demandsOfStudier = demandsRepository.findByStudierId(input.studierId);
         if (suppliesOfStudier == null || demandsOfStudier == null)
             throw new InvalidInputException("Studier is lacking demands or supplies");
         final SuppliesDemands suppliesDemandsOfStudier = SuppliesDemands.builder()
                 .demands(demandsOfStudier)
                 .supplies(suppliesOfStudier)
-                .studierId(studierId)
+                .studierId(input.studierId)
                 .build();
-        final PastSuggestion pastSuggestion = pastSuggestionRepository.findByStudierId(studierId);
+        final List<Studier> matchCriteriaStudiers = searchStudierService.searchByCriteria(input.studierId, input.studierSearchCriteria);
+        final PastSuggestion pastSuggestion = pastSuggestionRepository.findByStudierId(input.studierId);
         final List<Demands> potentialDemandsList = demandsRepository.findDemandsContains(
                 suppliesOfStudier.getAllowedSupplyIds(),
-                new ArrayList<>(),
+                matchCriteriaStudiers.stream()
+                        .map(Studier::getStudierId)
+                        .collect(Collectors.toList()),
                 pastSuggestion.studierIds()
         );
         final List<Supplies> potentialSuppliesList = suppliesRepository.findSuppliesContains(
@@ -55,7 +62,7 @@ public class SuggestService {
                 suppliesDemandsOfStudier,
                 potentialSuppliesDemandsList
         );
-        final List<SuggestorResult> result = sublist(limit, suggestedSuppliesDemandsList);
+        final List<SuggestorResult> result = sublist(input.limit, suggestedSuppliesDemandsList);
 
         pastSuggestion.addStudierIds(result.stream()
                 .map(SuggestorResult::getStudierId)
@@ -74,4 +81,12 @@ public class SuggestService {
         if (results.size() <= limit) return results;
         return results.subList(0, limit - 1);
     }
+
+    @Builder
+    public static class Input {
+        public Id studierId;
+        public StudierSearchCriteriaDTO studierSearchCriteria;
+        public int limit;
+    }
+
 }
