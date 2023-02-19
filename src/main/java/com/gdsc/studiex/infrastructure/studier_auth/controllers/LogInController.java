@@ -1,5 +1,7 @@
 package com.gdsc.studiex.infrastructure.studier_auth.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.gdsc.studiex.domain.studier_auth.services.LogInService;
 import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;
 import lombok.AllArgsConstructor;
@@ -16,8 +18,8 @@ public class LogInController {
     @PostMapping("/studierAuth/logIn")
     public ResponseEntity<?> logIn(@RequestHeader(value = "fb-access-token", required = true) String fbAccessToken) {
         return ControllerHandler.handle(() -> {
-            final String token = logInService.logIn(fbAccessToken);
-            return new ControllerHandler.Result("Success", token);
+            final LogInService.OutputLogIn outputLogIn = logInService.logIn(fbAccessToken);
+            return new ControllerHandler.Result("Success", outputLogIn);
         });
     }
 }
