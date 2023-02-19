@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CreateAllowedSupplyController {
     private final CreateAllowedSupplyService createAllowedSupplyService;
 
-    @PostMapping(path = "/allowedSupply")
+    @PostMapping(path = "/supplyAndDemand/allowedSupply")
     public ResponseEntity<?> createAllowedSupply(@RequestBody String json) {
         return ControllerHandler.handle(() -> {
             final AllowedSupplyDTO body = CustomObjectMapper.deserialize(json, AllowedSupplyDTO.class);

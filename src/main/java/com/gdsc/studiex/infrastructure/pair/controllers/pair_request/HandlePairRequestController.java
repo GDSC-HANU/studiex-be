@@ -18,7 +18,7 @@ public class HandlePairRequestController {
     private final HandlePairRequestService handlePairRequestService;
     private final AuthorizeStudierService authorizeStudierService;
 
-    @DeleteMapping("/pairRequest")
+    @DeleteMapping("/pair/pairRequest")
     public ResponseEntity<?> handlePairRequest(@RequestHeader("access-token") String accessToken, @RequestBody String json) {
         return ControllerHandler.handle(() -> {
             Id studierId = authorizeStudierService.authorize(accessToken);

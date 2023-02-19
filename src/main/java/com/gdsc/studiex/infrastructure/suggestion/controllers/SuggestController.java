@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
 public class SuggestController {
     @Autowired
     private SuggestService suggestService;
     @Autowired
     private AuthorizeStudierService authorizeStudierService;
 
-    @GetMapping("/suggest")
+    @GetMapping("/suggestion/suggest")
     public ResponseEntity<?> suggest(@RequestHeader(name = "access-token", required = true) String accessToken,
                                      @RequestBody Input body) throws BusinessLogicException {
         return ControllerHandler.handle(() -> {

@@ -19,7 +19,7 @@ public class CreatePairRequestController {
     private final CreatePairRequestService createPairRequestService;
     private final AuthorizeStudierService authorizeStudierService;
 
-    @PostMapping("/pairRequest")
+    @PostMapping("/pair/pairRequest")
     public ResponseEntity<?> createPairRequest(@RequestHeader(name = "access-token", required = true) String accessToken,
             @RequestBody String toStudierId) {
         return ControllerHandler.handle(() -> {
