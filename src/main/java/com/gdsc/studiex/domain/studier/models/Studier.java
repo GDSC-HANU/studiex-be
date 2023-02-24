@@ -14,7 +14,7 @@ public class Studier {
     private Integer yob;
     private Url avatar;
     private Url facebookLink;
-    private Set<Id> qualificationId;
+    private Set<Id> qualificationIds;
     private Set<Id> personalityIds;
     private Set<Id> likeIds;
     private Set<Id> dislikeIds;

@@ -4,7 +4,7 @@ import com.gdsc.studiex.domain.studier.repositories.PersonalityRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PersonalityMongoRepository extends StringEntityMongoRepository implements PersonalityRepository {
+public class PersonalityMongoRepository extends StringEntitiesMongoRepository implements PersonalityRepository {
     @Override
     protected String collectionName() {
         return "Studier.Personalities";

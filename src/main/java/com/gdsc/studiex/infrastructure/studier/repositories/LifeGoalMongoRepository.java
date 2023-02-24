@@ -4,7 +4,7 @@ import com.gdsc.studiex.domain.studier.repositories.LifeGoalRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class LifeGoalMongoRepository extends StringEntityMongoRepository implements LifeGoalRepository {
+public class LifeGoalMongoRepository extends StringEntitiesMongoRepository implements LifeGoalRepository {
     @Override
     protected String collectionName() {
         return "Studier.LifeGoals";
