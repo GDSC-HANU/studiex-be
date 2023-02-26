@@ -1,4 +1,4 @@
 package com.gdsc.studiex.domain.studier.repositories;
 
-public interface PersonalityRepository extends StringEntityRepository  {
+public interface PersonalityRepository extends StringEntitiesRepository {
 }

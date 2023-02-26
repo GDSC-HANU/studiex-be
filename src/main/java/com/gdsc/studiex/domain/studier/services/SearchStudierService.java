@@ -28,13 +28,13 @@ public class SearchStudierService {
     }
 
     public List<Studier> searchByCriteria(Id studierId, StudierSearchCriteriaDTO studierSearchCriteria) {
-        final List<StringEntity> qualifications = qualificationRepository.findByValues(studierSearchCriteria.getQualifications());
-        final List<StringEntity> personalities = personalityRepository.findByValues(studierSearchCriteria.getPersonalities());
-        final List<StringEntity> likes = likeRepository.findByValues(studierSearchCriteria.getLikes());
-        final List<StringEntity> dislikes = dislikeRepository.findByValues(studierSearchCriteria.getDislikes());
-        final List<StringEntity> lifeGoals = lifeGoalRepository.findByValues(studierSearchCriteria.getLifeGoals());
-        final List<StringEntity> learningStyles = learningStyleRepository.findByValues(studierSearchCriteria.getLearningStyles());
-        final List<StringEntity> majors = majorRepository.findByValues(studierSearchCriteria.getMajors());
+        final List<StringEntity> qualifications = qualificationRepository.find().findByValues(studierSearchCriteria.getQualifications());
+        final List<StringEntity> personalities = personalityRepository.find().findByValues(studierSearchCriteria.getPersonalities());
+        final List<StringEntity> likes = likeRepository.find().findByValues(studierSearchCriteria.getLikes());
+        final List<StringEntity> dislikes = dislikeRepository.find().findByValues(studierSearchCriteria.getDislikes());
+        final List<StringEntity> lifeGoals = lifeGoalRepository.find().findByValues(studierSearchCriteria.getLifeGoals());
+        final List<StringEntity> learningStyles = learningStyleRepository.find().findByValues(studierSearchCriteria.getLearningStyles());
+        final List<StringEntity> majors = majorRepository.find().findByValues(studierSearchCriteria.getMajors());
         final List<Studier> studiers = studierRepository.searchByCriteria(
                 studierId,
                 StudierSearchCriteria.builder()

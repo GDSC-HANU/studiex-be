@@ -4,7 +4,7 @@ import com.gdsc.studiex.domain.studier.repositories.LikeRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class LikeMongoRepository extends StringEntityMongoRepository implements LikeRepository {
+public class LikeMongoRepository extends StringEntitiesMongoRepository implements LikeRepository {
     @Override
     protected String collectionName() {
         return "Studier.Likes";
