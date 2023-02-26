@@ -89,4 +89,14 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
                 .map(str -> CustomObjectMapper.deserialize(str, AllowedSupply.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public AllowedSupply findBySubjectName(String subjectName) {
+        final Query query = new Query(
+                Criteria.where("subjectName")
+                        .is(subjectName)
+        );
+        final String result = mongoTemplate.findOne(query, String.class, COLLECTION);
+        return CustomObjectMapper.deserialize(result, AllowedSupply.class);
+    }
 }
