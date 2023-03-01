@@ -8,7 +8,7 @@ import lombok.Getter;
 public class StudierDTO {
     private String name;
     private Gender gender;
-    private int yob;
+    private Integer yob;
     private Url avatar;
 
     public static StudierDTO fromStudier(Studier studier) {
