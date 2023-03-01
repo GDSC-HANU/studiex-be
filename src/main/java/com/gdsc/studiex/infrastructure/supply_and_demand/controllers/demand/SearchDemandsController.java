@@ -17,7 +17,7 @@ import java.util.List;
 public class SearchDemandsController {
     private final SearchDemandsService searchDemandsService;
 
-    @GetMapping("/demand")
+    @GetMapping("/supplyAndDemand/demand")
     public ResponseEntity<?> getDemands(@RequestParam("studierId") String studierId) {
         return ControllerHandler.handle(() -> {
             final List<DemandsDTO.DemandDTO> demandsDTO = searchDemandsService.searchDemands(new Id(studierId)).demands;

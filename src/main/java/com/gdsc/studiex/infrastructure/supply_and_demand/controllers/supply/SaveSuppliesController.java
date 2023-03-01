@@ -22,7 +22,7 @@ public class SaveSuppliesController {
     @Autowired
     private AuthorizeStudierService authorizeStudierService;
 
-    @PostMapping("/supply")
+    @PostMapping("/supplyAndDemand/supply")
     public ResponseEntity<?> saveSupplies(@RequestHeader(name = "access-token", required = true) String accessToken,
                                           @RequestBody String json) {
         return ControllerHandler.handle(() -> {

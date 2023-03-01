@@ -20,7 +20,7 @@ public class SearchPairRequestController {
     private final SearchPairRequestService searchPairRequestService;
     private final AuthorizeStudierService authorizeStudierService;
 
-    @GetMapping("/pairRequest")
+    @GetMapping("/pair/pairRequest")
     public ResponseEntity<?> findPairRequestOfStudier(@RequestParam("page") int page,
                                                       @RequestParam("perPage") int perPage,
                                                       @RequestHeader("access-token") String accessToken) {

@@ -18,7 +18,7 @@ public class SearchAllowedSupplyController {
     @Autowired
     private SearchAllowedSupplyService searchAllowedSupplyService;
 
-    @GetMapping(path = "/allowedSupply")
+    @GetMapping(path = "/supplyAndDemand/allowedSupply")
     public ResponseEntity<?> searchAllowedSupply(@RequestParam int page, @RequestParam int perPage) {
         return ControllerHandler.handle(() -> {
             final List<AllowedSupplyDTO> result = searchAllowedSupplyService.searchAllowedSupply(page, perPage);
