@@ -13,5 +13,6 @@ public interface AllowedSupplyRepository {
     public List<AllowedSupply> findPaging(int page, int perPage);
 
     public List<AllowedSupply> findByIds(List<Id> allowedSupplyIds);
-    public AllowedSupply findBySubjectName(String subjectName);
+
+    public AllowedSupply findById(Id id);
 }

@@ -91,10 +91,10 @@ public class AllowedSupplyMongoRepository implements AllowedSupplyRepository {
     }
 
     @Override
-    public AllowedSupply findBySubjectName(String subjectName) {
+    public AllowedSupply findById(Id id) {
         final Query query = new Query(
-                Criteria.where("subjectName")
-                        .is(subjectName)
+                Criteria.where("id")
+                        .is(id.toString())
         );
         final String result = mongoTemplate.findOne(query, String.class, COLLECTION);
         return CustomObjectMapper.deserialize(result, AllowedSupply.class);

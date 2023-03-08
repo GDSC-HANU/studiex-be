@@ -69,4 +69,24 @@ public class AllowedSupplyItem {
         }
         return false;
     }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setOperator(AllowedSupplyOperator operator) {
+        this.operator = operator;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
+
+    public void setValue(AllowedSupplyItemValue value) {
+        this.value = value;
+    }
 }

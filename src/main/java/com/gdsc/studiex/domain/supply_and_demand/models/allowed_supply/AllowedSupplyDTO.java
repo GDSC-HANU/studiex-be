@@ -2,6 +2,7 @@ package com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply;
 
 import com.gdsc.studiex.domain.share.models.Id;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +27,9 @@ public class AllowedSupplyDTO {
     }
 
     @Builder
+    @Getter
     public static class AllowedSupplyItemDTO {
+        public Id id;
         public String key;
         public AllowedSupplyOperator operator;
         public AllowedSupplyItemValueDTO value;
@@ -35,6 +38,7 @@ public class AllowedSupplyDTO {
 
         public static AllowedSupplyItemDTO fromAllowedSupplyItem(AllowedSupplyItem allowedSupplyItem) {
             return AllowedSupplyItemDTO.builder()
+                    .id(allowedSupplyItem.getId())
                     .key(allowedSupplyItem.getKey())
                     .operator(allowedSupplyItem.getOperator())
                     .value(allowedSupplyItem.getValue().toAllowedSupplyItemValueDTO())

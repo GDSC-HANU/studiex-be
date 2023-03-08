@@ -60,4 +60,8 @@ public class AllowedSupply extends IdentifiedVersioningAggregateRoot {
                 return item;
         return null;
     }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
 }
