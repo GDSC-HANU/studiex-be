@@ -46,6 +46,12 @@ public class SaveDemandsService {
         final AllowedSupply allowedSupply = AllowedSupply.findAllowedSupplyBySubjectName(allowedSupplies, inputDemand.subjectName);
         if (allowedSupply == null)
             throw new InvalidInputException("There are no Allowed Supply with subject name: " + inputDemand.subjectName);
+        if(inputDemand.subjectName == null) {
+            throw new InvalidInputException("SubjectName cannot be null");
+        }
+        if(inputDemand.priority == null) {
+            throw new InvalidInputException("Priority cannot be null");
+        }
         final List<DemandItem> demandItems = new ArrayList<>();
         for (DemandsDTO.DemandItemDTO inputDemandItem : inputDemand.demandItems)
             demandItems.add(DemandItem.fromAllowedSupplyBuilder()

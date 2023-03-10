@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,9 +30,12 @@ public class SuppliesDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class SupplyDTO {
+        @NotNull
         public String subjectName;
+        @NotNull
         public List<SupplyItemDTO> supplyItems;
         public boolean active;
+        @NotNull
         public SupplyPriority priority;
         public List<CustomSupplyItem> customSupplyItems;
 
