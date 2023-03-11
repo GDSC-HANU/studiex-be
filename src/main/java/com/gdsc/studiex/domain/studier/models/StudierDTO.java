@@ -3,6 +3,8 @@ package com.gdsc.studiex.domain.studier.models;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Set;
+
 @Builder
 @Getter
 public class StudierDTO {
@@ -10,13 +12,13 @@ public class StudierDTO {
     private Gender gender;
     private Integer yob;
     private Url avatar;
+    private Set<String> qualifications;
+    private Set<String> personalities;
+    private Set<String> likes;
+    private Set<String> dislikes;
+    private Coordinates coordinates;
+    private Set<String> lifeGoals;
+    private Set<String> learningStyles;
+    private Set<String> majors;
 
-    public static StudierDTO fromStudier(Studier studier) {
-        return StudierDTO.builder()
-                .name(studier.getName())
-                .avatar(studier.getAvatar())
-                .gender(studier.getGender())
-                .yob(studier.getYob())
-                .build();
-    }
 }
