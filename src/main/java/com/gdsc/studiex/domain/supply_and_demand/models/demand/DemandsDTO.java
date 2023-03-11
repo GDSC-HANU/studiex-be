@@ -7,6 +7,8 @@ import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSu
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupplyItem;
 import lombok.Builder;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,9 +22,12 @@ public class DemandsDTO {
 
     @Builder
     public static class DemandDTO {
+        @NotNull
         public String subjectName;
+        @NotNull
         public List<DemandItemDTO> demandItems;
         public boolean active;
+        @NotNull
         public DemandPriority priority;
         public List<CustomDemandItem> customDemandItems;
 
