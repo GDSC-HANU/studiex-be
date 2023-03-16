@@ -2,6 +2,7 @@ package com.gdsc.studiex.infrastructure.studier.repositories;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.studier.models.Language;
 import com.gdsc.studiex.domain.studier.models.Studier;
 import com.gdsc.studiex.domain.studier.models.StudierSearchCriteria;
 import com.gdsc.studiex.domain.studier.repositories.StudierRepository;
@@ -15,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -55,7 +57,8 @@ public class StudierMongoRepository implements StudierRepository {
     }
 
     @Override
-    public List<Studier> searchByCriteria(Id studerId, StudierSearchCriteria studierSearchCriteria) {
+    public List<Studier> searchByCriteria(Id studerId,
+                                          StudierSearchCriteria studierSearchCriteria) {
         final Studier studier = findByStudierId(studerId);
         if (studier == null)
             throw new InvalidInputException("Cannot find studier");
@@ -93,6 +96,8 @@ public class StudierMongoRepository implements StudierRepository {
         if (studierSearchCriteria.getMajorIds() != null)
             query.addCriteria(Criteria.where("majorIds")
                     .in(studierSearchCriteria.getMajorIds()));
+        query.addCriteria(Criteria.where("languagesForCommunication")
+                .in(studierSearchCriteria.getLanguagesForCommunication()));
         final List<String> jsons = mongoTemplate.find(query, String.class, COLLECTIONS);
         return jsons.stream()
                 .map(str -> CustomObjectMapper.deserialize(str, Studier.class))

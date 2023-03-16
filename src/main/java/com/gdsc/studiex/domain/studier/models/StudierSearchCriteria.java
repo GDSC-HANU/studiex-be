@@ -21,6 +21,8 @@ public class StudierSearchCriteria {
     private Set<Id> lifeGoalIds;
     private Set<Id> learningStyleIds;
     private Set<Id> majorIds;
+    private Set<Language> languagesForCommunication;
+
 
     public StudierSearchCriteria(Set<Id> qualificationIds,
                                  AgeRange ageRange,
@@ -31,7 +33,8 @@ public class StudierSearchCriteria {
                                  PositiveNumber distance,
                                  Set<Id> lifeGoalIds,
                                  Set<Id> learningStyleIds,
-                                 Set<Id> majorIds) {
+                                 Set<Id> majorIds,
+                                 Set<Language> languagesForCommunication) {
         this.qualificationIds = Collections.unmodifiableSet(qualificationIds);
         this.ageRange = ageRange;
         this.gender = gender;
@@ -42,5 +45,6 @@ public class StudierSearchCriteria {
         this.lifeGoalIds = Collections.unmodifiableSet(lifeGoalIds);
         this.learningStyleIds = Collections.unmodifiableSet(learningStyleIds);
         this.majorIds = Collections.unmodifiableSet(majorIds);
+        this.languagesForCommunication = Collections.unmodifiableSet(languagesForCommunication);
     }
 }

@@ -4,6 +4,7 @@ import com.gdsc.studiex.domain.share.models.Id;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -22,6 +23,7 @@ public class Studier {
     private Set<Id> lifeGoalIds;
     private Set<Id> learningStyleIds;
     private Set<Id> majorIds;
+    private Set<Language> languagesForCommunication;
 
     private Studier() {
     }
@@ -34,6 +36,7 @@ public class Studier {
         this.yob = yob;
         this.avatar = avatar;
         this.facebookLink = facebookLink;
+        this.languagesForCommunication = new HashSet<>();
     }
 
     public void setName(String name) {

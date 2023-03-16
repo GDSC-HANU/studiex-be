@@ -17,4 +17,5 @@ public class StudierSearchCriteriaDTO {
     private Set<String> lifeGoals;
     private Set<String> learningStyles;
     private Set<String> majors;
+    private Set<Language> languagesForCommunication;
 }
