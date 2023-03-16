@@ -4,7 +4,9 @@ import com.gdsc.studiex.domain.share.exceptions.BusinessLogicException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.studier.models.Gender;
 import com.gdsc.studiex.domain.studier.models.Studier;
+import com.gdsc.studiex.domain.studier.models.StudierPrivacy;
 import com.gdsc.studiex.domain.studier.models.Url;
+import com.gdsc.studiex.domain.studier.repositories.StudierPrivacyRepository;
 import com.gdsc.studiex.domain.studier.repositories.StudierRepository;
 import com.gdsc.studiex.domain.studier_auth.config.SessionConfig;
 import com.gdsc.studiex.domain.studier_auth.models.Account;
@@ -24,6 +26,7 @@ public class LogInService {
     private final AccountRepository accountRepository;
     private final StudierRepository studierRepository;
     private final SessionRepository sessionRepository;
+    private final StudierPrivacyRepository studierPrivacyRepository;
     private final SessionConfig sessionConfig;
 
     public OutputLogIn logIn(String fbAccessToken) throws BusinessLogicException {
@@ -48,6 +51,7 @@ public class LogInService {
                                 .email(new Email(facebookUser.getEmail()))
                                 .build();
                 studierRepository.save(studier);
+                studierPrivacyRepository.save(StudierPrivacy.defaultStudierPrivacy(studier.getStudierId()));
                 accountRepository.save(account);
             }
             Session session = Session.createSession(account.getStudierId());

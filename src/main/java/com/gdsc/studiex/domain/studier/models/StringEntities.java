@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class StringEntities {
     private List<StringEntity> data;
 
-    private StringEntities(List<StringEntity> data) {
+    public StringEntities(List<StringEntity> data) {
         this.data = data;
     }
 

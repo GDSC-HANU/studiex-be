@@ -29,7 +29,9 @@ public class Studier {
     }
 
     @Builder(builderMethodName = "newStudierBuilder", builderClassName = "NewStudierBuilder")
-    public Studier(String name, Gender gender, Integer yob, Url avatar, Url facebookLink) {
+    public Studier(Id studierId, String name, Gender gender, Integer yob, Url avatar, Url facebookLink,
+                   Set<Id> qualificationIds, Set<Id> personalityIds, Set<Id> likeIds, Set<Id> dislikeIds,
+                   Coordinates coordinates, Set<Id> lifeGoalIds, Set<Id> learningStyleIds, Set<Id> majorIds) {
         this.studierId = Id.generateRandom();
         this.name = name;
         this.gender = gender;
@@ -37,6 +39,14 @@ public class Studier {
         this.avatar = avatar;
         this.facebookLink = facebookLink;
         this.languagesForCommunication = new HashSet<>();
+        this.qualificationIds = qualificationIds;
+        this.personalityIds = personalityIds;
+        this.likeIds = likeIds;
+        this.dislikeIds = dislikeIds;
+        this.coordinates = coordinates;
+        this.lifeGoalIds = lifeGoalIds;
+        this.learningStyleIds = learningStyleIds;
+        this.majorIds = majorIds;
     }
 
     public void setName(String name) {
@@ -53,5 +63,37 @@ public class Studier {
 
     public void setAvatar(Url avatar) {
         this.avatar = avatar;
+    }
+
+    public void setQualificationIds(Set<Id> qualificationIds) {
+        this.qualificationIds = qualificationIds;
+    }
+
+    public void setPersonalityIds(Set<Id> personalityIds) {
+        this.personalityIds = personalityIds;
+    }
+
+    public void setLikeIds(Set<Id> likeIds) {
+        this.likeIds = likeIds;
+    }
+
+    public void setDislikeIds(Set<Id> dislikeIds) {
+        this.dislikeIds = dislikeIds;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public void setLifeGoalIds(Set<Id> lifeGoalIds) {
+        this.lifeGoalIds = lifeGoalIds;
+    }
+
+    public void setLearningStyleIds(Set<Id> learningStyleIds) {
+        this.learningStyleIds = learningStyleIds;
+    }
+
+    public void setMajorIds(Set<Id> majorIds) {
+        this.majorIds = majorIds;
     }
 }

@@ -10,7 +10,7 @@ import javax.annotation.PreDestroy;
 public class Socket {
     private SocketIOServer socketIOServer = null;
     private int eventListenerCount = 0;
-    private final int startServerWhenEventListenerCountReach = 1;
+    private final int startServerWhenEventListenerCountReach = 2;
 
     public Socket() {
         Configuration config = new Configuration();

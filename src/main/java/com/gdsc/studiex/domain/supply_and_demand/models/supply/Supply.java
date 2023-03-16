@@ -71,20 +71,4 @@ public class Supply {
     public List<SupplyItem> getSupplyItems() {
         return Collections.unmodifiableList(supplyItems);
     }
-
-    public void setSupplyItems(List<SupplyItem> supplyItems) {
-        this.supplyItems = supplyItems;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public void setPriority(SupplyPriority supplyPriority) {
-        this.priority = priority;
-    }
-
-    public void setCustomSupplyItems(List<CustomSupplyItem> customSupplyItems) {
-        this.customSupplyItems = customSupplyItems;
-    }
 }
