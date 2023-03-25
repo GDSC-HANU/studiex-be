@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface StringEntitiesRepository {
-    public StringEntities find();
-    public List<StringEntity> findByIds(Set<Id> ids);
+    public StringEntities find(StringEntities.Type type);
     public void save(StringEntities stringEntities);
 }

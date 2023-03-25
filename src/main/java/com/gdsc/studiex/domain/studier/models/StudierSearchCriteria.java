@@ -17,7 +17,7 @@ public class StudierSearchCriteria {
     private Set<Id> personalityIds;
     private Set<Id> likeIds;
     private Set<Id> dislikeIds;
-    private PositiveNumber distance;
+    private Kilometer distance;
     private Set<Id> lifeGoalIds;
     private Set<Id> learningStyleIds;
     private Set<Id> majorIds;
@@ -30,7 +30,7 @@ public class StudierSearchCriteria {
                                  Set<Id> personalityIds,
                                  Set<Id> likeIds,
                                  Set<Id> dislikeIds,
-                                 PositiveNumber distance,
+                                 Kilometer distance,
                                  Set<Id> lifeGoalIds,
                                  Set<Id> learningStyleIds,
                                  Set<Id> majorIds,

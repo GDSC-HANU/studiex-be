@@ -72,8 +72,8 @@ public class SuggestService {
         final List<Id> allowedSupplyIds = SuggestorResult.extractAllAllowedSupplyId(result);
         final List<AllowedSupply> allowedSupplies = allowedSupplyRepository.findByIds(allowedSupplyIds);
 
-        return result.stream()
-                .map(suggestorResult -> SuggestorResultDTO.fromSuggestorResult(suggestorResult, allowedSupplies))
+        return result.stream() // TODO: fix
+                .map(suggestorResult -> SuggestorResultDTO.fromSuggestorResult(suggestorResult, allowedSupplies, null, null, null, null))
                 .collect(Collectors.toList());
     }
 

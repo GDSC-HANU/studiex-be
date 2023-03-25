@@ -14,13 +14,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UpdateStudierService {
     private final StudierRepository studierRepository;
-    private final DislikeRepository dislikeRepository;
-    private final LearningStyleRepository learningStyleRepository;
-    private final LifeGoalRepository lifeGoalRepository;
-    private final LikeRepository likeRepository;
-    private final MajorRepository majorRepository;
-    private final PersonalityRepository personalityRepository;
-    private final QualificationRepository qualificationRepository;
+    private final StringEntitiesRepository stringEntitiesRepository;
     public void updateStudierProfile(Id studierId, StudierDTO studierDTO) throws BusinessLogicException {
         Studier studier = studierRepository.findByStudierId(studierId);
         if(studier != null) {
@@ -29,13 +23,13 @@ public class UpdateStudierService {
             studier.setYob(studierDTO.getYob());
             studier.setAvatar(studierDTO.getAvatar());
             studier.setCoordinates(studierDTO.getCoordinates());
-            studier.setDislikeIds(StringEntity.extractIds(dislikeRepository.find().findByValues(studierDTO.getDislikes())));
-            studier.setLearningStyleIds(StringEntity.extractIds(learningStyleRepository.find().findByValues(studierDTO.getLearningStyles())));
-            studier.setLifeGoalIds(StringEntity.extractIds(lifeGoalRepository.find().findByValues(studierDTO.getLifeGoals())));
-            studier.setLikeIds(StringEntity.extractIds(likeRepository.find().findByValues(studierDTO.getLikes())));
-            studier.setPersonalityIds(StringEntity.extractIds(personalityRepository.find().findByValues(studierDTO.getPersonalities())));
-            studier.setQualificationIds(StringEntity.extractIds(qualificationRepository.find().findByValues(studierDTO.getQualifications())));
-            studier.setMajorIds(StringEntity.extractIds(majorRepository.find().findByValues(studierDTO.getMajors())));
+            studier.setDislikeIds(StringEntity.extractIds(stringEntitiesRepository.find(StringEntities.Type.DISLIKE).findByValues(studierDTO.getDislikes())));
+            studier.setLearningStyleIds(StringEntity.extractIds(stringEntitiesRepository.find(StringEntities.Type.LEARNING_STYLE).findByValues(studierDTO.getLearningStyles())));
+            studier.setLifeGoalIds(StringEntity.extractIds(stringEntitiesRepository.find(StringEntities.Type.LIFE_GOAL).findByValues(studierDTO.getLifeGoals())));
+            studier.setLikeIds(StringEntity.extractIds(stringEntitiesRepository.find(StringEntities.Type.LIKE).findByValues(studierDTO.getLikes())));
+            studier.setPersonalityIds(StringEntity.extractIds(stringEntitiesRepository.find(StringEntities.Type.PERSONALITY).findByValues(studierDTO.getPersonalities())));
+            studier.setQualificationIds(StringEntity.extractIds(stringEntitiesRepository.find(StringEntities.Type.QUALIFICATION).findByValues(studierDTO.getQualifications())));
+            studier.setMajorIds(StringEntity.extractIds(stringEntitiesRepository.find(StringEntities.Type.MAJOR).findByValues(studierDTO.getMajors())));
             studierRepository.save(studier);
         } else {
             throw new BusinessLogicException("Studier doesn't exist", "NOT_EXIST");

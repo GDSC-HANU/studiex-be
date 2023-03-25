@@ -22,10 +22,17 @@ public class StudierPrivacy {
     private PrivacyType majors;
 
     public static StudierPrivacy defaultStudierPrivacy(Id studierId) {
-        return new StudierPrivacy(studierId, PrivacyType.PUBLIC, PrivacyType.PUBLIC,
-                PrivacyType.PUBLIC, PrivacyType.PUBLIC, PrivacyType.PUBLIC,
-                PrivacyType.PUBLIC, PrivacyType.PUBLIC, PrivacyType.PUBLIC,
-                PrivacyType.PUBLIC, PrivacyType.PUBLIC);
+        return new StudierPrivacy(studierId,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PRIVATE,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC);
     }
 
     public void setGender(PrivacyType gender) {

@@ -13,7 +13,7 @@ public class StudierSearchCriteriaDTO {
     private Set<String> personalities;
     private Set<String> likes;
     private Set<String> dislikes;
-    private PositiveNumber distance;
+    private Kilometer distance;
     private Set<String> lifeGoals;
     private Set<String> learningStyles;
     private Set<String> majors;

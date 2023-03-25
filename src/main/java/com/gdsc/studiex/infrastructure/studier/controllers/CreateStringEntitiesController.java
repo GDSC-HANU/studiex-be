@@ -1,5 +1,7 @@
 package com.gdsc.studiex.infrastructure.studier.controllers;
 
+import com.gdsc.studiex.domain.studier.models.StringEntities;
+import com.gdsc.studiex.domain.studier.repositories.StringEntitiesRepository;
 import com.gdsc.studiex.domain.studier.services.CreateStringEntitiesService;
 import com.gdsc.studiex.infrastructure.share.controllers.ControllerHandler;
 import lombok.AllArgsConstructor;
@@ -15,12 +17,17 @@ import java.util.Map;
 public class CreateStringEntitiesController {
     private CreateStringEntitiesService createStringEntitiesService;
 
-    @PostMapping("/admin/strings")
-    public ResponseEntity<?> createStringEntities(@RequestBody Map<String, List<String>> inputMap, @RequestParam String type) {
+    @PostMapping("/studier/strings")
+    public ResponseEntity<?> createStringEntities(@RequestBody Body body, @RequestParam String type) {
         return ControllerHandler.handle(() ->
         {
-            createStringEntitiesService.createStringEntities(inputMap.get("strings"), type);
+            createStringEntitiesService.createStringEntities(body.strings, body.type);
             return new ControllerHandler.Result("Success", null);
         });
+    }
+
+    public static class Body {
+        public List<String> strings;
+        StringEntities.Type type;
     }
 }

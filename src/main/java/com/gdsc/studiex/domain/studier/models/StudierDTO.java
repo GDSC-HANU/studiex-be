@@ -3,6 +3,7 @@ package com.gdsc.studiex.domain.studier.models;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -20,5 +21,4 @@ public class StudierDTO {
     private Set<String> lifeGoals;
     private Set<String> learningStyles;
     private Set<String> majors;
-
 }
