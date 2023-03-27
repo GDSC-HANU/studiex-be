@@ -2,6 +2,7 @@ package com.gdsc.studiex.domain.studier.services;
 
 import com.gdsc.studiex.domain.share.exceptions.BusinessLogicException;
 import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.share.models.Pair;
 import com.gdsc.studiex.domain.studier.models.*;
 import com.gdsc.studiex.domain.studier.repositories.*;
 import lombok.AllArgsConstructor;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -20,56 +19,103 @@ public class SearchStudierService {
     private final StudierPrivacyRepository studierPrivacyRepository;
 
     public StudierDTO getStudier(Id studierId, Id currentStudierId) throws BusinessLogicException {
+        return getStudierWithDTO(studierId, currentStudierId).getFirst();
+    }
+
+    public List<Pair<StudierDTO, Studier>> getStudiersWithDTO(List<Id> studierIds) {
+        final List<Studier> studiers = studierRepository.findByStudierIds(studierIds);
+        final List<StudierPrivacy> studierPrivacies = studierPrivacyRepository.findByStudierIds(studierIds);
+
+        StringEntities qualificationEntities = stringEntitiesRepository.find(StringEntities.Type.QUALIFICATION);
+        StringEntities dislikeEntities = stringEntitiesRepository.find(StringEntities.Type.DISLIKE);
+        StringEntities likeEntities = stringEntitiesRepository.find(StringEntities.Type.LIKE);
+        StringEntities learningStyleEntities = stringEntitiesRepository.find(StringEntities.Type.LEARNING_STYLE);
+        StringEntities majorEntities = stringEntitiesRepository.find(StringEntities.Type.MAJOR);
+        StringEntities personalityEntities = stringEntitiesRepository.find(StringEntities.Type.PERSONALITY);
+        StringEntities lifeGoalEntities = stringEntitiesRepository.find(StringEntities.Type.LIFE_GOAL);
+
+        final List<Pair<StudierDTO, Studier>> result = new ArrayList<>();
+        for (Studier studier : studiers)
+            for (StudierPrivacy studierPrivacy : studierPrivacies)
+                if (studier.getStudierId().equals(studierPrivacy.getStudierId())) {
+                    result.add(new Pair<>(
+                            StudierDTO.withPrivacy()
+                                    .studierPrivacy(studierPrivacy)
+                                    .name(studier.getName())
+                                    .gender(studier.getGender())
+                                    .yob(studier.getYob())
+                                    .avatar(studier.getAvatar())
+                                    .qualifications(qualificationEntities.findStringsByIds(studier.getQualificationIds()))
+                                    .personalities(personalityEntities.findStringsByIds(studier.getPersonalityIds()))
+                                    .likes(likeEntities.findStringsByIds(studier.getLikeIds()))
+                                    .dislikes(dislikeEntities.findStringsByIds(studier.getDislikeIds()))
+                                    .coordinates(studier.getCoordinates())
+                                    .lifeGoals(lifeGoalEntities.findStringsByIds(studier.getLifeGoalIds()))
+                                    .learningStyles(learningStyleEntities.findStringsByIds(studier.getLearningStyleIds()))
+                                    .majors(majorEntities.findStringsByIds(studier.getMajorIds()))
+                                    .build(),
+                            studier
+                    ));
+                }
+
+        return result;
+    }
+
+    public Pair<StudierDTO, Studier> getStudierWithDTO(Id studierId, Id currentStudierId) throws BusinessLogicException {
         Studier studier = studierRepository.findByStudierId(studierId);
         if (studier == null) {
-            throw new BusinessLogicException("Studier doesn't exist", "N0T_EXIST");
+            throw new BusinessLogicException("Studier doesn't exist", "NOT_EXIST");
         }
 
-        //for testing
-        if (!studierId.equals(currentStudierId)) {
-            return StudierDTO.builder().build();
+        StringEntities qualificationEntities = stringEntitiesRepository.find(StringEntities.Type.QUALIFICATION);
+        StringEntities dislikeEntities = stringEntitiesRepository.find(StringEntities.Type.DISLIKE);
+        StringEntities likeEntities = stringEntitiesRepository.find(StringEntities.Type.LIKE);
+        StringEntities learningStyleEntities = stringEntitiesRepository.find(StringEntities.Type.LEARNING_STYLE);
+        StringEntities majorEntities = stringEntitiesRepository.find(StringEntities.Type.MAJOR);
+        StringEntities personalityEntities = stringEntitiesRepository.find(StringEntities.Type.PERSONALITY);
+        StringEntities lifeGoalEntities = stringEntitiesRepository.find(StringEntities.Type.LIFE_GOAL);
+
+
+        if (studierId.equals(currentStudierId)) {
+            return new Pair<>(
+                    StudierDTO.withPrivacy()
+                            .studierPrivacy(StudierPrivacy.allPublic(studierId))
+                            .name(studier.getName())
+                            .gender(studier.getGender())
+                            .yob(studier.getYob())
+                            .avatar(studier.getAvatar())
+                            .qualifications(qualificationEntities.findStringsByIds(studier.getQualificationIds()))
+                            .personalities(personalityEntities.findStringsByIds(studier.getPersonalityIds()))
+                            .likes(likeEntities.findStringsByIds(studier.getLikeIds()))
+                            .dislikes(dislikeEntities.findStringsByIds(studier.getDislikeIds()))
+                            .coordinates(studier.getCoordinates())
+                            .lifeGoals(lifeGoalEntities.findStringsByIds(studier.getLifeGoalIds()))
+                            .learningStyles(learningStyleEntities.findStringsByIds(studier.getLearningStyleIds()))
+                            .majors(majorEntities.findStringsByIds(studier.getMajorIds()))
+                            .build(),
+                    studier
+            );
         }
 
         StudierPrivacy studierPrivacy = studierPrivacyRepository.findByStudierId(studierId);
-        PrivacyType genderPrivacy = studierPrivacy.getGender();
-        PrivacyType yobPrivacy = studierPrivacy.getYob();
-        PrivacyType qualificationPrivacy = studierPrivacy.getQualifications();
-        PrivacyType dislikePrivacy = studierPrivacy.getDislikes();
-        PrivacyType likePrivacy = studierPrivacy.getLikes();
-        PrivacyType learningStylePrivacy = studierPrivacy.getLearningStyles();
-        PrivacyType lifeGoalPrivacy = studierPrivacy.getLifeGoals();
-        PrivacyType majorPrivacy = studierPrivacy.getMajors();
-        PrivacyType personalityPrivacy = studierPrivacy.getPersonalities();
-        PrivacyType coordinatesPrivacy = studierPrivacy.getCoordinates();
-
-        List<StringEntity> qualificationEntities = stringEntitiesRepository.find(StringEntities.Type.QUALIFICATION).findByIds(studier.getQualificationIds());
-        List<StringEntity> dislikeEntities = stringEntitiesRepository.find(StringEntities.Type.DISLIKE).findByIds(studier.getDislikeIds());
-        List<StringEntity> likeEntities = stringEntitiesRepository.find(StringEntities.Type.LIKE).findByIds(studier.getLikeIds());
-        List<StringEntity> learningStyleEntities = stringEntitiesRepository.find(StringEntities.Type.LEARNING_STYLE).findByIds(studier.getLearningStyleIds());
-        List<StringEntity> majorEntities = stringEntitiesRepository.find(StringEntities.Type.MAJOR).findByIds(studier.getMajorIds());
-        List<StringEntity> personalityEntities = stringEntitiesRepository.find(StringEntities.Type.PERSONALITY).findByIds(studier.getPersonalityIds());
-        List<StringEntity> lifeGoalEntities = stringEntitiesRepository.find(StringEntities.Type.LIFE_GOAL).findByIds(studier.getLifeGoalIds());
-        return StudierDTO.builder()
-                .name(studier.getName())
-                .gender(genderPrivacy == PrivacyType.PUBLIC ? studier.getGender() : null)
-                .yob(yobPrivacy == PrivacyType.PUBLIC ? studier.getYob() : null)
-                .avatar(studier.getAvatar())
-                .qualifications(qualificationPrivacy == PrivacyType.PUBLIC ?
-                        qualificationEntities.stream().map(StringEntity::getValue).collect(Collectors.toUnmodifiableSet()) : null)
-                .dislikes(dislikePrivacy == PrivacyType.PUBLIC ?
-                        dislikeEntities.stream().map(StringEntity::getValue).collect(Collectors.toUnmodifiableSet()) : null)
-                .likes(likePrivacy == PrivacyType.PUBLIC ?
-                        likeEntities.stream().map(StringEntity::getValue).collect(Collectors.toUnmodifiableSet()) : null)
-                .learningStyles(learningStylePrivacy == PrivacyType.PUBLIC ?
-                        learningStyleEntities.stream().map(StringEntity::getValue).collect(Collectors.toUnmodifiableSet()) : null)
-                .lifeGoals(lifeGoalPrivacy == PrivacyType.PUBLIC ?
-                        lifeGoalEntities.stream().map(StringEntity::getValue).collect(Collectors.toUnmodifiableSet()) : null)
-                .majors(majorPrivacy == PrivacyType.PUBLIC ?
-                        majorEntities.stream().map(StringEntity::getValue).collect(Collectors.toUnmodifiableSet()) : null)
-                .coordinates(coordinatesPrivacy == PrivacyType.PUBLIC ? studier.getCoordinates() : null)
-                .personalities(personalityPrivacy == PrivacyType.PUBLIC ?
-                        personalityEntities.stream().map(StringEntity::getValue).collect(Collectors.toUnmodifiableSet()) : null)
-                .build();
+        return new Pair<>(
+                StudierDTO.withPrivacy()
+                        .studierPrivacy(studierPrivacy)
+                        .name(studier.getName())
+                        .gender(studier.getGender())
+                        .yob(studier.getYob())
+                        .avatar(studier.getAvatar())
+                        .qualifications(qualificationEntities.findStringsByIds(studier.getQualificationIds()))
+                        .personalities(personalityEntities.findStringsByIds(studier.getPersonalityIds()))
+                        .likes(likeEntities.findStringsByIds(studier.getLikeIds()))
+                        .dislikes(dislikeEntities.findStringsByIds(studier.getDislikeIds()))
+                        .coordinates(studier.getCoordinates())
+                        .lifeGoals(lifeGoalEntities.findStringsByIds(studier.getLifeGoalIds()))
+                        .learningStyles(learningStyleEntities.findStringsByIds(studier.getLearningStyleIds()))
+                        .majors(majorEntities.findStringsByIds(studier.getMajorIds()))
+                        .build(),
+                studier
+        );
     }
 
     public List<Studier> searchByCriteria(Id studierId, StudierSearchCriteriaDTO studierSearchCriteria) {

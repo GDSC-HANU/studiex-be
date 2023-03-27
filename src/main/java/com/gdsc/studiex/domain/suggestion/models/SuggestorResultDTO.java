@@ -23,7 +23,6 @@ public class SuggestorResultDTO {
     private List<SuggestedSupplyDTO> suggestedSupplies;
     private List<SuggestedDemandDTO> suggestedDemands;
 
-    // TODO: handle privacy setting
     private StudierDTO suggestedStudier;
     private Set<String> matchedQualifications;
     private Set<String> matchedPersonalities;
@@ -125,12 +124,17 @@ public class SuggestorResultDTO {
         return result;
     }
 
-    @Builder
     @Getter
     public static class SuggestedSupplyDTO {
         private DemandsDTO.DemandDTO demandOfStudier;
         private SuppliesDTO.SupplyDTO suggestedSupply;
         private List<MatchingItem> matchingItems;
+
+        @Builder
+        public SuggestedSupplyDTO(DemandsDTO.DemandDTO demandOfStudier, SuppliesDTO.SupplyDTO suggestedSupply) {
+            this.demandOfStudier = demandOfStudier;
+            this.suggestedSupply = suggestedSupply;
+        }
     }
 
     @Builder

@@ -35,6 +35,20 @@ public class StudierPrivacy {
                 PrivacyType.PUBLIC);
     }
 
+    public static StudierPrivacy allPublic(Id studierId) {
+        return new StudierPrivacy(studierId,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC,
+                PrivacyType.PUBLIC);
+    }
+
     public void setGender(PrivacyType gender) {
         this.gender = gender;
     }
@@ -57,10 +71,6 @@ public class StudierPrivacy {
 
     public void setDislikes(PrivacyType dislikes) {
         this.dislikes = dislikes;
-    }
-
-    public void setCoordinates(PrivacyType coordinates) {
-        this.coordinates = coordinates;
     }
 
     public void setLifeGoals(PrivacyType lifeGoals) {

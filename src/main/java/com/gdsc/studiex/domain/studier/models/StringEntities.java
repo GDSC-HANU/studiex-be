@@ -3,6 +3,7 @@ package com.gdsc.studiex.domain.studier.models;
 import com.gdsc.studiex.domain.share.models.Id;
 import lombok.Getter;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,6 +19,15 @@ public class StringEntities {
 
     public static StringEntities empty(Type type) {
         return new StringEntities(List.of(), type);
+    }
+
+
+    public Set<String> findStringsByIds(Set<Id> ids) {
+        final Set<String> res = new HashSet<>();
+        for (StringEntity entity : data)
+            if (ids.contains(entity.getId()))
+                res.add(entity.getValue());
+        return res;
     }
 
     public List<StringEntity> findByValues(Set<String> values) {

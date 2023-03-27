@@ -103,4 +103,9 @@ public class StudierMongoRepository implements StudierRepository {
                 .map(str -> CustomObjectMapper.deserialize(str, Studier.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Studier> findByStudierIds(List<Id> studierIds) {
+        return null; // TODO
+    }
 }

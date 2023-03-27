@@ -16,7 +16,6 @@ public class UpdateStudierPrivacyService {
     public void updateStudierPrivacy(Id studierId, StudierPrivacyDTO studierPrivacyDTO) throws BusinessLogicException {
         StudierPrivacy studierPrivacy = studierPrivacyRepository.findByStudierId(studierId);
         if(studierPrivacy != null) {
-            studierPrivacy.setCoordinates(studierPrivacyDTO.getCoordinates());
             studierPrivacy.setDislikes(studierPrivacyDTO.getDislikes());
             studierPrivacy.setGender(studierPrivacyDTO.getGender());
             studierPrivacy.setLearningStyles(studierPrivacyDTO.getLearningStyles());

@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class StudierPrivacyMongoRepository implements StudierPrivacyRepository {
     private static final String COLLECTIONS = "studierPrivacy";
@@ -50,5 +52,10 @@ public class StudierPrivacyMongoRepository implements StudierPrivacyRepository {
                 update,
                 COLLECTIONS
         );
+    }
+
+    @Override
+    public List<StudierPrivacy> findByStudierIds(List<Id> studierIds) {
+        return null; // TODO
     }
 }

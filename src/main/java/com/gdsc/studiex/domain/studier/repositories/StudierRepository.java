@@ -15,4 +15,6 @@ public interface StudierRepository {
 
     public List<Studier> searchByCriteria(Id studierId,
                                           StudierSearchCriteria studierSearchCriteria);
+
+    public List<Studier> findByStudierIds(List<Id> studierIds);
 }

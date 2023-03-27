@@ -13,7 +13,6 @@ public class StudierPrivacyDTO {
     private PrivacyType personalities;
     private PrivacyType likes;
     private PrivacyType dislikes;
-    private PrivacyType coordinates;
     private PrivacyType lifeGoals;
     private PrivacyType learningStyles;
     private PrivacyType majors;
