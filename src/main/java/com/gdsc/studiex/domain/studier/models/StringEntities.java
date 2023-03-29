@@ -3,6 +3,7 @@ package com.gdsc.studiex.domain.studier.models;
 import com.gdsc.studiex.domain.share.models.Id;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +44,21 @@ public class StringEntities {
     }
 
     public void create(List<String> strings) {
-        // TODO
+        final List<String> unexistedStrings = removeExistedStrings(strings);
+        for (String string : unexistedStrings)
+            data.add(StringEntity.create(string));
+    }
+
+    public List<String> removeExistedStrings(List<String> strings) {
+        final List<String> result = new ArrayList<>();
+        for (String string : strings)
+            if (!data
+                    .stream()
+                    .anyMatch(stringEntity -> stringEntity
+                            .getValue()
+                            .equals(string)))
+                result.add(string);
+        return result;
     }
 
 

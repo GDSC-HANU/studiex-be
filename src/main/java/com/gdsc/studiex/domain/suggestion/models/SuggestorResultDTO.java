@@ -1,13 +1,12 @@
 package com.gdsc.studiex.domain.suggestion.models;
 
-import com.gdsc.studiex.domain.share.models.Id;
-import com.gdsc.studiex.domain.studier.models.Coordinates;
 import com.gdsc.studiex.domain.studier.models.Kilometer;
 import com.gdsc.studiex.domain.studier.models.Studier;
 import com.gdsc.studiex.domain.studier.models.StudierDTO;
 import com.gdsc.studiex.domain.supply_and_demand.models.allowed_supply.AllowedSupply;
 import com.gdsc.studiex.domain.supply_and_demand.models.demand.DemandsDTO;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply.SuppliesDTO;
+import com.gdsc.studiex.domain.supply_and_demand.models.supply.SupplyItem;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -66,6 +65,34 @@ public class SuggestorResultDTO {
                                                         AllowedSupply.findAllowedSupplyById(allowedSupplies, suggestedSupply.getDemandOfStudier().getAllowedSupplyId())
                                                 )
                                         )
+                                        .matchingItems(
+                                                suggestedSupply
+                                                        .getMatchingItems()
+                                                        .stream()
+                                                        .map(matchingItem -> {
+                                                            final AllowedSupply allowedSupplyOfSuggestedSupply = AllowedSupply.findAllowedSupplyById(
+                                                                    allowedSupplies,
+                                                                    suggestedSupply.getSuggestedSupply().getAllowedSupplyId()
+                                                            );
+                                                            final SuppliesDTO.SupplyItemDTO supplyItemDTO = SuppliesDTO.SupplyItemDTO.fromSupplyItem(
+                                                                    matchingItem.getSupplyItem(),
+                                                                    allowedSupplyOfSuggestedSupply.findItemById(matchingItem.getSupplyItem().getAllowedSupplyItemId())
+                                                            );
+                                                            final AllowedSupply allowedSupplyOfDemandOfStudier = AllowedSupply.findAllowedSupplyById(
+                                                                    allowedSupplies,
+                                                                    suggestedSupply.getDemandOfStudier().getAllowedSupplyId()
+                                                            );
+                                                            final DemandsDTO.DemandItemDTO demandItemDTO = DemandsDTO.DemandItemDTO.fromDemandItem(
+                                                                    matchingItem.getDemandItem(),
+                                                                    allowedSupplyOfDemandOfStudier.findItemById(matchingItem.getDemandItem().getAllowedSupplyItemId())
+                                                            );
+                                                            return MatchingItemDTO.builder()
+                                                                    .supplyItem(supplyItemDTO)
+                                                                    .demandItem(demandItemDTO)
+                                                                    .build();
+                                                        })
+                                                        .collect(Collectors.toList())
+                                        )
                                         .build())
                                 .collect(Collectors.toList())
                 )
@@ -84,6 +111,34 @@ public class SuggestorResultDTO {
                                                         suggestedDemand.getSupplyOfStudier(),
                                                         AllowedSupply.findAllowedSupplyById(allowedSupplies, suggestedDemand.getSupplyOfStudier().getAllowedSupplyId())
                                                 )
+                                        )
+                                        .matchingItems(
+                                                suggestedDemand
+                                                        .getMatchingItems()
+                                                        .stream()
+                                                        .map(matchingItem -> {
+                                                            final AllowedSupply allowedSupplyOfSuggestedDemand = AllowedSupply.findAllowedSupplyById(
+                                                                    allowedSupplies,
+                                                                    suggestedDemand.getSuggestedDemand().getAllowedSupplyId()
+                                                            );
+                                                            final DemandsDTO.DemandItemDTO demandItemDTO = DemandsDTO.DemandItemDTO.fromDemandItem(
+                                                                    matchingItem.getDemandItem(),
+                                                                    allowedSupplyOfSuggestedDemand.findItemById(matchingItem.getDemandItem().getAllowedSupplyItemId())
+                                                            );
+                                                            final AllowedSupply allowedSupplyOfSupplyOfStudier = AllowedSupply.findAllowedSupplyById(
+                                                                    allowedSupplies,
+                                                                    suggestedDemand.getSupplyOfStudier().getAllowedSupplyId()
+                                                            );
+                                                            final SuppliesDTO.SupplyItemDTO supplyItemDTO = SuppliesDTO.SupplyItemDTO.fromSupplyItem(
+                                                                    matchingItem.getSupplyItem(),
+                                                                    allowedSupplyOfSupplyOfStudier.findItemById(matchingItem.getSupplyItem().getAllowedSupplyItemId())
+                                                            );
+                                                            return MatchingItemDTO.builder()
+                                                                    .demandItem(demandItemDTO)
+                                                                    .supplyItem(supplyItemDTO)
+                                                                    .build();
+                                                        })
+                                                        .collect(Collectors.toList())
                                         )
                                         .build())
                                 .collect(Collectors.toList())
@@ -125,16 +180,11 @@ public class SuggestorResultDTO {
     }
 
     @Getter
+    @Builder
     public static class SuggestedSupplyDTO {
         private DemandsDTO.DemandDTO demandOfStudier;
         private SuppliesDTO.SupplyDTO suggestedSupply;
-        private List<MatchingItem> matchingItems;
-
-        @Builder
-        public SuggestedSupplyDTO(DemandsDTO.DemandDTO demandOfStudier, SuppliesDTO.SupplyDTO suggestedSupply) {
-            this.demandOfStudier = demandOfStudier;
-            this.suggestedSupply = suggestedSupply;
-        }
+        private List<MatchingItemDTO> matchingItems;
     }
 
     @Builder
@@ -142,12 +192,13 @@ public class SuggestorResultDTO {
     public static class SuggestedDemandDTO {
         private SuppliesDTO.SupplyDTO supplyOfStudier;
         private DemandsDTO.DemandDTO suggestedDemand;
-        // TODO: add this
-        private List<MatchingItem> matchingItems;
+        private List<MatchingItemDTO> matchingItems;
     }
 
-    public static class MatchingItem {
-        DemandsDTO.DemandItemDTO demandItem;
-        SuppliesDTO.SupplyItemDTO supplyItem;
+    @Builder
+    @Getter
+    public static class MatchingItemDTO {
+        private DemandsDTO.DemandItemDTO demandItem;
+        private SuppliesDTO.SupplyItemDTO supplyItem;
     }
 }

@@ -1,6 +1,7 @@
 package com.gdsc.studiex.infrastructure.studier.repositories;
 
 import com.gdsc.studiex.domain.share.models.Id;
+import com.gdsc.studiex.domain.studier.models.Studier;
 import com.gdsc.studiex.domain.studier.models.StudierPrivacy;
 import com.gdsc.studiex.domain.studier.repositories.StudierPrivacyRepository;
 import com.gdsc.studiex.infrastructure.share.object_mapper.CustomObjectMapper;
@@ -12,12 +13,14 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class StudierPrivacyMongoRepository implements StudierPrivacyRepository {
     private static final String COLLECTIONS = "studierPrivacy";
     @Autowired
     private MongoTemplate mongoTemplate;
+
     @Override
     public StudierPrivacy findByStudierId(Id studierId) {
         Query query = Query.query(
@@ -56,6 +59,21 @@ public class StudierPrivacyMongoRepository implements StudierPrivacyRepository {
 
     @Override
     public List<StudierPrivacy> findByStudierIds(List<Id> studierIds) {
-        return null; // TODO
+        final List<String> jsons = mongoTemplate.find(
+                Query.query(
+                        Criteria.where("_id")
+                                .in(
+                                        studierIds
+                                                .stream()
+                                                .map(studierId -> studierId.toString())
+                                                .collect(Collectors.toList())
+                                )
+                ),
+                String.class,
+                COLLECTIONS
+        );
+        return jsons.stream()
+                .map(str -> CustomObjectMapper.deserialize(str, StudierPrivacy.class))
+                .collect(Collectors.toList());
     }
 }

@@ -106,6 +106,21 @@ public class StudierMongoRepository implements StudierRepository {
 
     @Override
     public List<Studier> findByStudierIds(List<Id> studierIds) {
-        return null; // TODO
+        final List<String> jsons = mongoTemplate.find(
+                Query.query(
+                        Criteria.where("_id")
+                                .in(
+                                        studierIds
+                                                .stream()
+                                                .map(studierId -> studierId.toString())
+                                                .collect(Collectors.toList())
+                                )
+                ),
+                String.class,
+                COLLECTIONS
+        );
+        return jsons.stream()
+                .map(str -> CustomObjectMapper.deserialize(str, Studier.class))
+                .collect(Collectors.toList());
     }
 }
