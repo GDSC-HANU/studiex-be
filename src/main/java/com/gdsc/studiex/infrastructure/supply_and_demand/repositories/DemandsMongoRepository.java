@@ -49,6 +49,8 @@ public class DemandsMongoRepository implements DemandsRepository {
                         .is(studierId.toString())
         );
         final String demands = mongoTemplate.findOne(query, String.class, COLLECTION);
+        if (demands == null)
+            return Demands.emptyDemands(studierId);
         return CustomObjectMapper.deserialize(demands, Demands.class);
     }
 

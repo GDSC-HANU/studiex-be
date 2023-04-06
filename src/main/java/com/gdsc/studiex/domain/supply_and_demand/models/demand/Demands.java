@@ -2,7 +2,6 @@ package com.gdsc.studiex.domain.supply_and_demand.models.demand;
 
 import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
-import com.gdsc.studiex.domain.supply_and_demand.models.supply.Supply;
 import com.gdsc.studiex.domain.supply_and_demand.models.supply_and_demand_quota.SupplyAndDemandQuota;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +15,13 @@ import java.util.stream.Collectors;
 public class Demands {
     private Id studierId;
     private List<Demand> demands;
+
+    public static Demands emptyDemands(Id studierId) {
+        return new Demands(
+                studierId,
+                new ArrayList<>()
+        );
+    }
 
     private Demands() {
     }
