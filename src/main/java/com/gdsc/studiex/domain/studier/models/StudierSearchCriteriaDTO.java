@@ -1,8 +1,10 @@
 package com.gdsc.studiex.domain.studier.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.gdsc.studiex.domain.share.models.PositiveNumber;
 import lombok.Getter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter

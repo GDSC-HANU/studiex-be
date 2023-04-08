@@ -1,5 +1,6 @@
 package com.gdsc.studiex.domain.studier.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -20,6 +21,9 @@ public class StudierDTO {
     private Set<String> lifeGoals;
     private Set<String> learningStyles;
     private Set<String> majors;
+
+    @JsonCreator
+    private StudierDTO() {}
 
     @Builder(builderMethodName = "withPrivacy", builderClassName = "WithPrivacyBuilder")
     public StudierDTO(String name,

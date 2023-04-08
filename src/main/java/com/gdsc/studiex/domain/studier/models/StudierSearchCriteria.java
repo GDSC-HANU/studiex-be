@@ -1,11 +1,13 @@
 package com.gdsc.studiex.domain.studier.models;
 
+import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
 import com.gdsc.studiex.domain.share.models.Id;
 import com.gdsc.studiex.domain.share.models.PositiveNumber;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -35,16 +37,18 @@ public class StudierSearchCriteria {
                                  Set<Id> learningStyleIds,
                                  Set<Id> majorIds,
                                  Set<Language> languagesForCommunication) {
-        this.qualificationIds = Collections.unmodifiableSet(qualificationIds);
+        this.qualificationIds = qualificationIds == null ? null : Collections.unmodifiableSet(qualificationIds);
         this.ageRange = ageRange;
         this.gender = gender;
-        this.personalityIds = Collections.unmodifiableSet(personalityIds);
-        this.likeIds = Collections.unmodifiableSet(likeIds);
-        this.dislikeIds = Collections.unmodifiableSet(dislikeIds);
+        this.personalityIds = personalityIds == null ? null : Collections.unmodifiableSet(personalityIds);
+        this.likeIds = likeIds == null ? null : Collections.unmodifiableSet(likeIds);
+        this.dislikeIds = dislikeIds == null ? null : Collections.unmodifiableSet(dislikeIds);
         this.distance = distance;
-        this.lifeGoalIds = Collections.unmodifiableSet(lifeGoalIds);
-        this.learningStyleIds = Collections.unmodifiableSet(learningStyleIds);
-        this.majorIds = Collections.unmodifiableSet(majorIds);
-        this.languagesForCommunication = Collections.unmodifiableSet(languagesForCommunication);
+        this.lifeGoalIds = lifeGoalIds == null ? null : Collections.unmodifiableSet(lifeGoalIds);
+        this.learningStyleIds = learningStyleIds == null ? null : Collections.unmodifiableSet(learningStyleIds);
+        this.majorIds = majorIds == null ? null : Collections.unmodifiableSet(majorIds);
+        this.languagesForCommunication = languagesForCommunication == null ? null : Collections.unmodifiableSet(languagesForCommunication);
+        if (languagesForCommunication == null || languagesForCommunication.isEmpty())
+            throw new InvalidInputException("Must specify at least one language for communication");
     }
 }

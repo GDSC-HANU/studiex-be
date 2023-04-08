@@ -28,7 +28,7 @@ public class StudierPrivacyMongoRepository implements StudierPrivacyRepository {
                         .is(studierId.toString())
         );
         final String studierPrivacy = mongoTemplate.findOne(query, String.class, COLLECTIONS);
-        return (studierPrivacy == null) ? null : CustomObjectMapper.deserialize(studierPrivacy, StudierPrivacy.class);
+        return (studierPrivacy == null) ? StudierPrivacy.defaultStudierPrivacy(studierId) : CustomObjectMapper.deserialize(studierPrivacy, StudierPrivacy.class);
     }
 
     @Override
@@ -72,8 +72,15 @@ public class StudierPrivacyMongoRepository implements StudierPrivacyRepository {
                 String.class,
                 COLLECTIONS
         );
-        return jsons.stream()
+        final List<StudierPrivacy> result = jsons.stream()
                 .map(str -> CustomObjectMapper.deserialize(str, StudierPrivacy.class))
                 .collect(Collectors.toList());
+        for (Id studierId : studierIds) {
+            if (!result
+                    .stream()
+                    .anyMatch(studierPrivacy -> studierPrivacy.getStudierId().equals(studierPrivacy)))
+                result.add(StudierPrivacy.defaultStudierPrivacy(studierId));
+        }
+        return result;
     }
 }

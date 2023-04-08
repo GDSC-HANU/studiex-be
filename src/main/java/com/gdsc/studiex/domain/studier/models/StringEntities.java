@@ -32,6 +32,8 @@ public class StringEntities {
     }
 
     public List<StringEntity> findByValues(Set<String> values) {
+        if (values == null)
+            return new ArrayList<>();
         return data.stream()
                 .filter(stringEntity -> values.contains(stringEntity.getValue()))
                 .collect(Collectors.toList());
