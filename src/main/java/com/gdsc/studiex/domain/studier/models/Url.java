@@ -1,14 +1,18 @@
 package com.gdsc.studiex.domain.studier.models;
 
-public class Url {
-    private String value;
+import com.gdsc.studiex.domain.share.exceptions.InvalidInputException;
+import com.gdsc.studiex.domain.share.models.StringValueObject;
 
-    public Url(String value) {
-        this.value = value;
+public class Url extends StringValueObject {
+    public Url(String value) throws InvalidInputException {
+        super(value);
+    }
+
+    public Url(String value, String fieldName) throws InvalidInputException {
+        super(value, fieldName);
     }
 
     @Override
-    public String toString() {
-        return value;
+    protected void validate() throws InvalidInputException {
     }
 }
