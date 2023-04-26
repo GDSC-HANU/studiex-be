@@ -24,6 +24,7 @@ public class Studier {
     private Set<Id> learningStyleIds;
     private Set<Id> majorIds;
     private Set<Language> languagesForCommunication;
+    private Set<Id> imageIds;
 
     private Studier() {
     }
@@ -31,7 +32,8 @@ public class Studier {
     @Builder(builderMethodName = "newStudierBuilder", builderClassName = "NewStudierBuilder")
     public Studier(Id studierId, String name, Gender gender, Integer yob, Url avatar, Url facebookLink,
                    Set<Id> qualificationIds, Set<Id> personalityIds, Set<Id> likeIds, Set<Id> dislikeIds,
-                   Coordinates coordinates, Set<Id> lifeGoalIds, Set<Id> learningStyleIds, Set<Id> majorIds) {
+                   Coordinates coordinates, Set<Id> lifeGoalIds, Set<Id> learningStyleIds, Set<Id> majorIds,
+                   Set<Id> imageIds) {
         this.studierId = Id.generateRandom();
         this.name = name;
         this.gender = gender;
@@ -47,6 +49,7 @@ public class Studier {
         this.lifeGoalIds = lifeGoalIds;
         this.learningStyleIds = learningStyleIds;
         this.majorIds = majorIds;
+        this.imageIds = imageIds;
     }
 
     public void setName(String name) {
@@ -95,5 +98,9 @@ public class Studier {
 
     public void setMajorIds(Set<Id> majorIds) {
         this.majorIds = majorIds;
+    }
+
+    public void setImageIds(Set<Id> imageIds) {
+        this.imageIds = imageIds;
     }
 }

@@ -49,6 +49,46 @@ public class StudierMongoRepository implements StudierRepository {
         update.set("yob", studier.getYob());
         update.set("avatar", studier.getAvatar() == null ? null : studier.getAvatar().toString());
         update.set("facebookLink", studier.getFacebookLink() == null ? null : studier.getFacebookLink().toString());
+        update.set("coordinates", studier.getCoordinates() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getCoordinates(),
+                Object.class
+        ));
+        update.set("qualificationIds", studier.getQualificationIds() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getQualificationIds(),
+                Object.class
+        ));
+        update.set("personalityIds", studier.getPersonalityIds() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getPersonalityIds(),
+                Object.class
+        ));
+        update.set("likeIds", studier.getLikeIds() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getLikeIds(),
+                Object.class
+        ));
+        update.set("dislikeIds", studier.getDislikeIds() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getDislikeIds(),
+                Object.class
+        ));
+        update.set("lifeGoalIds", studier.getLifeGoalIds() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getLifeGoalIds(),
+                Object.class
+        ));
+        update.set("learningStyleIds", studier.getLearningStyleIds() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getLearningStyleIds(),
+                Object.class
+        ));
+        update.set("majorIds", studier.getMajorIds() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getMajorIds(),
+                Object.class
+        ));
+        update.set("languagesForCommunication", studier.getLanguagesForCommunication() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getLanguagesForCommunication(),
+                Object.class
+        ));
+        update.set("imageIds", studier.getImageIds() == null ? null : CustomObjectMapper.convertObjectClass(
+                studier.getImageIds(),
+                Object.class
+        ));
         mongoTemplate.upsert(
                 query,
                 update,
